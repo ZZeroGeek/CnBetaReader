@@ -9,6 +9,8 @@ import org.zreo.cnbetareader.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    public String zq;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

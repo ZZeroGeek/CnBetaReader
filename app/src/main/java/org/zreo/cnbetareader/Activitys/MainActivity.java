@@ -1,9 +1,11 @@
-package org.zreo.cnbetareader;
+package org.zreo.cnbetareader.Activitys;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.zreo.cnbetareader.R;
 
 public class MainActivity extends AppCompatActivity {
 

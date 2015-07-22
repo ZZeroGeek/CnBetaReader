@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/widget_edittext_dark">
+    
+    <ImageView 
+        android:id="@+id/viname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"/>
+    
+    <TextView 
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/viname"
+        android:layout_alignLeft="@+id/support"
+        android:layout_alignRight="@+id/against"
+        android:textSize="20sp"
+        android:text="匿名用户"/>
+    
+    <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/support"
+        android:layout_toRightOf="@+id/viname"
+        android:layout_below="@+id/user"
+        style="?android:attr/borderlessButtonStyle"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:drawableLeft="@drawable/rating_good"
+        android:text="支持:0"
+        android:layout_alignBottom="@+id/viname"/>
+    
+    <Button
+        android:id="@+id/against"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user"
+        android:layout_toRightOf="@+id/support"
+        android:textAppearance="?android:attr/textAppearanceSmall" 
+        android:drawableLeft="@drawable/rating_bad" 
+        android:text="反对:1"
+        android:layout_alignBottom="@+id/viname"/>
+    
+    <ImageButton 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/igbtn"
+        android:src="@drawable/more_grey"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/viname"
+        android:layout_alignTop="@+id/viname"
+        android:background="@android:color/white"/>
+    
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viname"
+        android:text="你们太坏了，一百块都不给我，哼！！！！！！！！！！"/>
+    
+    <ImageButton 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/menubtn"
+        android:src="@drawable/menubtn"
+        android:background="@android:color/widget_edittext_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

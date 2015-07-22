@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark" >
+
+        <ImageButton
+            android:id="@+id/onback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/holo_blue_dark"
+            android:src="@drawable/onback" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/onback"
+            android:layout_marginLeft="20sp"
+            android:layout_toRightOf="@+id/onback"
+            android:textSize="28sp"
+            android:textColor="@android:color/white"
+            android:text="发表评论" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_blue_dark"
+        android:text="说点什么吧"/>
+
+    <EditText
+        android:id="@+id/commenttest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="3" />
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/codetv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30sp"
+                    android:layout_marginLeft="40sp"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="30sp"
+                    android:text="1228"/>
+
+                 <EditText
+                     android:layout_toRightOf="@+id/codetv"
+                    android:layout_marginLeft="25sp"
+                    android:layout_marginTop="30sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     android:textSize="21sp"
+                    android:hint="输入左侧验证码"/>
+        </RelativeLayout>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:text="发送"/>
+</LinearLayout>

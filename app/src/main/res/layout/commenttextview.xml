@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/widget_edittext_dark">
     
-    <ImageView 
+    <ImageView
         android:id="@+id/viname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:text="反对:1"
         android:layout_alignBottom="@+id/viname"/>
     
-    <ImageButton 
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/igbtn"
@@ -56,14 +56,15 @@
         android:background="@android:color/white"/>
     
     
-    <TextView 
+    <TextView
+        android:id="@+id/testComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viname"
         android:layout_marginTop="10dp"
         android:text="你们太坏了，一百块都不给我，哼！！！！！！！！！！"/>
-    
-    <ImageButton 
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/menubtn"

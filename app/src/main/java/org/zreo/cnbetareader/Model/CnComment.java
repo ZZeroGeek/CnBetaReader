@@ -12,6 +12,15 @@ public class CnComment {
     private int against;
     private int commentmenu;
 
+    public CnComment(String userName, int imageId, String testComment, int support, int against, int commentmenu) {
+        this.userName = userName;
+        this.imageId = imageId;
+        this.testComment = testComment;
+        this.support = support;
+        this.against = against;
+        this.commentmenu = commentmenu;
+    }
+
     public String getUserName() {
         return userName;
     }

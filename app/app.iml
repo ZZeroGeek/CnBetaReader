@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
+<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="cnbeta" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+=======
 <module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="CnBetaReader" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+>>>>>>> 29e2a59fa55ed4526a77f855e19ce20ba314fc0f
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>

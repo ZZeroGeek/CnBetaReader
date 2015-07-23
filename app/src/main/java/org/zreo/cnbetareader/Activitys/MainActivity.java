@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.zreo.cnbetareader.R;
 
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.offline_download) {
+            Toast.makeText(this, "离线下载", Toast.LENGTH_SHORT).show();
             return true;
         }
 

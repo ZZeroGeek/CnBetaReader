@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="statusBar">#003399</color><!--App状态栏颜色 -->
+    <color name="mainColor">#003399</color><!--App状态栏颜色 -->
     <color name="white">#ffffff</color><!--白色 -->
 </resources>

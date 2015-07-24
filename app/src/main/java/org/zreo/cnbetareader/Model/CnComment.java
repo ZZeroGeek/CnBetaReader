@@ -1,8 +1,5 @@
 package org.zreo.cnbetareader.Model;
 
-/**
- * Created by Administrator on 2015/7/22.
- */
 public class CnComment {
 
     private String userName;

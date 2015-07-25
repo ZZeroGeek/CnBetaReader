@@ -1,7 +1,6 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +49,8 @@ public class CommentAdapter extends BaseAdapter{
         private TextView vuserName;
         private ImageView vimageId;
         private TextView vtestComment;
-        private Button vsupport;
-        private Button vagainst;
+        private TextView vsupport;
+        private TextView vagainst;
         private ImageButton vcommentmenu;
     }
 
@@ -61,11 +60,11 @@ public class CommentAdapter extends BaseAdapter{
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.commentlistview, null);
-            viewHolder.vimageId = (ImageView) convertView.findViewById(R.id.viname);
+            convertView = mInflater.inflate(resourceId, null);
+            viewHolder.vimageId = (ImageView) convertView.findViewById(R.id.ivName);
             viewHolder.vuserName = (TextView) convertView.findViewById(R.id.user);
-            viewHolder.vsupport = (Button) convertView.findViewById(R.id.support);
-            viewHolder.vagainst = (Button) convertView.findViewById(R.id.against);
+            viewHolder.vsupport = (TextView) convertView.findViewById(R.id.support);
+            viewHolder.vagainst = (TextView) convertView.findViewById(R.id.against);
             viewHolder.vcommentmenu = (ImageButton) convertView.findViewById(R.id.menubtn);
             viewHolder.vtestComment = (TextView) convertView.findViewById(R.id.testComment);
             convertView.setTag(viewHolder);
@@ -76,7 +75,7 @@ public class CommentAdapter extends BaseAdapter{
         viewHolder.vuserName.setText(objects.get(position).getUserName());
         viewHolder.vsupport.setText(objects.get(position).getSupport());
         viewHolder.vagainst.setText(objects.get(position).getAgainst());
-        viewHolder.vcommentmenu.setImageResource(objects.get(position).getCommentmenu());
+        viewHolder.vcommentmenu.setImageResource(objects.get(position).getCommentMenu());
         viewHolder.vtestComment.setText(objects.get(position).getTestComment());
         return convertView;
     }

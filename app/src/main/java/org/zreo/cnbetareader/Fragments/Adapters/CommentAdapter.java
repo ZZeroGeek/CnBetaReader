@@ -59,7 +59,7 @@ public class CommentAdapter extends BaseAdapter{
         if (convertView == null) {
             viewHolder = new ViewHolder();
             view = mInflater.inflate(resourceId, null);
-            viewHolder.vImageId = (ImageView) convertView.findViewById(R.id.ivName);
+            viewHolder.vImageId = (ImageView) convertView.findViewById(R.id.imageView);
             viewHolder.vUserName = (TextView) convertView.findViewById(R.id.user);
             viewHolder.vSupport  = (TextView)convertView.findViewById(R.id.support);
             viewHolder.vAgainst = (TextView) convertView.findViewById(R.id.against);

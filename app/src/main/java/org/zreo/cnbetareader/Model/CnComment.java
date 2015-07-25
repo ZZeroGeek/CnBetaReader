@@ -17,7 +17,7 @@ public class CnComment {
     public CnComment() {
     }
 
-    public CnComment(String userName, int imageId, String testComment, int support, int against, int commentmenu) {
+    public CnComment(String userName, int imageId, String testComment, String support, String against, int commentmenu) {
         this.userName = userName;
         this.imageId = imageId;
         this.testComment = testComment;

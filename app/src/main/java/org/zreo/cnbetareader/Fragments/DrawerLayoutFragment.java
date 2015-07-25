@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.zreo.cnbetareader.Activitys.CommentActivity;
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.
@@ -70,7 +71,9 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 Toast.makeText(getActivity(), "最新资讯", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_comment:
-                Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), CommentActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_hot:
                 Toast.makeText(getActivity(), "本月Top10", Toast.LENGTH_SHORT).show();

@@ -33,8 +33,8 @@ public class CommentActivity extends Activity{
     }
 
     private void initCnComments(){
-        CnComment cnComment1 = new CnComment("�����û�", R.drawable.ic_launcher,"������ô��", R.drawable.rating_good,
-                R.drawable.rating_bad, R.id.menubtn);
+        CnComment cnComment1 = new CnComment();
+        cnComment1.setImageId();
 
 
 

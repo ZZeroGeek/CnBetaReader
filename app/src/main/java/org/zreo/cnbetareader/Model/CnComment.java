@@ -1,5 +1,7 @@
 package org.zreo.cnbetareader.Model;
 
+import java.security.PublicKey;
+
 /**
  * Created by Administrator on 2015/7/22.
  */
@@ -12,6 +14,9 @@ public class CnComment {
     private int against;
     private int commentmenu;
 
+    public CnComment(){
+
+    }
     public CnComment(String userName, int imageId, String testComment, int support, int against, int commentmenu) {
         this.userName = userName;
         this.imageId = imageId;

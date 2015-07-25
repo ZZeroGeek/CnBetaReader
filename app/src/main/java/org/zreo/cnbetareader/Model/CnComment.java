@@ -1,48 +1,42 @@
 package org.zreo.cnbetareader.Model;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+import java.security.PublicKey;
+
 /**
  * Created by Administrator on 2015/7/22.
  */
+=======
+>>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
+>>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
 public class CnComment {
 
     private String userName;
     private int imageId;
     private String testComment;
-    private int support;
-    private int against;
-    private int commentmenu;
+    private String support;
+    private String against;
+    private int commentMenu;
 
+<<<<<<< HEAD
+    public CnComment() {
+    }
+
+    public CnComment(String userName, int imageId, String testComment, String support, String against, int commentMenu) {
+=======
+    public CnComment(){
+
+    }
     public CnComment(String userName, int imageId, String testComment, int support, int against, int commentmenu) {
+>>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
         this.userName = userName;
         this.imageId = imageId;
         this.testComment = testComment;
         this.support = support;
         this.against = against;
-        this.commentmenu = commentmenu;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public String getTestComment() {
-        return testComment;
-    }
-
-    public int getSupport() {
-        return support;
-    }
-
-    public int getAgainst() {
-        return against;
-    }
-
-    public int getCommentmenu() {
-        return commentmenu;
+        this.commentMenu = commentMenu;
     }
 
     public void setUserName(String userName) {
@@ -57,15 +51,40 @@ public class CnComment {
         this.testComment = testComment;
     }
 
-    public void setSupport(int support) {
+    public void setSupport(String support) {
         this.support = support;
     }
 
-    public void setAgainst(int against) {
+    public void setAgainst(String against) {
         this.against = against;
     }
 
-    public void setCommentmenu(int commentmenu) {
-        this.commentmenu = commentmenu;
+    public void setCommentMenu(int commentMenu) {
+        this.commentMenu = commentMenu;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public String getTestComment() {
+        return testComment;
+    }
+
+    public String getSupport() {
+        return support;
+    }
+
+    public String getAgainst() {
+        return against;
+    }
+
+    public int getCommentMenu() {
+        return commentMenu;
     }
 }
+

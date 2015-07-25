@@ -1,10 +1,13 @@
 package org.zreo.cnbetareader.Model;
 
+<<<<<<< HEAD
 import java.security.PublicKey;
 
 /**
  * Created by Administrator on 2015/7/22.
  */
+=======
+>>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
 public class CnComment {
 
     private String userName;

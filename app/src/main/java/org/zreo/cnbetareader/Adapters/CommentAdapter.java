@@ -16,9 +16,6 @@ import org.zreo.cnbetareader.R;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2015/7/22.
- */
 public class CommentAdapter extends BaseAdapter{
 
     LayoutInflater mInflater;

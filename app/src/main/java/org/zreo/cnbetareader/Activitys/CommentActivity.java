@@ -11,9 +11,6 @@ import org.zreo.cnbetareader.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2015/7/23.
- */
 public class CommentActivity extends Activity{
     private ListView listView;
     private CommentAdapter adapter;
@@ -33,8 +30,13 @@ public class CommentActivity extends Activity{
     }
 
     private void initCnComments(){
+<<<<<<< HEAD
         CnComment cnComment1 = new CnComment();
         cnComment1.setImageId();
+=======
+        CnComment cnComment1 = new CnComment("匿名用户", R.drawable.ic_launcher,"你是猪吗？", R.drawable.rating_good,
+                R.drawable.rating_bad, R.id.menubtn);
+>>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
 
 
 

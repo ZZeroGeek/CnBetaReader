@@ -50,7 +50,7 @@ public class CommentAdapter extends BaseAdapter{
         private TextView vTestComment;
         private TextView vSupport;
         private TextView vAgainst;
-        private ImageButton vCommentmenu;
+        private ImageButton vCommentMenu;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class CommentAdapter extends BaseAdapter{
             viewHolder.vUserName = (TextView) convertView.findViewById(R.id.user);
             viewHolder.vSupport = (TextView) convertView.findViewById(R.id.support);
             viewHolder.vAgainst = (TextView) convertView.findViewById(R.id.against);
-            viewHolder.vCommentmenu = (ImageButton) convertView.findViewById(R.id.menubtn);
+            viewHolder.vCommentMenu = (ImageButton) convertView.findViewById(R.id.igBtn);
             viewHolder.vTestComment = (TextView) convertView.findViewById(R.id.testComment);
             convertView.setTag(viewHolder);
         } else {
@@ -74,7 +74,7 @@ public class CommentAdapter extends BaseAdapter{
         viewHolder.vUserName.setText(objects.get(position).getUserName());
         viewHolder.vSupport.setText(objects.get(position).getSupport());
         viewHolder.vAgainst.setText(objects.get(position).getAgainst());
-        viewHolder.vCommentmenu.setImageResource(objects.get(position).getCommentMenu());
+        viewHolder.vCommentMenu.setImageResource(objects.get(position).getCommentMenu());
         viewHolder.vTestComment.setText(objects.get(position).getTestComment());
         return convertView;
     }

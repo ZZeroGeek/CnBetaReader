@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,12 +45,12 @@ public class CommentAdapter extends BaseAdapter{
 
     class ViewHolder{
 
-        private TextView vuserName;
-        private ImageView vimageId;
-        private TextView vtestComment;
-        private TextView vsupport;
-        private TextView vagainst;
-        private ImageButton vcommentmenu;
+        private TextView vUserName;
+        private ImageView vImageId;
+        private TextView vTestComment;
+        private TextView vSupport;
+        private TextView vAgainst;
+        private ImageButton vCommentmenu;
     }
 
     @Override
@@ -61,22 +60,22 @@ public class CommentAdapter extends BaseAdapter{
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = mInflater.inflate(resourceId, null);
-            viewHolder.vimageId = (ImageView) convertView.findViewById(R.id.ivName);
-            viewHolder.vuserName = (TextView) convertView.findViewById(R.id.user);
-            viewHolder.vsupport = (TextView) convertView.findViewById(R.id.support);
-            viewHolder.vagainst = (TextView) convertView.findViewById(R.id.against);
-            viewHolder.vcommentmenu = (ImageButton) convertView.findViewById(R.id.menubtn);
-            viewHolder.vtestComment = (TextView) convertView.findViewById(R.id.testComment);
+            viewHolder.vImageId = (ImageView) convertView.findViewById(R.id.ivName);
+            viewHolder.vUserName = (TextView) convertView.findViewById(R.id.user);
+            viewHolder.vSupport = (TextView) convertView.findViewById(R.id.support);
+            viewHolder.vAgainst = (TextView) convertView.findViewById(R.id.against);
+            viewHolder.vCommentmenu = (ImageButton) convertView.findViewById(R.id.menubtn);
+            viewHolder.vTestComment = (TextView) convertView.findViewById(R.id.testComment);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.vimageId.setImageResource(objects.get(position).getImageId());
-        viewHolder.vuserName.setText(objects.get(position).getUserName());
-        viewHolder.vsupport.setText(objects.get(position).getSupport());
-        viewHolder.vagainst.setText(objects.get(position).getAgainst());
-        viewHolder.vcommentmenu.setImageResource(objects.get(position).getCommentMenu());
-        viewHolder.vtestComment.setText(objects.get(position).getTestComment());
+        viewHolder.vImageId.setImageResource(objects.get(position).getImageId());
+        viewHolder.vUserName.setText(objects.get(position).getUserName());
+        viewHolder.vSupport.setText(objects.get(position).getSupport());
+        viewHolder.vAgainst.setText(objects.get(position).getAgainst());
+        viewHolder.vCommentmenu.setImageResource(objects.get(position).getCommentMenu());
+        viewHolder.vTestComment.setText(objects.get(position).getTestComment());
         return convertView;
     }
 

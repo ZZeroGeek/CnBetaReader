@@ -5,3 +5,7 @@
 .DS_Store
 /build
 /captures
+/.idea
+/*.iml
+/app/*.iml
+/.idea/copyright/profiles_settings.xml

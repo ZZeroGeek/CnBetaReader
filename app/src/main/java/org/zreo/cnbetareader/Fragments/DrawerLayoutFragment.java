@@ -19,7 +19,7 @@ import org.zreo.cnbetareader.R;
  */
 public class DrawerLayoutFragment extends Fragment implements View.OnClickListener {
     /*
-    * 七个按钮
+     * 右滑菜单的按钮
      */
     private RelativeLayout mBtnInformation;
     private RelativeLayout mBtnComment;
@@ -34,20 +34,15 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        /*
-        获取布局
-         */
-        //view = inflater.inflate(R.layout.fragment_drawer_layout, null);
-        view = inflater.inflate(R.layout.fragment_drawer_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_drawer_layout, container, false); //获取布局
         initViews(); //初始化按钮
         return view;
     }
 
     /*
-    * 初始化按钮
+     * 初始化按钮
      */
     public void initViews() {
-
         mBtnInformation = (RelativeLayout) view.findViewById(R.id.btn_information);
         mBtnComment = (RelativeLayout) view.findViewById(R.id.btn_comment);
         mBtnHot = (RelativeLayout) view.findViewById(R.id.btn_hot);
@@ -96,8 +91,8 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
     }
 
     /*
-    * 手机版网站按钮操作
-    */
+     * 手机版网站按钮操作
+     */
     public void mBtnWebAction() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setMessage("是否调用浏览器打开 cnBeta.COM 手机版网站？");   //设置要显示的内容

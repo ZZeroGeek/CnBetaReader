@@ -1,10 +1,6 @@
 package org.zreo.cnbetareader.Model;
 
-import java.security.PublicKey;
 
-/**
- * Created by Administrator on 2015/7/22.
- */
 public class CnComment {
 
     private String userName;
@@ -17,7 +13,7 @@ public class CnComment {
     public CnComment() {
     }
 
-    public CnComment(String userName, int imageId, String testComment, String support, String against, int commentmenu) {
+    public CnComment(String userName, int imageId, String testComment, String support, String against, int commentMenu) {
         this.userName = userName;
         this.imageId = imageId;
         this.testComment = testComment;

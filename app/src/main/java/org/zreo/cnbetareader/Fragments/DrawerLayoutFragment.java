@@ -97,7 +97,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
     */
     public void mBtnWebAction() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setMessage("是否调用浏览器打开 cnBeta.com手机版网站？");   //设置要显示的内容
+        alert.setMessage("是否调用浏览器打开 cnBeta.COM 手机版网站？");   //设置要显示的内容
         alert.setCancelable(true);  //为真时可以通过返回键取消
         alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override

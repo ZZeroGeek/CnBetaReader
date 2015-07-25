@@ -4,5 +4,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="offline_download">离线下载</string>
+    <string name="information_theme">咨询主题</string>
 
 </resources>

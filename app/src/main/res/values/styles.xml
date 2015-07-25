@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/mainColor</item>  <!--ActionBar颜色-->
         <item name="android:textColorPrimary">@color/white</item> <!--ActionBar字体颜色-->
         <!-- Customize your theme here. -->
-    </style>
 
+    </style>
 
 </resources>

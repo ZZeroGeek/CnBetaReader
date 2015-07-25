@@ -55,14 +55,11 @@
         android:id="@+id/testComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:layout_below="@+id/ivName"
         android:layout_marginTop="10dp"/>
-=======
         android:layout_below="@+id/viname"
         android:layout_marginTop="10dp"
         android:text="你们太坏了，一百块都不给我，哼！！！！！！！！！！"/>
 
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
 
 </RelativeLayout>

@@ -1,55 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <module external.linked.project.id="CnBetaReader" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-=======
-<<<<<<< HEAD
-<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-=======
-<<<<<<< HEAD
-<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-=======
-<module external.linked.project.id="CnBetaReader" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
->>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
   <component name="FacetManager">
     <facet type="java-gradle" name="Java-Gradle">
       <configuration>
         <option name="BUILD_FOLDER_PATH" value="$MODULE_DIR$/build" />
-<<<<<<< HEAD
         <option name="BUILDABLE" value="false" />
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-        <option name="BUILDABLE" value="false" />
->>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <output url="file://$MODULE_DIR$/build" />
+    <output-test url="file://$MODULE_DIR$/build" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
-<<<<<<< HEAD
 </module>
-=======
-<<<<<<< HEAD
-</module>
-
-=======
-<<<<<<< HEAD
-</module>
-
-=======
-</module>
->>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47

@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="CnBetaReader" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-=======
-<<<<<<< HEAD
-<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="CnBetaReader" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-=======
-<<<<<<< HEAD
-<module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="CnBetaReader" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
-=======
-<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="dd" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
->>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -24,25 +12,9 @@
         <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
-<<<<<<< HEAD
         <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
         <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileDebugAndroidTestSources" />
-=======
-<<<<<<< HEAD
-        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
-        <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
-=======
-<<<<<<< HEAD
-        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
-        <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
-=======
-        <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
-        <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
-        <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileDebugAndroidTestSources" />
->>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
         <option name="TEST_SOURCE_GEN_TASK_NAME" value="generateDebugAndroidTestSources" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
@@ -97,19 +69,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
-<<<<<<< HEAD
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars" />
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars" />
->>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaResources" />
@@ -127,26 +88,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-<<<<<<< HEAD
-    <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
-  </component>
-</module>
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
-    <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
-  </component>
-</module>
-
-<<<<<<< HEAD
-=======
-=======
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Renren-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="MobTools" level="project" />
@@ -159,15 +100,12 @@
     <orderEntry type="library" exported="" name="MobLogCollector" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Douban-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-QZone-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Core-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-QZone-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-ShortMessage-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Email-2.6.1" level="project" />
   </component>
 </module>
->>>>>>> 421e795ac1836b1c446dc675f2c50e40a868694c
->>>>>>> 24b5486c03c745e12e940c4fedbe9589ca2649f4
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47

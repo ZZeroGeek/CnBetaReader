@@ -22,22 +22,16 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ListView lv;
-<<<<<<< HEAD
-=======
     /*定义一个动态数组
       */
     // private List<Map<String, Object>> listItems;
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
     private List<News> listItem = new ArrayList<News>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
         initListItem(); //初始化新闻列表
-=======
         initListItem();
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
         initView();  //初始化布局
         initEvents();  //滑动事件
     }
@@ -56,11 +50,7 @@ public class MainActivity extends AppCompatActivity {
        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-<<<<<<< HEAD
                 Toast.makeText(MainActivity.this, "你点击了 " + position, Toast.LENGTH_SHORT).show();
-=======
-                Toast.makeText(MainActivity.this, "你点击了" + position, Toast.LENGTH_SHORT).show();
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
             }
         });
     }

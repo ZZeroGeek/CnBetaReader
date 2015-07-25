@@ -2,10 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-<<<<<<< HEAD
-=======
     android:background="@color/white"
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
     android:padding="10dp">
 
     <TextView
@@ -17,7 +14,6 @@
         android:id="@+id/news_publish_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:layout_below="@+id/news_title"
         android:text="2015-07-24 10:30:38"
         android:textSize="10sp" />
@@ -91,7 +87,6 @@
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
-=======
         android:text="2015-07-24 10:30:38"
         android:textSize="10sp"
         android:layout_below="@+id/news_title"
@@ -149,5 +144,4 @@
         android:layout_below="@+id/news_publish_time"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
->>>>>>> 495dab8a172421b3f4585734ff1458a1e8954d47
 </RelativeLayout>

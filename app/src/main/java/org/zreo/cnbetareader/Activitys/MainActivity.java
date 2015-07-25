@@ -24,14 +24,12 @@ public class MainActivity extends AppCompatActivity {
     private ListView lv;
     /*定义一个动态数组
       */
-    // private List<Map<String, Object>> listItems;
     private List<News> listItem = new ArrayList<News>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initListItem(); //初始化新闻列表
-        initListItem();
         initView();  //初始化布局
         initEvents();  //滑动事件
     }
@@ -40,14 +38,14 @@ public class MainActivity extends AppCompatActivity {
      *  初始化布局
      */
     private void initView() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         lv = (ListView) findViewById(R.id.news_title_list_view);
-        //得到一个NewsTitleAdapter对象
-        //NewsTitleAdapter mAdapter = new NewsTitleAdapter(this, R.layout.news_title_item, listItem);
+        /**为ListView创建自定义适配器*/
         NewsTitleAdapter mAdapter = new NewsTitleAdapter(this, R.layout.news_title_item, listItem);
-        lv.setAdapter(mAdapter);//为ListView绑定Adapter
+        /**为ListView绑定Adapter*/
+        lv.setAdapter(mAdapter);
         /**为ListView添加点击事件*/
-       lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "你点击了 " + position, Toast.LENGTH_SHORT).show();
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     /*
-    初始化新闻列表
+     * 初始化新闻列表
      */
     public void initListItem(){
         String title = "Windows 10应用商店中国定制版现身 系统界面曝光";

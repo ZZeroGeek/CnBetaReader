@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/mainColor"
+        >
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </TabWidget>
+          <FrameLayout
+              android:id="@android:id/tabcontent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              >
+              <LinearLayout
+                  android:id="@+id/tab_1"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                >
+              </LinearLayout>
+              <!--标签-->
+              <LinearLayout
+                  android:id="@+id/tab_2"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  >
+              </LinearLayout>
+          </FrameLayout>
+    </TabHost>
+
+        <ImageView
+            android:id="@+id/information_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:layout_marginLeft="25dp"/>
+        <TextView
+            android:id="@+id/information_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/information_imageview"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/information_tv"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="可关注"
+            android:layout_gravity="right" />
+    <ListView
+        android:id="@+id/information_lv1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+
+
+</LinearLayout>

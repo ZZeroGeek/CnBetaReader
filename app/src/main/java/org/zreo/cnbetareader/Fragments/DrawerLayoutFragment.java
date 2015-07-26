@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.zreo.cnbetareader.Activitys.CommentActivity;
+import org.zreo.cnbetareader.Activitys.FragmentPreferences;
+
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.
@@ -83,7 +85,8 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 mBtnWebAction();
                 break;
             case R.id.btn_setting:
-                Toast.makeText(getActivity(), "设置", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(getActivity(), FragmentPreferences.class);
+                startActivity(intent1);
                 break;
             default:
                 break;

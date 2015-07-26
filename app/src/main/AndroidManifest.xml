@@ -30,6 +30,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activitys.CommentActivity"></activity>
+        <activity android:name=".Activitys.FragmentPreferences"
+            android:label="设置">
+            </activity>
     </application>
 
 </manifest>
+
+
+
+
+
+

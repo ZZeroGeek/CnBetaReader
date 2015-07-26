@@ -2,41 +2,48 @@ package org.zreo.cnbetareader.Activitys;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ListView;
 
-import org.zreo.cnbetareader.Fragments.Adapters.CommentAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Model.CnComment;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CommentActivity extends Activity{
-    private ListView listView;
-    private CommentAdapter adapter;
+
+    TextView textView;
+    ListView listView;
+    TextView editText;
     private List<CnComment> cnCommentList = new ArrayList<CnComment>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.commentlistview);
-
-        initCnComments();
-
-        adapter = new CommentAdapter(this,R.layout.commenttextview,cnCommentList);
-        listView = (ListView)findViewById(R.id.listView);
-
-        listView.setAdapter(adapter);
+        setContentView(R.layout.comment_listview);
+        initCommentList();
+        listView = (ListView) findViewById(R.id.listView);
+        CommentAdapter myAdapter = new CommentAdapter(this, R.layout.comment_textview, cnCommentList);
+        listView.setAdapter(myAdapter);
     }
 
-    private void initCnComments(){
-        CnComment cnComment1 = new CnComment();
-        cnComment1.setImageId(R.drawable.ic_launcher);
-        cnComment1.setUserName("匿名用户");
-        cnComment1.setSupport("支持:1");
-        cnComment1.setAgainst("反对:0");
-        cnComment1.setCommentMenu(R.id.igBtn);
-        cnComment1.setTestComment("你是猪么？");
-        cnCommentList.add(cnComment1);
+    private void initCommentList(){
+        String userName = "匿名用户";
+        String textComment = "100块都不给我";
+        String SaText = "支持:1  反对:0";
+        for(int i = 0; i < 30; i++){
+
+            CnComment cnComments = new CnComment();
+            cnComments.setImageId(R.drawable.ic_launcher);
+            cnComments.setUserName(userName);
+            cnComments.setTestComment(textComment);
+            cnComments.setCommentMenu(R.drawable.more_grey);
+            cnComments.setSupportAgainst(SaText);
+            cnCommentList.add(cnComments);
+        }
     }
 }

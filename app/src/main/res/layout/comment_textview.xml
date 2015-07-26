@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:background="@android:color/white"
+    >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"
+        android:padding="1sp"
+        
+     />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imageView1"
+        android:textSize="25sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="10sp"
+        android:textColor="@android:color/black"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/support_against"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_toRightOf="@+id/imageView1"
+        android:layout_marginLeft="10sp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:text="支持:0  反对:1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_text"
+        android:layout_below="@id/imageView1"
+        android:textColor="@android:color/black"
+        android:maxLines="2"
+        android:text="100块都不给我100块都不给我100块都不给我100块都不给我100块都不给我"
+        android:padding="10sp"/>
+
+
+    <ImageButton
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/imageView1"
+        android:layout_alignBottom="@id/imageView1"
+        android:layout_below="@+id/user_name"
+        android:text="ImageButton" 
+        android:src="@drawable/more_grey"
+        android:background="@android:color/white"
+        android:focusable="false"
+       />
+
+</RelativeLayout>

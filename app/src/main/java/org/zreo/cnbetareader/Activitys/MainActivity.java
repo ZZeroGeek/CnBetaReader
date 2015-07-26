@@ -1,9 +1,11 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.DrawerLayout.DrawerListener;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,12 +20,13 @@ import org.zreo.cnbetareader.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActionBarActivity {
 
     private DrawerLayout mDrawerLayout;
     private ListView lv;
-    /*定义一个动态数组
-      */
+    private Toolbar mToolbar;
+    private ActionBarDrawerToggle mDrawerToggle;
+    /**定义一个动态数组，保存新闻信息*/
     private List<News> listItem = new ArrayList<News>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +34,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initListItem(); //初始化新闻列表
         initView();  //初始化布局
-        initEvents();  //滑动事件
     }
 
-    /*
-     *  初始化布局
-     */
+     /**
+      *  初始化布局
+      */
     private void initView() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);  //右滑菜单布局
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
+        mToolbar.setTitle("全部资讯");   // 标题的文字需在setSupportActionBar之前，不然会无效
+        mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
+        setSupportActionBar(mToolbar);  //将ToolBar设置为ActionBAr
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //在ToolBar左边，即当前标题前添加图标
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open,
+                R.string.drawer_close);
+        mDrawerToggle.syncState();   //该方法会自动和actionBar关联, 将开关的图片显示在了action上
+        mDrawerLayout.setDrawerListener(mDrawerToggle);  //设置drawer的开关监听
+
+        /**显示新闻标题的ListView*/
         lv = (ListView) findViewById(R.id.news_title_list_view);
         /**为ListView创建自定义适配器*/
         NewsTitleAdapter mAdapter = new NewsTitleAdapter(this, R.layout.news_title_item, listItem);
@@ -52,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    /*
+
+    /**
      * 初始化新闻列表
      */
     public void initListItem(){
@@ -62,45 +76,20 @@ public class MainActivity extends AppCompatActivity {
                 "是Win10针对中国地区的定制版本。系统中除内置了很多微软旗下的服务外，还有一些本地化的功能。" +
                 "据此他猜测，这极有可能就是专门提供给中国盗版用户免费使用的定制版本。";
         /**为动态数组添加数据*/
-
        for(int i = 0; i < 30; i++){
             News news = new News();
             news.setNewsTitle(i + "  " + title);
             news.setNewsContent(summary);
             news.setPublishTime("2015-07-24 10:30:38");
             news.setImageId(R.mipmap.news_picture);
-            news.setCommentNumber(i);
-            news.setReaderNumber(100 + i);
+            news.setCommentNumber(i * 20);
+            news.setReaderNumber(i * 100);
             listItem.add(news);
         }
     }
 
-    /*
-     *滑动事件
-     */
-    private void initEvents(){
-        //DrawerListener默认只能从边界划出菜单
-        mDrawerLayout.setDrawerListener(new DrawerListener() {
-            @Override
-            public void onDrawerStateChanged(int newState) {
-            }
 
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-            }
-        });
-    }
-
-   /* //手指按下的点为(startX, startY)手指离开屏幕的点为(endX, endY)
+    /* //手指按下的点为(startX, startY)手指离开屏幕的点为(endX, endY)
     float startX = 0;
     float endX = 0;
     float startY = 0;

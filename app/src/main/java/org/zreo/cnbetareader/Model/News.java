@@ -4,6 +4,14 @@ package org.zreo.cnbetareader.Model;
  * Created by guang on 2015/7/24.
  */
 public class News {
+    /**
+     * newsTitle      新闻标题
+     * newsContent    新闻内容
+     * publishTime    新闻发布时间
+     * imageId        新闻列表中的图片id
+     * commentNumber  评论数量
+     * readerNumber   阅读数量
+     */
     private String newsTitle;
     private String newsContent;
     private String publishTime;

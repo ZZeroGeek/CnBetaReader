@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/no_wifi_environment_auto_load">
+    <PreferenceCategory android:title="@string/no_wifi_environment_auto_load"
+        >
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/information_detail_key"
@@ -44,13 +45,15 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/prompt_title">
         <Preference
-            android:title="@string/text_1_title"/>
+            android:title="@string/text_1_title"
+            android:layout="@layout/preference_category_holo"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about_title">
 
         <Preference
-            android:title="@string/text_title"/>
+            android:title="@string/text_title"
+            android:layout="@layout/preference_category_holo"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/general_category">
@@ -68,6 +71,7 @@
             android:title="@string/auto_page_title" />
         <Preference
             android:key="theme"
+            android:layout="@layout/fragment_theme"
             android:title="@string/theme"/>
 
     </PreferenceCategory>

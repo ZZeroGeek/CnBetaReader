@@ -21,8 +21,7 @@ public class NewsTitleAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
     private int resourceId;
     private List<News> listItem;
-    /**构造函数
-     */
+    /**构造函数*/
     public NewsTitleAdapter(Context context, int textViewResourcedId, List<News> objects) {
         super();
         resourceId = textViewResourcedId;

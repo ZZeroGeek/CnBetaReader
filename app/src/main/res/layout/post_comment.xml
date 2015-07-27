@@ -41,9 +41,11 @@
         </RelativeLayout>
 
         <Button
-            android:layout_marginTop="20dp"
+            android:id="@+id/send_btn"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_dark"
-            android:text="发送"/>
+            android:text="发送"
+            android:layout_margin="20dp"/>
 </LinearLayout>

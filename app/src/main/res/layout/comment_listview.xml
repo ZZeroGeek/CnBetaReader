@@ -3,15 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray">
-    <LinearLayout
+    <org.zreo.cnbetareader.Model.QuickReturnListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:id="@+id/listView">
-</ListView>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:id="@android:id/list"/>
+    <ImageButton
+        android:id="@+id/footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:src="@drawable/comment_button"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/primary_text_dark" />
 
 </RelativeLayout>

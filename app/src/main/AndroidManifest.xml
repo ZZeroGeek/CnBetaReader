@@ -28,11 +28,45 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activitys.CommentActivity"></activity>
+        <activity android:name="org.zreo.cnbetareader.Activitys.Information_ThemeActivity"
+            android:label="资讯主题">
+
+        </activity>
+        <activity android:name=".Activitys.CommentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CommentActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".Activitys.FragmentPreferences"
             android:label="设置">
             </activity>
+<<<<<<< HEAD
         <activity android:name=".Activitys.PostCommentActivity"></activity>
+=======
+        <activity
+            android:name=".Activitys.NewsActivity">
+        </activity>
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activitys.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+>>>>>>> daecabf87ff306705841ef157363316a5e9286b8
     </application>
 
 </manifest>

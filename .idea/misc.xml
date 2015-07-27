@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
 <<<<<<< HEAD
+<<<<<<< HEAD
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
 =======
@@ -11,6 +12,10 @@
       </MavenGeneralSettings>
     </option>
 >>>>>>> a5da838d5811c11b45ae27e48e96b86c29b02da3
+=======
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+>>>>>>> daecabf87ff306705841ef157363316a5e9286b8
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -117,6 +122,7 @@
       <Port>5050</Port>
     </configuration>
   </component>
+<<<<<<< HEAD
   <component name="masterDetails">
     <states>
       <state key="ProjectJDKs.UI">
@@ -146,3 +152,6 @@
   </component>
 </project>
 
+=======
+</project>
+>>>>>>> daecabf87ff306705841ef157363316a5e9286b8

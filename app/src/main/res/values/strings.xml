@@ -4,6 +4,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="offline_download">离线下载</string>
+    <string name="information_theme">咨询主题</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
     <string name="hello_world">Hello world!</string>
@@ -46,10 +47,10 @@
     <string name="auto_reflush_key">autoReflush</string>
     <string name="no_wifi_environment_auto_load">非WI-Fi环境下图片自动加载</string>
 
+
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_set">SetActivity</string>
-
-
 
 </resources>

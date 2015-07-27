@@ -3,12 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/mainColor</item> <!--状态栏颜色-->
-        <item name="colorPrimary">@color/mainColor</item>  <!--ActionBar背景颜色-->
+        <item name="colorPrimary">@color/mainColor</item>  <!--ActionBar颜色-->
         <item name="android:textColorPrimary">@color/black</item> <!--ActionBar上的标题与更多菜单中的文字颜色-->
         <item name="colorControlNormal">@color/white</item>  <!--ActionBar控件颜色-->
     </style>
-
-
 
     <style name="ButtonBarButton">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>

@@ -62,7 +62,9 @@ public class MainActivity extends ActionBarActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "你点击了 " + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "你点击了 " + position, Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MainActivity.this,NewsActivity.class);
+                startActivity(intent);
 
             }
         });

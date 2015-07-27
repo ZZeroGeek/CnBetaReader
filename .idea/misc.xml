@@ -2,6 +2,16 @@
 <project version="4">
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
+<<<<<<< HEAD
+=======
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
+>>>>>>> fb1d11f89c09b0e62008049ba55c52a8e0e5f774
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />

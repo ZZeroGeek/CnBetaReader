@@ -1,45 +1,24 @@
 package org.zreo.cnbetareader.Model;
 
+
 public class CnComment {
 
+
+    private int imageView1;
     private String userName;
-    private int imageId;
     private String testComment;
-    private int support;
-    private int against;
-    private int commentmenu;
+    private String supportAgainst;
+    private int commentMenu;
 
-    public CnComment(String userName, int imageId, String testComment, int support, int against, int commentmenu) {
+    public CnComment() {
+    }
+
+    public CnComment(String userName, int imageId, String testComment, String supportAgainst, int commentMenu) {
         this.userName = userName;
-        this.imageId = imageId;
+        this.imageView1 = imageId;
         this.testComment = testComment;
-        this.support = support;
-        this.against = against;
-        this.commentmenu = commentmenu;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public String getTestComment() {
-        return testComment;
-    }
-
-    public int getSupport() {
-        return support;
-    }
-
-    public int getAgainst() {
-        return against;
-    }
-
-    public int getCommentmenu() {
-        return commentmenu;
+        this.supportAgainst = supportAgainst;
+        this.commentMenu = commentMenu;
     }
 
     public void setUserName(String userName) {
@@ -47,22 +26,39 @@ public class CnComment {
     }
 
     public void setImageId(int imageId) {
-        this.imageId = imageId;
+        this.imageView1 = imageId;
     }
 
     public void setTestComment(String testComment) {
         this.testComment = testComment;
     }
 
-    public void setSupport(int support) {
-        this.support = support;
+    public void setSupportAgainst(String supportAgainst) {
+        this.supportAgainst = supportAgainst;
     }
 
-    public void setAgainst(int against) {
-        this.against = against;
+    public void setCommentMenu(int commentMenu) {
+        this.commentMenu = commentMenu;
     }
 
-    public void setCommentmenu(int commentmenu) {
-        this.commentmenu = commentmenu;
+    public String getUserName() {
+        return userName;
+    }
+
+    public int getImageId() {
+        return imageView1;
+    }
+
+    public String getTestComment() {
+        return testComment;
+    }
+
+    public String getsupportAgainst() {
+        return supportAgainst;
+    }
+
+    public int getCommentMenu() {
+        return commentMenu;
     }
 }
+

@@ -12,14 +12,20 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import org.zreo.cnbetareader.Activitys.Information_ThemeActivity;
+=======
+import org.zreo.cnbetareader.Activitys.CommentActivity;
+import org.zreo.cnbetareader.Activitys.FragmentPreferences;
+
+>>>>>>> ed92db7658e6d638253e8fb447d5d9c5b08f9285
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.
  */
 public class DrawerLayoutFragment extends Fragment implements View.OnClickListener {
     /*
-    * 七个按钮
+     * 右滑菜单的按钮
      */
     private RelativeLayout mBtnInformation;
     private RelativeLayout mBtnComment;
@@ -34,20 +40,15 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
-        /*
-        获取布局
-         */
-        //view = inflater.inflate(R.layout.fragment_drawer_layout, null);
-        view = inflater.inflate(R.layout.fragment_drawer_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_drawer_layout, container, false); //获取布局
         initViews(); //初始化按钮
         return view;
     }
 
     /*
-    * 初始化按钮
+     * 初始化按钮
      */
     public void initViews() {
-
         mBtnInformation = (RelativeLayout) view.findViewById(R.id.btn_information);
         mBtnComment = (RelativeLayout) view.findViewById(R.id.btn_comment);
         mBtnHot = (RelativeLayout) view.findViewById(R.id.btn_hot);
@@ -71,7 +72,9 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 Toast.makeText(getActivity(), "最新资讯", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_comment:
-                Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), CommentActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_hot:
                 Toast.makeText(getActivity(), "本月Top10", Toast.LENGTH_SHORT).show();
@@ -88,7 +91,8 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 mBtnWebAction();
                 break;
             case R.id.btn_setting:
-                Toast.makeText(getActivity(), "设置", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(getActivity(), FragmentPreferences.class);
+                startActivity(intent1);
                 break;
             default:
                 break;
@@ -96,11 +100,11 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
     }
 
     /*
-    * 手机版网站按钮操作
-    */
+     * 手机版网站按钮操作
+     */
     public void mBtnWebAction() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setMessage("是否调用浏览器打开 cnBeta.com手机版网站？");   //设置要显示的内容
+        alert.setMessage("是否调用浏览器打开 cnBeta.COM 手机版网站？");   //设置要显示的内容
         alert.setCancelable(true);  //为真时可以通过返回键取消
         alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override

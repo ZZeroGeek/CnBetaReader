@@ -48,8 +48,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="最新资讯"
-                android:textSize="15sp"
+                android:text="全部资讯"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/imageView1"
                 android:layout_toRightOf="@+id/imageView1"
                 android:layout_marginLeft="25dp"/>
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="精彩评论"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/imageView2"
                 android:layout_toRightOf="@+id/imageView2"
                 android:layout_marginLeft="25dp"/>
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="本月Top10"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/imageView3"
                 android:layout_toRightOf="@+id/imageView3"
                 android:layout_marginLeft="25dp"/>
@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收藏"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/imageView4"
                 android:layout_toRightOf="@+id/imageView4"
                 android:layout_marginLeft="25dp"/>
@@ -149,7 +149,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="资讯主题"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/imageView5"
                 android:layout_toRightOf="@+id/imageView5"
                 android:layout_marginLeft="25dp"/>
@@ -165,9 +165,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="4"
         android:orientation="vertical">
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+        </RelativeLayout>
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="2px"
             android:background="@color/light_gray"/>
         <TextView
             android:background="@color/white"
@@ -175,7 +181,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="16dp"
             android:text="其他"/>
         <RelativeLayout
             android:id="@+id/btn_web"
@@ -197,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="手机版网站"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/imageView6"
                 android:layout_toRightOf="@+id/imageView6"
                 android:layout_marginLeft="25dp"/>
@@ -222,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="设置"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:layout_alignBottom="@+id/imageView7"
                 android:layout_toRightOf="@+id/imageView7"
                 android:layout_marginLeft="25dp"/>

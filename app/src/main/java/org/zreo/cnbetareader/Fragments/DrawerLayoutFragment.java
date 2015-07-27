@@ -12,13 +12,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import org.zreo.cnbetareader.Activitys.Information_ThemeActivity;
-=======
 import org.zreo.cnbetareader.Activitys.CommentActivity;
 import org.zreo.cnbetareader.Activitys.FragmentPreferences;
-
->>>>>>> ed92db7658e6d638253e8fb447d5d9c5b08f9285
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.
@@ -84,8 +80,8 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.btn_topic:
                 Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getActivity(), Information_ThemeActivity.class);
-                startActivity(intent);
+                Intent intent2=new Intent(getActivity(), Information_ThemeActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.btn_web:
                 mBtnWebAction();

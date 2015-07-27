@@ -28,12 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity android:name="org.zreo.cnbetareader.Activitys.Information_ThemeActivity"
             android:label="资讯主题">
 
         </activity>
-=======
         <activity android:name=".Activitys.CommentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CommentActivity"/>
@@ -71,7 +69,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
->>>>>>> ed92db7658e6d638253e8fb447d5d9c5b08f9285
     </application>
 
 </manifest>

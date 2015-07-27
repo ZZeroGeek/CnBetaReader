@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.zreo.cnbetareader" >
 
-    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -41,32 +41,10 @@
         <activity android:name=".Activitys.FragmentPreferences"
             android:label="设置">
             </activity>
-<<<<<<< HEAD
-        <activity android:name=".Activitys.PostCommentActivity"></activity>
-=======
-        <activity
-            android:name=".Activitys.NewsActivity">
-        </activity>
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-            <intent-filter>
-                <data android:scheme="tencent100371282" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Activitys.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait" />
->>>>>>> daecabf87ff306705841ef157363316a5e9286b8
+
+        <activity android:name=".Activitys.PostCommentActivity"/>
+
+
     </application>
 
 </manifest>

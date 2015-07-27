@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/ .iml" filepath="$PROJECT_DIR$/ .iml" />
       <module fileurl="file://$PROJECT_DIR$/CnBetaReader.iml" filepath="$PROJECT_DIR$/CnBetaReader.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cnbeta.iml" filepath="$PROJECT_DIR$/cnbeta.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ss.iml" filepath="$PROJECT_DIR$/ss.iml" />
->>>>>>> daecabf87ff306705841ef157363316a5e9286b8
     </modules>
   </component>
 </project>
-

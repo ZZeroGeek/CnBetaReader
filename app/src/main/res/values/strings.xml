@@ -46,6 +46,8 @@
     <string name="auto_reflush_key">autoReflush</string>
     <string name="no_wifi_environment_auto_load">非WI-Fi环境下图片自动加载</string>
 
+
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_set">SetActivity</string>

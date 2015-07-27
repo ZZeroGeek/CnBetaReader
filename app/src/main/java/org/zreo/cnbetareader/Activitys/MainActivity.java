@@ -1,5 +1,6 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -62,6 +63,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "你点击了 " + position, Toast.LENGTH_SHORT).show();
+
             }
         });
     }

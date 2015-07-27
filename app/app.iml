@@ -103,8 +103,13 @@
     <orderEntry type="library" exported="" name="MobLogCollector" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Douban-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.6.1" level="project" />
+<<<<<<< HEAD
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.6.1" level="project" />
+=======
+    <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.6.1" level="project" />
+>>>>>>> fb1d11f89c09b0e62008049ba55c52a8e0e5f774
     <orderEntry type="library" exported="" name="ShareSDK-QZone-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Core-2.6.1" level="project" />

@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     /**定义一个动态数组，保存新闻信息*/
     private List<News> listItem = new ArrayList<News>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

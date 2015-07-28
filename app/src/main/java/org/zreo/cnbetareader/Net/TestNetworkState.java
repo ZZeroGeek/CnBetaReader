@@ -9,12 +9,7 @@ public class TestNetworkState {
 
 
 
-    /**
-     * 检测手机是否开启WIFI网络,需要调用ConnectivityManager服务.
-     *
-     * @param context
-     * @return boolean
-     */
+
     public static boolean checkWifiNetwork(Context context) {
         boolean has = false;
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -27,12 +22,7 @@ public class TestNetworkState {
         return has;
     }
 
-    /**
-     * 检测当前手机是否联网
-     *
-     * @param context
-     * @return boolean
-     */
+
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity == null) {
@@ -49,10 +39,8 @@ public class TestNetworkState {
         }
         return false;
     }
-    /**
-     *
-     * 检测是否开启GPRS网络
-     */
+
+
         public static boolean checkGprsNetwork(Context context) {
         boolean has = false;
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

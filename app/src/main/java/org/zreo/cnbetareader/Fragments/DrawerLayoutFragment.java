@@ -70,8 +70,6 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.btn_comment:
                // Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), CommentActivity.class);
-                startActivity(intent);
                 break;
             case R.id.btn_hot:
                 Toast.makeText(getActivity(), "本月Top10", Toast.LENGTH_SHORT).show();

@@ -1,43 +1,71 @@
 package org.zreo.cnbetareader.Net;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.widget.Toast;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.telephony.TelephonyManager;
 
-import org.zreo.cnbetareader.R;
+public class TestNetworkState {
 
-public class TestNetworkState extends  Activity {
-       private IntentFilter intentFilter;
-       private NetworkChangeReceiver networkChangeReceiver;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting);
-        intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        networkChangeReceiver = new NetworkChangeReceiver();
-        registerReceiver(networkChangeReceiver, intentFilter);
+
+    /**
+     * 检测手机是否开启WIFI网络,需要调用ConnectivityManager服务.
+     *
+     * @param context
+     * @return boolean
+     */
+    public static boolean checkWifiNetwork(Context context) {
+        boolean has = false;
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = connectivity.getActiveNetworkInfo();
+        int netType = info.getType();
+        int netSubtype = info.getSubtype();
+        if (netType == ConnectivityManager.TYPE_WIFI) {
+            has = info.isConnected();
+        }
+        return has;
     }
-    @Override
-            protected  void onDestroy(){
-        super.onDestroy();
-        unregisterReceiver(networkChangeReceiver);
+
+    /**
+     * 检测当前手机是否联网
+     *
+     * @param context
+     * @return boolean
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity == null) {
+            return false;
+        } else {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
         }
-          class  NetworkChangeReceiver extends BroadcastReceiver{
-            @Override
-            public void onReceive(Context context,Intent intent){
-                Toast.makeText(context,"network change",Toast.LENGTH_SHORT).show();
-
-
-            }}
-
+        return false;
+    }
+    /**
+     *
+     * 检测是否开启GPRS网络
+     */
+        public static boolean checkGprsNetwork(Context context) {
+        boolean has = false;
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        TelephonyManager mTelephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        NetworkInfo info = connectivity.getActiveNetworkInfo();
+        int netType = info.getType();
+        int netSubtype = info.getSubtype();
+        if (netType == ConnectivityManager.TYPE_MOBILE && netSubtype == TelephonyManager.NETWORK_TYPE_UMTS && !mTelephony.isNetworkRoaming()) {
+            has = info.isConnected();
         }
+        return has;
+
+    }
 
 
-
-
+}

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import org.zreo.cnbetareader.Activitys.Information_ThemeActivity;
 import org.zreo.cnbetareader.Activitys.CommentActivity;
 import org.zreo.cnbetareader.Activitys.FragmentPreferences;
+import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.

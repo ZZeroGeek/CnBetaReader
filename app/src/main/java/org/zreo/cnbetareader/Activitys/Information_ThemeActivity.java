@@ -1,5 +1,8 @@
 package org.zreo.cnbetareader.Activitys;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,21 +22,24 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import org.zreo.cnbetareader.Model.News;
 import org.zreo.cnbetareader.R;
 
 /**
  * Created by Admin on 2015/7/25.
  */
 public class Information_ThemeActivity extends Activity  implements OnClickListener{
-    ViewPager viewPager;
-    int position;
-    ViewPager ipager = null;
-    PagerTabStrip itabStrip = null;
-    ArrayList<View> viewContainter = new ArrayList<View>();
-    ArrayList<String> titleContainer = new ArrayList<String>();
-    public String TAG = "tag";
+  //  ViewPager viewPager;
+   // int position;
+   // ViewPager ipager = null;
+   // PagerTabStrip itabStrip = null;
+   // ArrayList<View> viewContainter = new ArrayList<View>();
+   // ArrayList<String> titleContainer = new ArrayList<String>();
+   // public String TAG = "tag";
     private ViewPager viewpager;
     private PagerAdapter iAdapter;  //ViewPager的适配器
     private ArrayList<View> views;
@@ -44,18 +50,40 @@ public class Information_ThemeActivity extends Activity  implements OnClickListe
     private TextView itv_Tab1;
     private TextView itv_Tab2;
     private int currentIndex = 0;  //当前标签页
+    String summary = "7月24日消息，昨日有网友在国内某知名论坛发布疑似Win10应用商店中国定制版的系统界面图片，" +
+            "一时间引发诸多热议。这名网友发帖称是从内部人士手里拿到了Win10特别版的系统映像，安装后发现这竟然" +
+            "是Win10针对中国地区的定制版本。系统中除内置了很多微软旗下的服务外，还有一些本地化的功能。" +
+            "据此他猜测，这极有可能就是专门提供给中国盗版用户免费使用的定制版本。";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.information_theme);
         init();
-
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         viewpager.setCurrentItem(0);  //默认页面
         itv_Tab1.setTextColor(Color.BLUE);
         itv_Tab2.setTextColor(Color.BLUE);
         viewpager.setAdapter(iAdapter);
+
+        List<Map<String,Object>>ilistItems=new ArrayList<Map<String,Object>>();
+
+
+            Map<String,Object>ilistItem=new HashMap<String,Object>();
+            ilistItem.put("i_imgView",R.drawable.rating_good);
+
+            ilistItem.put("isummary","7月24日消息，昨日有网友在国内某知名论坛发布疑似Win10应用商店中国定制版的系统界面图片，\" +\n" +
+                    "            \"一时间引发诸多热议。这名网友发帖称是从内部人士手里拿到了Win10特别版的系统映像，安装后发现这竟然\""
+                            );
+            ilistItems.add(ilistItem);
+        SimpleAdapter isimpleAdapter=new SimpleAdapter(this,ilistItems,R.layout.i_image_btn,
+                new String[]{"i_imgView","isummary","i_btn"},
+                new int[]{R.id.i_imgView,R.id.isummary,R.id.i_btn});
+        ListView ilv2_content=(ListView)findViewById(R.id.ilv2_content);
+        ilv2_content.setAdapter(isimpleAdapter);
+
+       // ListView ilv2_content=(ListView)findViewById(R.id.ilv2_content);
+
         viewpager.setOnPageChangeListener(new OnPageChangeListener()
         {
             @Override
@@ -94,6 +122,7 @@ public class Information_ThemeActivity extends Activity  implements OnClickListe
 
     }
 
+
     //初始主要的显示内容。并且加入组件中
     public void init(){
         itv_Tab1 = (TextView) findViewById(R.id. itv_Tab1);
@@ -110,6 +139,7 @@ public class Information_ThemeActivity extends Activity  implements OnClickListe
 
         views.add(view1);
         views.add(view2);
+
 
 
         iAdapter = new PagerAdapter()

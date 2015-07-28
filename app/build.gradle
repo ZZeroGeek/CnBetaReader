@@ -40,4 +40,5 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-2.6.1.jar')
     compile files('libs/ShareSDK-Wechat-Favorite-2.6.1.jar')
     compile files('libs/ShareSDK-Wechat-Moments-2.6.1.jar')
+    compile files('D:/project/CnBetaReader/.idea/libraries/universal-image-loader-1.9.4.jar')
 }

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import org.zreo.cnbetareader.Activitys.FragmentPreferences;
 import org.zreo.cnbetareader.R;
@@ -90,7 +89,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.btn_topic:
                 listener.selection(5);  //选择资讯主题界面
-                Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
                 //Intent intent2 = new Intent(getActivity(), Information_ThemeActivity.class);
                 //startActivity(intent2);
                 break;

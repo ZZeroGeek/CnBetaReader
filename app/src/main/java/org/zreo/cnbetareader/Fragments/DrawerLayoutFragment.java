@@ -12,10 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import org.zreo.cnbetareader.Activitys.Information_ThemeActivity;
-import org.zreo.cnbetareader.Activitys.CommentActivity;
 import org.zreo.cnbetareader.Activitys.FragmentPreferences;
-import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.
@@ -84,6 +81,8 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
             case R.id.btn_hot:
                 //Toast.makeText(getActivity(), "本月Top10", Toast.LENGTH_SHORT).show();
                 listener.selection(3);   //选择全本月Top10界面
+                //Intent intent2 = new Intent(getActivity(), Comment_Top10Fragment.class);
+               // getActivity().startActivity(intent2);
                 break;
             case R.id.btn_favorites:
                 //Toast.makeText(getActivity(), "收藏", Toast.LENGTH_SHORT).show();
@@ -91,7 +90,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.btn_topic:
                 listener.selection(5);  //选择资讯主题界面
-                //Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
                 //Intent intent2 = new Intent(getActivity(), Information_ThemeActivity.class);
                 //startActivity(intent2);
                 break;

@@ -43,7 +43,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
     private int visibleLastIndex = 0;   //最后的可视项索引
     private int visibleItemCount;       // 当前窗口可见项总数
-    private View loadMoreView;    //加载更多布局
+    private View loadMoreView;     //加载更多布局
 
     SwipeRefreshLayout swipeLayout;
     @Override

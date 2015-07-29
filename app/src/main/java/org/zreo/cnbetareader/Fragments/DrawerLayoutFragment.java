@@ -21,7 +21,14 @@ import org.zreo.cnbetareader.R;
  * Created by guang on 2015/7/23.
  */
 public class DrawerLayoutFragment extends Fragment implements View.OnClickListener {
-    /*
+
+    /**
+     * 定义监控右滑菜单点击选项的接口
+     */
+    public interface TabSelectionListener{
+        void selection(int index);
+    }
+    /**
      * 右滑菜单的按钮
      */
     private RelativeLayout mBtnInformation;
@@ -42,7 +49,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         return view;
     }
 
-    /*
+    /**
      * 初始化按钮
      */
     public void initViews() {
@@ -64,23 +71,29 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        TabSelectionListener listener = (TabSelectionListener) getActivity();
         switch (v.getId()) {
             case R.id.btn_information:
-                Toast.makeText(getActivity(), "最新资讯", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "全部资讯", Toast.LENGTH_SHORT).show();
+                listener.selection(1);  //选择资讯界面
                 break;
             case R.id.btn_comment:
-               // Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
+                listener.selection(2);  //选择精彩评论界面
                 break;
             case R.id.btn_hot:
-                Toast.makeText(getActivity(), "本月Top10", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "本月Top10", Toast.LENGTH_SHORT).show();
+                listener.selection(3);   //选择全本月Top10界面
                 break;
             case R.id.btn_favorites:
-                Toast.makeText(getActivity(), "收藏", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "收藏", Toast.LENGTH_SHORT).show();
+                listener.selection(4);   //选择收藏界面
                 break;
             case R.id.btn_topic:
-                Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
-                Intent intent2=new Intent(getActivity(), Information_ThemeActivity.class);
-                startActivity(intent2);
+                listener.selection(5);  //选择资讯主题界面
+                //Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
+                //Intent intent2 = new Intent(getActivity(), Information_ThemeActivity.class);
+                //startActivity(intent2);
                 break;
             case R.id.btn_web:
                 mBtnWebAction();
@@ -94,8 +107,8 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    /*
-     * 手机版网站按钮操作
+    /**
+     * “手机版网站”按钮的操作
      */
     public void mBtnWebAction() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());

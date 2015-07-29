@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CommentActivity extends ListActivity {
+public class CommentActivity extends ListActivity  {
 
     private List<CnComment> cnCommentList = new ArrayList<CnComment>();
     private QuickReturnListView mListView;
@@ -140,7 +140,6 @@ public class CommentActivity extends ListActivity {
             }
         });
     }
-
 
     private void initCommentList(){
         String userName = "匿名用户";

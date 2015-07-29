@@ -1,7 +1,10 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,13 +25,14 @@ public class NewsActivity extends ActionBarActivity {
     private Toolbar mToolbar;
     ImageButton imageButton;
     WebView webView;
+    private String[] textsize1=new String[]{"大","中","小"};
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         ShareSDK.initSDK(this);
-       //webView=(WebView)findViewById(R.id.wv);
+        webView=(WebView)findViewById(R.id.wv);
         imageButton=(ImageButton)findViewById(R.id.imageBtn);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitle("新闻详细页");   // 标题的文字需在setSupportActionBar之前，不然会无效
@@ -48,7 +52,7 @@ public class NewsActivity extends ActionBarActivity {
                 startActivity(intent5);
             }
         });
-       // webView.loadUrl("http://m.cnbeta.com");
+        webView.loadUrl("http://m.cnbeta.com");
     }
 
     @Override
@@ -69,9 +73,30 @@ public class NewsActivity extends ActionBarActivity {
                 return true;
             case R.id.font:
                 Toast.makeText(getApplicationContext(), "已改变字体", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(this).setTitle("请选择字体的大小").setSingleChoiceItems(textsize1, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getBaseContext(),"你选中了"+textsize1[which],Toast.LENGTH_SHORT).show();
+                    }
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getBaseContext(),"确定",Toast.LENGTH_SHORT).show();
+                    }
+                }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getBaseContext(),"取消",Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
                 return true;
             case R.id.browser:
                 Toast.makeText(getApplicationContext(), "已打开浏览器", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("http://m.cnbeta.com");
+                intent.setData(content_url);
+                startActivity(intent);
                 return true;
             case R.id.action_share:
                 showShare();

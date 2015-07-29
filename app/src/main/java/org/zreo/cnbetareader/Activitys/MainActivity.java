@@ -2,37 +2,18 @@ package org.zreo.cnbetareader.Activitys;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
+import org.zreo.cnbetareader.Fragments.Comment_Top10Fragment;
 import org.zreo.cnbetareader.Fragments.DrawerLayoutFragment;
 import org.zreo.cnbetareader.Fragments.NewsTitleFragment;
-import org.zreo.cnbetareader.Model.News;
 import org.zreo.cnbetareader.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Admin on 2015/7/28.
@@ -42,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
 
     private FragmentManager fragmentManager;  //用于对Fragment进行管理
     private NewsTitleFragment mNewsTitleLayout; //新闻标题布局
+    private Comment_Top10Fragment mCommentTop10Layout; //本月Top10布局
     private int currentIndex = 1;  //当前标签页, 默认显示全部资讯页面，即为1
 
     private DrawerLayout mDrawerLayout;
@@ -98,11 +80,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         switch (index) {
             case 1:    //全部资讯界面
                 if (mNewsTitleLayout == null) {
-                    // 如果NewsTitleFragment为空，则创建一个并添加到界面上
+                    // 如果mNewsTitleLayout为空，则创建一个并添加到界面上
                     mNewsTitleLayout = new NewsTitleFragment();
                     transaction.add(R.id.fragment_content, mNewsTitleLayout);
                 } else{
-                    // 如果MessageFragment不为空，则直接将它显示出来
+                    // 如果mNewsTitleLayout不为空，则直接将它显示出来
                     transaction.show(mNewsTitleLayout);
                 }
                 break;
@@ -110,9 +92,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
             case 2:   //精彩评论界面
                 break;
 
-            case 3:  //全本月Top10界面
+            case 3:  //本月Top10界面
+                if (mCommentTop10Layout == null) {
+                    // 如果mCommentTop10Layout为空，则创建一个并添加到界面上
+                    mCommentTop10Layout = new Comment_Top10Fragment();
+                    transaction.add(R.id.fragment_content, mCommentTop10Layout);
+                } else{
+                    // 如果mCommentTop10Layout不为空，则直接将它显示出来
+                    transaction.show(mCommentTop10Layout);
+                }
                 break;
-
             case 4:   //收藏界面
                 break;
 
@@ -126,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private void hideFragments(FragmentTransaction transaction){
         if (mNewsTitleLayout != null){
             transaction.hide(mNewsTitleLayout);
+        }
+        if (mCommentTop10Layout != null){
+            transaction.hide(mCommentTop10Layout);
         }
     }
 

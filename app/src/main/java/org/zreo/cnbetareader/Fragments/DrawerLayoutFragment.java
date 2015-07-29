@@ -10,12 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import org.zreo.cnbetareader.Activitys.Information_ThemeActivity;
-import org.zreo.cnbetareader.Activitys.CommentActivity;
 import org.zreo.cnbetareader.Activitys.FragmentPreferences;
-import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.
@@ -28,6 +24,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
     public interface TabSelectionListener{
         void selection(int index);
     }
+
     /**
      * 右滑菜单的按钮
      */
@@ -67,6 +64,18 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         mBtnTopic.setOnClickListener(this);
         mBtnWeb.setOnClickListener(this);
         mBtnSetting.setOnClickListener(this);
+        mBtnInformation.setBackgroundColor(getResources().getColor(R.color.light_gray));
+    }
+
+    /**
+     * 初始化右滑菜单当前标签页选项的背景,默认为白色
+     **/
+    public void resetLayout(){
+        mBtnInformation.setBackgroundColor(getResources().getColor(R.color.white));
+        mBtnComment.setBackgroundColor(getResources().getColor(R.color.white));
+        mBtnHot.setBackgroundColor(getResources().getColor(R.color.white));
+        mBtnFavorites.setBackgroundColor(getResources().getColor(R.color.white));
+        mBtnTopic.setBackgroundColor(getResources().getColor(R.color.white));
     }
 
     @Override
@@ -74,26 +83,29 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         TabSelectionListener listener = (TabSelectionListener) getActivity();
         switch (v.getId()) {
             case R.id.btn_information:
-                //Toast.makeText(getActivity(), "全部资讯", Toast.LENGTH_SHORT).show();
-                listener.selection(1);  //选择资讯界面
+                listener.selection(1);  //选择全部资讯
+                resetLayout();  //初始化右滑菜单当前标签页选项的背景
+                mBtnInformation.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_comment:
-                //Toast.makeText(getActivity(), "精彩评论", Toast.LENGTH_SHORT).show();
                 listener.selection(2);  //选择精彩评论界面
+                resetLayout();  //初始化右滑菜单当前标签页选项的背景
+                mBtnComment.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_hot:
-                //Toast.makeText(getActivity(), "本月Top10", Toast.LENGTH_SHORT).show();
                 listener.selection(3);   //选择全本月Top10界面
+                resetLayout();  //初始化右滑菜单当前标签页选项的背景
+                mBtnHot.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_favorites:
-                //Toast.makeText(getActivity(), "收藏", Toast.LENGTH_SHORT).show();
                 listener.selection(4);   //选择收藏界面
+                resetLayout();  //初始化右滑菜单当前标签页选项的背景
+                mBtnFavorites.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_topic:
                 listener.selection(5);  //选择资讯主题界面
-                //Toast.makeText(getActivity(), "资讯主题", Toast.LENGTH_SHORT).show();
-                //Intent intent2 = new Intent(getActivity(), Information_ThemeActivity.class);
-                //startActivity(intent2);
+                resetLayout();  //初始化右滑菜单当前标签页选项的背景
+                mBtnTopic.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_web:
                 mBtnWebAction();
@@ -107,9 +119,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    /**
-     * “手机版网站”按钮的操作
-     */
+    /**“手机版网站”按钮的操作*/
     public void mBtnWebAction() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setMessage("是否调用浏览器打开 cnBeta.COM 手机版网站？");   //设置要显示的内容

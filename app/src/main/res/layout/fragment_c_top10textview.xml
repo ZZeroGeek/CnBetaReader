@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout
+    android:background="@color/gray"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_margin="10dp">
+
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <Button
+                android:text="1"
+                android:background="@color/blue"
+                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:id="@+id/ranking"/>
+
+            <TextView
+                android:id="@+id/news_title1"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:text="kahfkfksdfsdlflsdfk假身份的撒谎发生的发生贷款放款速度快放 "
+                android:layout_toRightOf="@+id/ranking"
+                android:layout_marginLeft="8dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/hot"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:text="热度:15456"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

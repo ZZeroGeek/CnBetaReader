@@ -1,6 +1,8 @@
 package org.zreo.cnbetareader.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -86,7 +88,36 @@ public class CommentAdapter extends BaseAdapter{
                                     Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
                                     break;
                                 case R.id.action3:
-                                    Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+                                    LayoutInflater inflater = LayoutInflater.from(_context);//getLayoutInflater();
+                                    View view = inflater.inflate(R.layout.response_dialog, null);
+
+                                    // builder.setTitle();
+                                    builder.setView(view);
+
+                                    builder.setPositiveButton("发送", new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            // TODO Auto-generated method stub
+
+                                        }
+                                    });
+
+                                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            // TODO Auto-generated method stub
+
+                                        }
+                                    });
+
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+
+                                    //Toast.makeText(_context, " 发送成功" , Toast.LENGTH_SHORT).show();
                                     break;
                             }
 

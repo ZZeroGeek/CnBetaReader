@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerVertical="true">
+    android:orientation="vertical"
+    android:layout_gravity="center">
     
     <TextView
         android:id="@+id/tiptv"
@@ -21,26 +22,28 @@
         android:layout_below="@id/tiptv"
         android:maxLines="3"
         android:inputType="text"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/sendbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:text="发送"
+                    android:textColor="@android:color/holo_blue_bright"/>
 
-    <Button
-        android:id="@+id/sendbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/itcomment"
-        android:layout_marginRight="15dp"
-        android:text="发送"
-        android:textColor="@android:color/holo_blue_bright"/>
+                <Button
+                    android:id="@+id/cancelbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/sendbtn"
+                    android:layout_alignTop="@id/sendbtn"
+                    android:layout_toLeftOf="@id/sendbtn"
+                    android:layout_marginRight="30dp"
+                    android:text="取消"
+                    android:textColor="@android:color/holo_blue_bright"/>
+        </RelativeLayout>
 
-    <Button
-        android:id="@+id/cancelbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/sendbtn"
-        android:layout_alignTop="@id/sendbtn"
-        android:layout_toLeftOf="@id/sendbtn"
-        android:layout_marginRight="30dp"
-        android:text="取消"
-        android:textColor="@android:color/holo_blue_bright"/>
-
-</RelativeLayout>
+</LinearLayout>

@@ -1,12 +1,15 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +68,35 @@ public class CommentAdapter extends BaseAdapter{
             holder.textView1 =(TextView)view.findViewById(R.id.support_against);
             holder.viewBtn=(ImageButton)view.findViewById(R.id.button1);
             holder.textView2 =(TextView)view.findViewById(R.id.comment_text);
+
+            View.OnClickListener listener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(_context, v);
+                    popup.getMenuInflater().inflate(R.menu.popup, popup.getMenu());
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.action1:
+                                    Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                    break;
+                                case R.id.action2:
+                                    Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                    break;
+                                case R.id.action3:
+                                    Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+
+                            return true;
+                        }
+                    });
+                    popup.show();
+                }
+            };
+            holder.viewBtn.setOnClickListener(listener);
             view.setTag(holder);
         }
         else{
@@ -81,15 +113,15 @@ public class CommentAdapter extends BaseAdapter{
         holder.textView.setText(commentItem.get(position).getUserName());
         holder.textView1.setText(commentItem.get(position).getsupportAgainst());
         holder.viewBtn.setImageResource(commentItem.get(position).getCommentMenu());
-        holder.viewBtn.setOnClickListener(new View.OnClickListener() {
+       /* holder.viewBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                    Toast.makeText(_context, "你点击了ImageButton", Toast.LENGTH_SHORT)
-                            .show();
+              // Toast.makeText(_context, "你点击了ImageButton", Toast.LENGTH_SHORT) .show();
+
             }
-        });
+        });*/
         return view;
     }
     public class ViewHolder{

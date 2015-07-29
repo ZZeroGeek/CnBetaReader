@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     /**
      *  设置当前Fragment界面标题
      */
+
     private void setToolBarTitle(int index){
         if(index == 1){
             mToolbar.setTitle("全部资讯");

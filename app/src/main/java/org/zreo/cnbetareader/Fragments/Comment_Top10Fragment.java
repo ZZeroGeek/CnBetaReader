@@ -32,7 +32,7 @@ public class Comment_Top10Fragment extends Fragment {
         return rootview;
     }
     private void initCommentTop10List(){
-        String title = "Windows 没有最好，只有这么好！";
+        String title = "I love you not for who you are, but for who I am before you ";
         String hot = "25452";
         String ranking ="i";
         for(int i = 1; i < 11; i++){

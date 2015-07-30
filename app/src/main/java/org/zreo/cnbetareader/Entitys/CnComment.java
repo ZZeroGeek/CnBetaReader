@@ -1,4 +1,4 @@
-package org.zreo.cnbetareader.Model;
+package org.zreo.cnbetareader.Entitys;
 
 
 public class CnComment {

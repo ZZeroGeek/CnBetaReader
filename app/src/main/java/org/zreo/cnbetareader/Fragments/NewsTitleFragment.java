@@ -21,9 +21,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.ResponseHandlerInterface;
+
 import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
-import org.zreo.cnbetareader.Model.News;
+import org.zreo.cnbetareader.Entitys.News;
+import org.zreo.cnbetareader.Entitys.NewsEntity;
+import org.zreo.cnbetareader.Entitys.NewsListEntity;
+import org.zreo.cnbetareader.Entitys.ResponseEntity;
+import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
+import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -164,21 +172,39 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     public void onRefresh() {
         // 这里做联网请求，然后handler处理完成之后的事情
         // 比如说swipeLayout.setRefreshing(false) 可以将进度条隐藏
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeLayout.setRefreshing(false);
-                if (freshNumber < 20) {
-                    freshData();  //加载刷新数据
-                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-                }
-                customToast();
-            }
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                swipeLayout.setRefreshing(false);
+//                if (freshNumber < 20) {
+//                    freshData();  //加载刷新数据
+//                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+//                }
+//                customToast();
+//            }
+//
+//
+//        }, 1000);
+        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all","1",response);
+    }
+private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+    @Override
+    protected void onFailure() {
 
-
-        }, 1000);
     }
 
+    @Override
+    protected void onSuccess(NewsListEntity result) {
+        List<NewsEntity> list = result.getList();
+        Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
+        swipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected void onError() {
+
+    }
+};
     /**
      * 自定义Toast，用于下拉刷新后的提示
      */

@@ -8,11 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -61,6 +63,16 @@ public class NewsActivity extends ActionBarActivity {
 
     }
 
+    //设置回退
+    //覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+            webView.goBack(); //goBack()表示返回WebView的上一页面
+            return true;
+        }
+        return false;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -89,6 +101,16 @@ public class NewsActivity extends ActionBarActivity {
             }
         });
         webView.loadUrl("http://m.cnbeta.com");
+        webView.setWebViewClient(new WebViewClient(){
+            public boolean shouldOverrideUrlloading(WebView webView,String url){
+                //webView.loadUrl(url);
+                return false;
+            }
+            public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
+                return super.shouldOverrideKeyEvent(view, event);
+            }
+
+        });
     }
 
     @Override
@@ -103,6 +125,7 @@ public class NewsActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.refresh:
                 Toast.makeText(getApplicationContext(), "刷新中", Toast.LENGTH_SHORT).show();
+                webView.reload();
                 return true;
             case R.id.qxsc:
                 Toast.makeText(getApplicationContext(), "已取消收藏", Toast.LENGTH_SHORT).show();

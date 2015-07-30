@@ -85,12 +85,12 @@ public class FileKit {
         long copySizes = 0;
         if (!destDir.exists()) {
             if (!destDir.mkdirs()) {
-                System.out.println("无法建立文件夹");
+                System.out.println("NofILE");
                 return -1;
             }
         }
         if (newFileName == null) {
-            System.out.println("文件名为null");
+            System.out.println("NOFILE");
             return -1;
         }
 

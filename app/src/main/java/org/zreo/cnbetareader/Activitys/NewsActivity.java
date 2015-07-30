@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -25,15 +26,50 @@ public class NewsActivity extends ActionBarActivity {
     private Toolbar mToolbar;
     ImageButton imageButton;
     WebView webView;
-    private String[] textsize1=new String[]{"大","中","小"};
+    WebSettings webSettings;
+    ButtonOnclick buttonOnclick;
+    private String[] textsize1 = new String[]{"大", "中", "小"};
+
+    private class ButtonOnclick implements DialogInterface.OnClickListener {
+        private int index;
+
+        public ButtonOnclick(int index) {
+            this.index = index;
+        }
+
+
+        public void onClick(DialogInterface dialogInterface, int whichButton) {
+            //whichButton表示单击的按钮索引，所有列表项的索引都是大于等于0的，然而按钮的索引都是<0的！
+            if (whichButton >= 0) {
+                index = whichButton; //单击的是列表项
+                // dialog.cancel();
+            } else {
+                if (whichButton == DialogInterface.BUTTON_POSITIVE) {
+                    if (index == 0) {
+                        webSettings.setTextSize(WebSettings.TextSize.LARGER);
+                    } else if (index == 1) {
+                        webSettings.setTextSize(WebSettings.TextSize.NORMAL);
+                    } else {
+                        webSettings.setTextSize(WebSettings.TextSize.SMALLER);
+                    }
+                } else if (whichButton == DialogInterface.BUTTON_NEGATIVE) {
+
+                }
+
+            }
+        }
+
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         ShareSDK.initSDK(this);
-        webView=(WebView)findViewById(R.id.wv);
-        imageButton=(ImageButton)findViewById(R.id.imageBtn);
+        buttonOnclick=new ButtonOnclick(1);
+        webView = (WebView) findViewById(R.id.wv);
+        webSettings = webView.getSettings();
+        imageButton = (ImageButton) findViewById(R.id.imageBtn);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitle("新闻详细页");   // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
@@ -73,26 +109,13 @@ public class NewsActivity extends ActionBarActivity {
                 return true;
             case R.id.font:
                 Toast.makeText(getApplicationContext(), "已改变字体", Toast.LENGTH_SHORT).show();
-                new AlertDialog.Builder(this).setTitle("请选择字体的大小").setSingleChoiceItems(textsize1, 1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getBaseContext(),"你选中了"+textsize1[which],Toast.LENGTH_SHORT).show();
-                    }
-                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getBaseContext(),"确定",Toast.LENGTH_SHORT).show();
-                    }
-                }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getBaseContext(),"取消",Toast.LENGTH_SHORT).show();
-                    }
-                }).create().show();
+                new AlertDialog.Builder(this).setTitle("请选择字体的大小")
+                        .setSingleChoiceItems(textsize1, 1,buttonOnclick).
+                                setPositiveButton("确定",buttonOnclick).setNegativeButton("取消",buttonOnclick).create().show();
                 return true;
             case R.id.browser:
                 Toast.makeText(getApplicationContext(), "已打开浏览器", Toast.LENGTH_SHORT).show();
-                Intent intent= new Intent();
+                Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse("http://m.cnbeta.com");
                 intent.setData(content_url);
@@ -135,5 +158,6 @@ public class NewsActivity extends ActionBarActivity {
 // 启动分享GUI
         oks.show(this);
     }
+
 
 }

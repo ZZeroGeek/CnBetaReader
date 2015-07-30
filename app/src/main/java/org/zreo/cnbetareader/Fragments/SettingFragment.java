@@ -29,7 +29,7 @@ public class SettingFragment extends PreferenceFragment {
             public boolean onPreferenceClick(final Preference preference) {
                 if (!running) {
                     running = true;
-                    Toast.makeText(getActivity(),"正在缓存清理", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"姝ｅ湪娓呴櫎缂撳瓨", Toast.LENGTH_SHORT).show();
                     new AsyncTask<Object, Object, Object>() {
                         @Override
                         protected Object doInBackground(Object[] params) {
@@ -38,13 +38,13 @@ public class SettingFragment extends PreferenceFragment {
                                 FileKit.deleteDir(getActivity().getExternalCacheDir());
                             } catch (Exception ignored) {
                             }
-                            FileKit.deleteDir(new File(getActivity().getCacheDir().getAbsolutePath()+"/../app_webview" ));
+                            FileKit.deleteDir(new File(getActivity().getCacheDir().getAbsolutePath()));
                             return null;
                         }
 
                         @Override
                         protected void onPostExecute(Object o) {
-                            Toast.makeText(getActivity(),"缓存清理完成、",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"娓呴櫎瀹屾垚",Toast.LENGTH_SHORT).show();
                             preference.setSummary(getFileSize());
                             running = false;
                         }

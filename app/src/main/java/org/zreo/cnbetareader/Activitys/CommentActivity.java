@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
-import org.zreo.cnbetareader.Model.CnComment;
+import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.Model.QuickReturnListView;
 import org.zreo.cnbetareader.R;
 

@@ -21,9 +21,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.ResponseHandlerInterface;
+
 import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
-import org.zreo.cnbetareader.Model.News;
+import org.zreo.cnbetareader.Entitys.News;
+import org.zreo.cnbetareader.Entitys.NewsEntity;
+import org.zreo.cnbetareader.Entitys.NewsListEntity;
+import org.zreo.cnbetareader.Entitys.ResponseEntity;
+import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
+import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -77,8 +85,10 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(MainActivity.this, "你点击了 " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), NewsActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -145,26 +155,45 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
     @Override
     public void onRefresh() {
+
         // 这里做联网请求，然后handler处理完成之后的事情
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (totalNumber < 30) {
-                    addData();  //加载刷新数据
-                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-                    toastTextView.setText("新增" + addNumber+ "条资讯");
-                } else {
-                    toastTextView.setText("没有更多内容了");
-                    if(toastTextView.getText().toString().equals("没有更多内容了")) {
-                        toastTextView.setText("刚刚刷新过，等下再试吧");
-                    }
-                }
-                swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
-                toast.show();
-            }
-        }, 1000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (totalNumber < 30) {
+//                    addData();  //加载刷新数据
+//                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+//                    toastTextView.setText("新增" + addNumber+ "条资讯");
+//                } else {
+//                    toastTextView.setText("没有更多内容了");
+//                    if(toastTextView.getText().toString().equals("没有更多内容了")) {
+//                        toastTextView.setText("刚刚刷新过，等下再试吧");
+//                    }
+//                }
+//                swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
+//                toast.show();
+//            }
+//        }, 1000);
+        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all","1",response);
+    }
+private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+    @Override
+    protected void onFailure() {
+
     }
 
+    @Override
+    protected void onSuccess(NewsListEntity result) {
+        List<NewsEntity> list = result.getList();
+        Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
+        swipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected void onError() {
+
+    }
+};
     /**
      * 自定义Toast，用于数据更新的提示
      */

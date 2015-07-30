@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import org.zreo.cnbetareader.Fragments.Comment_Top10Fragment;
 import org.zreo.cnbetareader.Fragments.Comment_hot_Fragment;
@@ -143,6 +145,21 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击后关闭后滑菜单
         }
+    }
+
+    private long exitTime = 0;
+    /**实现再按一次后退键退出应用程序*/
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(this, "再按一次后退键退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
 

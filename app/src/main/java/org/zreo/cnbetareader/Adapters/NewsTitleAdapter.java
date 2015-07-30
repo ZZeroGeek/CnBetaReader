@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.zreo.cnbetareader.Model.News;
+import org.zreo.cnbetareader.Entitys.News;
 import org.zreo.cnbetareader.R;
 
 import java.util.List;

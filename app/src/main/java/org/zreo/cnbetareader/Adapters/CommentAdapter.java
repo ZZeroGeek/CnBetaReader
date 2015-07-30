@@ -15,8 +15,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.zreo.cnbetareader.Model.CnComment;
-import org.zreo.cnbetareader.Model.News;
+import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.R;
 
 import java.util.List;
@@ -67,9 +66,10 @@ public class CommentAdapter extends BaseAdapter{
             holder = new ViewHolder();
             holder.imageView=(ImageView)view.findViewById(R.id.imageView1);
             holder.textView=(TextView)view.findViewById(R.id.user_name);
-            holder.textView1 =(TextView)view.findViewById(R.id.support_against);
+            holder.textView1 =(TextView)view.findViewById(R.id.support);
             holder.viewBtn=(ImageButton)view.findViewById(R.id.button1);
             holder.textView2 =(TextView)view.findViewById(R.id.comment_text);
+            holder.textView3 = (TextView)view.findViewById(R.id.against);
 
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
@@ -142,8 +142,9 @@ public class CommentAdapter extends BaseAdapter{
         holder.imageView.setImageResource(commentItem.get(position).getImageId());
         holder.textView2.setText(commentItem.get(position).getTestComment());
         holder.textView.setText(commentItem.get(position).getUserName());
-        holder.textView1.setText(commentItem.get(position).getsupportAgainst());
+        holder.textView1.setText(commentItem.get(position).getSupport());
         holder.viewBtn.setImageResource(commentItem.get(position).getCommentMenu());
+        holder.textView3.setText(commentItem.get(position).getAgainst());
        /* holder.viewBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -161,6 +162,7 @@ public class CommentAdapter extends BaseAdapter{
         public TextView textView;
         public ImageButton viewBtn;
         public TextView textView2;
+        public TextView textView3;
     }
 
 }

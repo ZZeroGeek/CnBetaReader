@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 public class PrefKit {
 
     private static SharedPreferences getSharedPreferences(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+        return PreferenceManager.getDefaultSharedPreferences(context); //PreferenceManager.getDefaultSharedPreferences(Context)是一个静态方法，获取到一个全局的Preference对象
     }
 
     public static void writeBoolean(Context context, String key, boolean value) {

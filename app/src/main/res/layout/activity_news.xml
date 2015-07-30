@@ -2,9 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <include layout="@layout/toolbar"></include>
-
-
+   <LinearLayout
+       android:id="@+id/ll"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <include layout="@layout/toolbar"></include>
+   </LinearLayout>
+    <WebView
+        android:id="@+id/wv"
+        android:layout_below="@+id/ll"
+        android:layout_alignLeft="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></WebView>
+    
     <ImageButton
         android:id="@+id/imageBtn"
         android:layout_width="90dp"

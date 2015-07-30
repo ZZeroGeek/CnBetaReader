@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/gray"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_margin="10dp" android:id="@+id/relativeLayout">
+
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/image"
+                    android:src="@drawable/circularbtn"
+                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    />
+
+                <TextView
+                    android:id="@+id/content_text"
+                    android:background="@color/yellow"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:text="kahfkfksdfsdlflsdfk假身份的撒谎发生的发生贷款放款速度快放 "
+                    android:layout_toRightOf="@+id/image"
+                    android:layout_marginLeft="48dp"/>
+
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/firstword_text"
+                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:text="k"
+                    android:textColor="@color/white"
+                    android:textSize="30dp"
+                    android:layout_gravity="left|center_vertical" />
+            </FrameLayout>
+
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/comment_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:text="匿名网友 评论于 kah的速度"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignLeft="@+id/relativeLayout"
+        android:layout_alignStart="@+id/relativeLayout"
+        android:layout_alignRight="@+id/relativeLayout"
+        android:layout_alignEnd="@+id/relativeLayout">
+
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <Button
+                android:text="进"
+                android:textColor="@color/black"
+                android:background="@color/lightblue"
+                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:id="@+id/btn1"/>
+            <Button
+                android:background="@color/yellow"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:text="进口将阿婆，你是谁啊，那么可爱。就是你。就是那么12312312312了哎的爱的发的！ "
+                android:layout_toRightOf="@+id/btn1"
+                android:layout_marginLeft="8dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:text="匿名网友 评论于 啊婆的故事"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

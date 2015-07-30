@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 
+import org.zreo.cnbetareader.Fragments.Comment_Top10Fragment;
+import org.zreo.cnbetareader.Fragments.Comment_hot_Fragment;
 import org.zreo.cnbetareader.Fragments.DrawerLayoutFragment;
 import org.zreo.cnbetareader.Fragments.NewsTitleFragment;
 import org.zreo.cnbetareader.R;
@@ -21,9 +23,10 @@ import org.zreo.cnbetareader.R;
 public class MainActivity extends AppCompatActivity implements DrawerLayoutFragment.TabSelectionListener{
 
     private FragmentManager fragmentManager;  //用于对Fragment进行管理
-    private NewsTitleFragment mNewsTitleLayout; //新闻标题布局
+    private NewsTitleFragment mNewsTitleFragment; //新闻标题界面
+    private Comment_hot_Fragment mCommentHotFragment; //精彩评论界面
+    private Comment_Top10Fragment mCommentTop10Fragment; //本月Top10界面
     private int currentIndex = 1;  //当前标签页, 默认显示全部资讯页面，即为1
-
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     /**
      *  设置当前Fragment界面标题
      */
+
     private void setToolBarTitle(int index){
         if(index == 1){
             mToolbar.setTitle("全部资讯");
@@ -76,26 +80,43 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         hideFragments(transaction);  // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
         switch (index) {
             case 1:    //全部资讯界面
-                if (mNewsTitleLayout == null) {
-                    // 如果NewsTitleFragment为空，则创建一个并添加到界面上
-                    mNewsTitleLayout = new NewsTitleFragment();
-                    transaction.add(R.id.fragment_content, mNewsTitleLayout);
+                if (mNewsTitleFragment == null) {
+                    // 如果mNewsTitleFragment为空，则创建一个并添加到界面上
+                    mNewsTitleFragment = new NewsTitleFragment();
+                    transaction.add(R.id.fragment_content, mNewsTitleFragment);
                 } else{
-                    // 如果MessageFragment不为空，则直接将它显示出来
-                    transaction.show(mNewsTitleLayout);
+                    // 如果mNewsTitleFragment不为空，则直接将它显示出来
+                    transaction.show(mNewsTitleFragment);
                 }
                 break;
 
             case 2:   //精彩评论界面
+                if (mCommentHotFragment == null) {
+                    // 如果mCommentHotFragment为空，则创建一个并添加到界面上
+                    mCommentHotFragment = new Comment_hot_Fragment();
+                    transaction.add(R.id.fragment_content, mCommentHotFragment);
+                } else{
+                    // 如果mCommentHotFragment不为空，则直接将它显示出来
+                    transaction.show(mCommentHotFragment);
+                }
                 break;
 
-            case 3:  //全本月Top10界面
+            case 3:  //本月Top10界面
+                if (mCommentTop10Fragment == null) {
+                    // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
+                    mCommentTop10Fragment = new Comment_Top10Fragment();
+                    transaction.add(R.id.fragment_content, mCommentTop10Fragment);
+                } else{
+                    // 如果mCommentTop10Fragment不为空，则直接将它显示出来
+                    transaction.show(mCommentTop10Fragment);
+                }
                 break;
-
             case 4:   //收藏界面
                 break;
 
             case 5:   //资讯主题界面
+                break;
+            default:
                 break;
         }
         transaction.commit();
@@ -103,8 +124,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
 
     /**将所有的Fragment都置为隐藏状态*/
     private void hideFragments(FragmentTransaction transaction){
-        if (mNewsTitleLayout != null){
-            transaction.hide(mNewsTitleLayout);
+        if (mNewsTitleFragment != null){
+            transaction.hide(mNewsTitleFragment);
+        }
+        if (mCommentTop10Fragment != null){
+            transaction.hide(mCommentTop10Fragment);
+        }
+        if (mCommentHotFragment != null){
+            transaction.hide(mCommentHotFragment);
         }
     }
 

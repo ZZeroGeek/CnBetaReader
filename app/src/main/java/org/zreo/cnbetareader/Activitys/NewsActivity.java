@@ -62,16 +62,7 @@ public class NewsActivity extends ActionBarActivity {
         }
 
     }
-
-    //设置回退
-    //覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-            webView.goBack(); //goBack()表示返回WebView的上一页面
-            return true;
-        }
-        return false;
-    }
+    
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -101,15 +92,32 @@ public class NewsActivity extends ActionBarActivity {
             }
         });
         webView.loadUrl("http://m.cnbeta.com");
-        webView.setWebViewClient(new WebViewClient(){
-            public boolean shouldOverrideUrlloading(WebView webView,String url){
-                //webView.loadUrl(url);
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlloading(WebView webView, String url) {
+                webView.loadUrl(url);
                 return false;
             }
+
             public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
                 return super.shouldOverrideKeyEvent(view, event);
             }
 
+        });
+        webView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {  //表示按返回键时的操作
+
+
+                        webView.goBack();   //后退
+
+                        //webview.goForward();//前进
+                        return true;    //已处理
+                    }
+                }
+                return false;
+            }
         });
     }
 

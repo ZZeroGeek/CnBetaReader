@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.graphics.Color;
 
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
@@ -26,7 +25,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import org.zreo.cnbetareader.Model.News;
 import org.zreo.cnbetareader.R;
 
 /**

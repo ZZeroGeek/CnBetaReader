@@ -1,4 +1,4 @@
-package org.zreo.cnbetareader.Model;
+package org.zreo.cnbetareader.Entitys;
 
 /**
  * Created by guang on 2015/7/24.

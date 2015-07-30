@@ -110,7 +110,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 mBtnWebAction();
                 break;
             case R.id.btn_setting:
-
+                listener.selection(7);
                 break;
             default:
                 break;

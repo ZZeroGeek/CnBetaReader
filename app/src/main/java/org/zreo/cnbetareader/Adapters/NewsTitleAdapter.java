@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.zreo.cnbetareader.Entitys.News;
+import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.R;
 
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.List;
 public class NewsTitleAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
     private int resourceId;
-    private List<News> listItem;
+    private List<NewsEntity> listItem;
     /**构造函数*/
-    public NewsTitleAdapter(Context context, int textViewResourcedId, List<News> objects) {
+    public NewsTitleAdapter(Context context, int textViewResourcedId, List<NewsEntity> objects) {
         super();
         resourceId = textViewResourcedId;
         listItem = objects;
@@ -63,12 +63,12 @@ public class NewsTitleAdapter extends BaseAdapter{
             view = convertView;
             viewHolder = (ViewHolder) view.getTag(); //重新获取viewHolder
         }
-        viewHolder.newsTitle.setText(listItem.get(position).getNewsTitle());
-        viewHolder.newsContent.setText(listItem.get(position).getNewsContent());
-        viewHolder.publishTime.setText(listItem.get(position).getPublishTime());
-        viewHolder.imageId.setImageResource(listItem.get(position).getImageId());
-        viewHolder.commentNumber.setText(String.valueOf(listItem.get(position).getCommentNumber()));
-        viewHolder.readerNumber.setText(String.valueOf(listItem.get(position).getReaderNumber()));
+        viewHolder.newsTitle.setText(listItem.get(position).getTitle());
+        viewHolder.newsContent.setText(listItem.get(position).getHometext());
+        viewHolder.publishTime.setText(listItem.get(position).getInputtime());
+        //viewHolder.imageId.setImageResource(listItem.get(position).getImageId());
+        viewHolder.commentNumber.setText(String.valueOf(listItem.get(position).getComments()));
+        viewHolder.readerNumber.setText(String.valueOf(listItem.get(position).getCounter()));
         return view;
     }
     class ViewHolder {

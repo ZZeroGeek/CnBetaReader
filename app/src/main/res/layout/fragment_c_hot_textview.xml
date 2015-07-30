@@ -1,115 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/gray"
+<LinearLayout android:background="@color/gray"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+
+    <LinearLayout
         android:background="@color/white"
-        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_margin="10dp" android:id="@+id/relativeLayout">
+        android:padding="8dp"
+        android:layout_margin="10dp">
 
 
         <RelativeLayout
-            android:orientation="horizontal"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:id="@+id/layout">
+
             <FrameLayout
+                android:layout_alignParentTop="true"
+                android:id="@+id/Feame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/image"
+                    android:id="@+id/img"
                     android:src="@drawable/circularbtn"
                     android:layout_height="50dp"
-                    android:layout_width="50dp"
-                    />
+                    android:layout_width="50dp" />
 
                 <TextView
-                    android:id="@+id/content_text"
-                    android:background="@color/yellow"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="@color/black"
-                    android:text="kahfkfksdfsdlflsdfk假身份的撒谎发生的发生贷款放款速度快放 "
-                    android:layout_toRightOf="@+id/image"
-                    android:layout_marginLeft="48dp"/>
-
-                <TextView
-                    android:layout_marginTop="4dp"
-                    android:layout_marginLeft="16dp"
-                    android:id="@+id/firstword_text"
-                    android:layout_height="50dp"
-                    android:layout_width="50dp"
-                    android:text="k"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/firstWord_text"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
+                    android:text="上"
+                    android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="30dp"
+                    android:textSize="25dp"
                     android:layout_gravity="left|center_vertical" />
+
             </FrameLayout>
 
-        </RelativeLayout>
-        <TextView
-            android:id="@+id/comment_text"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="匿名网友 评论于 kah的速度"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentBottom="true"/>
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:background="@color/white"
-        android:layout_height="80dp"
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_alignLeft="@+id/relativeLayout"
-        android:layout_alignStart="@+id/relativeLayout"
-        android:layout_alignRight="@+id/relativeLayout"
-        android:layout_alignEnd="@+id/relativeLayout">
-
-
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-
-            <Button
-                android:text="进"
-                android:textColor="@color/black"
-                android:background="@color/lightblue"
-                android:layout_height="40dp"
-                android:layout_width="40dp"
-                android:id="@+id/btn1"/>
-            <Button
+            <TextView
+                android:layout_alignParentTop="true"
                 android:background="@color/yellow"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:text="进口将阿婆，你是谁啊，那么可爱。就是你。就是那么12312312312了哎的爱的发的！ "
-                android:layout_toRightOf="@+id/btn1"
-                android:layout_marginLeft="8dp"/>
+                android:layout_width="match_parent"
+                android:id="@+id/content_text"
+                android:layout_alignBottom="@+id/Feame"
+                android:layout_alignTop="@+id/Feame"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:layout_toRightOf="@+id/Feame"
+                android:layout_marginLeft="1dp"
+                android:text="上大大师傅了门djfkldjf地方就考虑到口死定放假了三等奖飞洛實打實大大大大杉矶的福建省地方叫对方将冯绍峰"/>
 
         </RelativeLayout>
 
         <TextView
+            android:textColor="@color/black"
+            android:id="@+id/comment_text"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="匿名网友 评论于 啊婆的故事"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentBottom="true"/>
+            android:text="匿名网友 评论于 kah的速度0000000000000000000000"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
 
-    </RelativeLayout>
-
-</RelativeLayout>
-
+</LinearLayout>

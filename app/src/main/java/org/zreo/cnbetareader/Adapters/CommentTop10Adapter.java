@@ -22,7 +22,7 @@ public class CommentTop10Adapter extends BaseAdapter {
     private List<CnCommentTop10> CommentTop10Item;
 
 
-    public CommentTop10Adapter(Context mContext, int textViewResourceId, List<CnCommentTop10> objects) {
+    public CommentTop10Adapter(Context mContext, int textViewResourceId, List<CnCommentTop10>objects) {
         super();
         context=mContext;
         resourceId = textViewResourceId;
@@ -46,7 +46,7 @@ public class CommentTop10Adapter extends BaseAdapter {
         return 0;
     }
     @Override
-    public View getView(int possion,View convertView,ViewGroup parent ){
+    public View getView(int position,View convertView,ViewGroup parent ){
         View view;
         final ViewHolder holder;
         if (convertView==null){
@@ -61,17 +61,17 @@ public class CommentTop10Adapter extends BaseAdapter {
             view=convertView;
             holder=(ViewHolder)view.getTag();
         }
-        holder.newsTitle.setText(CommentTop10Item.get(possion).getNewsTitle());
-        holder.hot.setText(CommentTop10Item.get(possion).getHot());
-        holder.ranking.setText(CommentTop10Item.get(possion).getRanking());
+        holder.newsTitle.setText(CommentTop10Item.get(position).getNewsTitle());
+        holder.hot.setText(CommentTop10Item.get(position).getHot());
+        holder.ranking.setText(CommentTop10Item.get(position).getRanking());
         return view;
     }
 
-    class ViewHolder{
+   public class ViewHolder{
 
-        private TextView newsTitle;
-        private TextView ranking ;
-        private TextView hot;
+       public TextView newsTitle;
+       public TextView ranking ;
+       public TextView hot;
 
     }
 }

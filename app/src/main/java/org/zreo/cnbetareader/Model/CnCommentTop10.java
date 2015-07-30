@@ -13,33 +13,11 @@ public class CnCommentTop10 {
     public CnCommentTop10(String newsTitle, String hot, String ranking){
         this.hot = hot;
         this.newsTitle =newsTitle;
-        this.ranking = ranking;
-    }
-
-    public void setHot(String hot) {
-        this.hot = hot;
-    }
-
-    public void setNewsTitle(String newsTitle) {
-        this.newsTitle = newsTitle;
-    }
-
+        this.ranking = ranking;}
+    public void setHot(String hot){this.hot = hot;}
+    public void setNewsTitle(String newsTitle) {this.newsTitle = newsTitle;}
     public void setRanking(String ranking){this.ranking = ranking;}
-    public String getNewsTitle(){
-        return  newsTitle;
-    }
-    public String getHot(){
-        return hot;}
-    public int getCount() {
-        return 10;
-    }
-    public long getItemId(int arg0) {
-        return 0;
-    }
-    public Object getItem(int position) {
-        return null;
-    }
-
-    public String getRanking() { return ranking;
-    }
+    public String getNewsTitle(){return  newsTitle;}
+    public String getHot(){return hot;}
+    public String getRanking() { return ranking;}
 }

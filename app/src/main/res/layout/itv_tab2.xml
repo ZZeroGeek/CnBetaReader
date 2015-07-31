@@ -74,7 +74,6 @@
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:text="可关注"
-                        android:layout_toRightOf="@+id/itv_context1"
                         android:layout_marginRight="0dp"
                         android:layout_gravity="right|center"
                         />

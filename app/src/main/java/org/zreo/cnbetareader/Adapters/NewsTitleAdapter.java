@@ -75,7 +75,10 @@ public class NewsTitleAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) view.getTag();  //重新获取viewHolder
         }
         viewHolder.newsTitle.setText(listItem.get(position).getTitle());
-        viewHolder.newsContent.setText(listItem.get(position).getHometext());
+        //格式化输出新闻简介
+        String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
+                                                            .replace("</p>", "").replace("</strong>", "");
+        viewHolder.newsContent.setText(homeText);
         viewHolder.publishTime.setText(listItem.get(position).getInputtime());
         //viewHolder.imageUrl = listItem.get(position).getThumb();  //获取图片地址
         imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);

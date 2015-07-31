@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:id="@+id/image"
+                        android:id="@+id/image1"
                         android:src="@drawable/circularbtn"
                         android:layout_height="50dp"
                         android:layout_width="50dp"
@@ -58,7 +58,7 @@
                     <TextView
                         android:layout_marginTop="12dp"
                         android:layout_marginLeft="16dp"
-                        android:id="@+id/firstword_text"
+                        android:id="@+id/firstword_text1"
                         android:layout_height="50dp"
                         android:layout_width="50dp"
                         android:text="A"

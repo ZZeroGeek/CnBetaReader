@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <TextView
+        android:id="@+id/tv_type1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="类型为："
@@ -32,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:id="@+id/image"
+                        android:id="@+id/image2"
                         android:src="@drawable/circularbtn"
                         android:layout_marginTop="8dp"
                         android:layout_height="50dp"
@@ -54,9 +55,10 @@
                         />
 
                     <TextView
+
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="16dp"
-                        android:id="@+id/firstword_text"
+                        android:id="@+id/firstword_text2"
                         android:layout_height="50dp"
                         android:layout_width="50dp"
                         android:text="A"

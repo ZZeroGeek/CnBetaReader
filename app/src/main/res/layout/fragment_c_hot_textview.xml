@@ -28,11 +28,12 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/img"
-                    android:src="@drawable/circularbtn"
-                    android:layout_height="50dp"
-                    android:layout_width="50dp" />
+                    android:src="@drawable/circularbtn1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
 
                 <TextView
+                    android:layout_marginLeft="10dp"
                     android:background="@android:color/transparent"
                     android:id="@+id/firstWord_text"
                     android:layout_height="45dp"

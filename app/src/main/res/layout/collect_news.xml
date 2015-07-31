@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 >
                 <FrameLayout
+                    android:id="@+id/fragment_collect1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
@@ -67,9 +68,9 @@
 
                         android:layout_gravity="left|center_vertical"
                         />
-
                 </FrameLayout>
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
+
 </LinearLayout>

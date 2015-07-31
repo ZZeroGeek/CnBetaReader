@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
     <include layout="@layout/toolbar"></include>
     <TextView
@@ -18,37 +19,32 @@
         android:layout_height="wrap_content"
         android:maxLines="3" />
 
-        <RelativeLayout
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
                 <ImageView
                     android:id="@+id/codeImage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30sp"
-                    android:layout_marginLeft="40sp"/>
+                    android:layout_weight="1"/>
 
                  <EditText
                      android:id="@+id/mEditPass"
-                     android:layout_alignBottom="@+id/codeImage"
-                     android:layout_toRightOf="@+id/codeImage"
-                    android:layout_marginLeft="25sp"
-                    android:layout_marginTop="30sp"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                     android:textSize="21sp"
+                     android:layout_weight="2"
                     android:hint="输入左侧验证码"/>
 
             <Button
                 android:id="@+id/refresh"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
-                android:background="@android:color/holo_blue_dark"
-                android:layout_alignBottom="@+id/mEditPass"
-                android:text="刷新验证码"/>
-        </RelativeLayout>
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:text="刷新"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/send_btn"

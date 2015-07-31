@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.ResponseHandlerInterface;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;

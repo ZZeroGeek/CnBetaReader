@@ -45,7 +45,7 @@ public class Information_theme_Adapter extends BaseAdapter {
             LayoutInflater inflater =LayoutInflater.from(context);
             iview = inflater.inflate(resourceId,null);
             holder = new ViewHolder();
-            holder.firstword=(TextView)iview.findViewById(R.id.firstword_text);
+            holder.firstword=(TextView)iview.findViewById(R.id.firstword_text1);
             holder.content =(TextView)iview.findViewById(R.id.content_text);
             holder.themetype=(TextView)iview.findViewById(R.id.itv_type);
             iview.setTag(holder);

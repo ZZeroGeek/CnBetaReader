@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import org.zreo.cnbetareader.Fragments.ArrayFragment;
 import org.zreo.cnbetareader.Fragments.Comment_Top10Fragment;
 import org.zreo.cnbetareader.Fragments.Comment_hot_Fragment;
 import org.zreo.cnbetareader.Fragments.DrawerLayoutFragment;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private Comment_hot_Fragment mCommentHotFragment; //精彩评论界面
     private Comment_Top10Fragment mCommentTop10Fragment; //本月Top10界面
     private SettingFragment mSettingFragment;   //设置界面
+    private ArrayFragment mArrayFragment; //资讯主题界面
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -115,7 +117,15 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
                 break;
             case 4:   //收藏界面
                 break;
-            case 5:   //资讯主题界面
+            case 5:   //资讯主题界面 mArrayFragment
+                if (mArrayFragment == null) {
+                    // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
+                    mArrayFragment = new ArrayFragment();
+                    transaction.add(R.id.fragment_content, mArrayFragment);
+                } else{
+                    // 如果mCommentTop10Fragment不为空，则直接将它显示出来
+                    transaction.show(mArrayFragment);
+                }
                 break;
             case 7:   //设置界面
                 if (mSettingFragment == null) {
@@ -143,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         }
         if (mCommentHotFragment != null){
             transaction.hide(mCommentHotFragment);
+        }
+        if (mArrayFragment != null){
+            transaction.hide(mArrayFragment);
         }
         if (mSettingFragment != null){
             transaction.hide(mSettingFragment);

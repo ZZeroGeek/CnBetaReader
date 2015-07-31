@@ -123,9 +123,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
                     mArrayFragment = new ArrayFragment();
                     transaction.add(R.id.fragment_content, mArrayFragment);
                 } else{
-                    // 如果mCommentTop10Fragment不为空，则直接将它显示出来
+                    //如果mCommentTop10Fragment不为空，则直接将它显示出来
                     transaction.show(mArrayFragment);
                 }
+
                 break;
             case 7:   //设置界面
                 if (mSettingFragment == null) {

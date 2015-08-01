@@ -42,15 +42,15 @@
 
                     <TextView
                         android:id="@+id/itv_context2"
-                        android:background="@color/yellow"
+
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:textSize="18dp"
                         android:textColor="@color/black"
-                        android:text=" asdfghkj/lzmncbnwiwo"
+                        android:text=" asdfghkj/lzmnc"
                         android:layout_toRightOf="@+id/image"
                         android:layout_marginLeft="60dp"
-                        android:layout_marginRight="76dp"
+                        android:layout_marginRight="70dp"
                         android:layout_gravity="center"
                         />
 
@@ -67,17 +67,19 @@
                         android:layout_gravity="left|center_vertical"
                         />
 
-                    <Button
-                        android:id="@+id/ibtn_theme"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        android:text="可关注"
-                        android:layout_marginRight="0dp"
-                        android:layout_gravity="right|center"
-                        />
                 </FrameLayout>
+
+                <Button
+                    android:id="@+id/ibtn_theme"
+                    android:layout_height="37dp"
+                    android:layout_width="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:text="关注"
+                    android:layout_gravity="right|center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

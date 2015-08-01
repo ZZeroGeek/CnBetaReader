@@ -3,18 +3,15 @@ package org.zreo.cnbetareader.Fragments;
 
 
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.zreo.cnbetareader.Adapters.Theme_viewpagerAdapter;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ import java.util.ArrayList;
  */
 public class ArrayFragment extends Fragment implements View.OnClickListener{
     private ViewPager viewpager;
-    private Theme_viewpagerAdapter iAdapter;
+    private PagerAdapter iAdapter;
     private ArrayList<View> views;
     private View view1;
     private View view2;
@@ -35,13 +32,14 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
     View view;
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-
         view=inflater.inflate(R.layout.information_theme,container,false);
         initView();//初始化
-        viewpager = (ViewPager)view. findViewById(R.id.viewpager);
+
+        viewpager = (ViewPager)view.findViewById(R.id.viewpager);
         viewpager.setCurrentItem(0);//默认页面
         itv_Tab1.setTextColor(Color.WHITE);
         viewpager.setAdapter(iAdapter);
+
         viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -67,64 +65,57 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
             }
         });
         return view;
-
     }
     //初始化文本颜色
     public void initColor() {
-        itv_Tab1.setTextColor(Color.WHITE);
+        itv_Tab1.setTextColor(Color.DKGRAY);
         itv_Tab2.setTextColor(Color.DKGRAY);
     }
 
-
-
     //初始主要显示的内容，并且加入组件中
-    public void initView(){
-       itv_Tab1=(TextView)view.findViewById(R.id.itv_Tab1);
-       itv_Tab2=(TextView)view.findViewById(R.id.itv_Tab2);
+    public void initView() {
+        itv_Tab1 = (TextView) view.findViewById(R.id.itv_Tab1);
+        itv_Tab2 = (TextView) view.findViewById(R.id.itv_Tab2);
 
         itv_Tab1.setOnClickListener(this);
         itv_Tab2.setOnClickListener(this);
 
         views = new ArrayList<View>();
-        LayoutInflater f = getLayoutInflater();
-        view1 = f.inflate(R.layout.itv_tab1,null);
+        LayoutInflater f = getActivity().getLayoutInflater();
+        view1 = f.inflate(R.layout.itv_tab1, null);
         view2 = f.inflate(R.layout.itv_tab2, null);
 
         views.add(view1);
         views.add(view2);
 
-        FragmentManager fm = getFragmentManager();
-
-
-        iAdapter =new Theme_viewpagerAdapter(fm)
+        iAdapter = new PagerAdapter()
         {
             @Override
-            public int getCount() {
-                return super.getCount();
+            public void destroyItem(ViewGroup container, int position, Object object)
+            {
+                container.removeView(views.get(position));
             }
 
             @Override
-            public Object instantiateItem(ViewGroup arg0, int arg1) {
-                return super.instantiateItem(arg0, arg1);
+            public Object instantiateItem(ViewGroup container, int position)
+            {
+                View view = views.get(position);
+                container.addView(view);
+                return view;
             }
 
             @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                super.destroyItem(container, position, object);
+            public boolean isViewFromObject(View arg0, Object arg1)
+            {
+                return arg0 == arg1;
             }
 
             @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return super.isViewFromObject(view, object);
+            public int getCount()
+            {
+                return views.size();
             }
         };
-
-
-
-    }
-
-    private LayoutInflater getLayoutInflater() {
-        return null;
     }
 
     public void onClick(View v) {

@@ -2,9 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical">
-    <ListView
-        android:id="@+id/collectnews_listview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:layout_weight="1">
+        <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/collectnews_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/collectnews_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- - The End - -"
+        android:textSize="23sp"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>

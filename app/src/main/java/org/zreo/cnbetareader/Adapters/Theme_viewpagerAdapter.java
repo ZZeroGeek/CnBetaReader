@@ -2,9 +2,9 @@ package org.zreo.cnbetareader.Adapters;
 
 
 
-import android.app.FragmentManager;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.View;
 import android.view.ViewGroup;
 
 
@@ -20,13 +20,13 @@ public  class Theme_viewpagerAdapter extends FragmentStatePagerAdapter {
 
   static final int NUN_ITEM=2;
 
-    public Theme_viewpagerAdapter(android.support.v4.app.FragmentManager fm) {
+    public Theme_viewpagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
 
     @Override
-    public Fragment getItem(int i) {
+    public android.support.v4.app.Fragment getItem(int i) {
         return null;
     }
 
@@ -43,5 +43,10 @@ public  class Theme_viewpagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return super.isViewFromObject(view, object);
     }
 }

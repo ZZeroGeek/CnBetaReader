@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
-
+    public boolean changeTheme;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,6 +172,15 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(!changeTheme) {
+            this.finish();
+            System.exit(0);
+        }
     }
 }
 

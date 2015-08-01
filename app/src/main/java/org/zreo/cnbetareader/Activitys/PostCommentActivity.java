@@ -25,7 +25,6 @@ public class PostCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_comment);
         send = (Button)findViewById(R.id.send_btn);
-
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

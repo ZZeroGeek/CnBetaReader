@@ -49,7 +49,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
     View view;  //当前布局
     private ListView lv;
-    private List<NewsEntity> listItems;   /**保存新闻信息*/
+    private List<NewsEntity> listItems = new ArrayList<NewsEntity>();   /**保存新闻信息*/
     NewsTitleAdapter mAdapter;
 
     Toast toast;  //数据更新提示的Toast
@@ -60,7 +60,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
 
     private NewsTitleDatabase newsTitleDatabase;  //数据库
-    private Handler handler;
+    //private Handler handler;
 
     SwipeRefreshLayout swipeLayout;  //下拉刷新控件
 
@@ -71,80 +71,54 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         newsTitleDatabase = NewsTitleDatabase.getInstance(getActivity());  //初始化数据库实例
 
-
         initListItem(); //初始化新闻列表
 
-        customToast();//定义Toast，用于数据更新的提示
+        customToast();  //初始化自定义Toast，用于数据更新的提示
         return  view;
     }
 
-    /**
-     * 初始化新闻列表，第一次启动时先初始化数据库
-     */
+        /** 初始化新闻列表*/
     public void initListItem(){
-        listItems = newsTitleDatabase.loadNewsEntity(); //从数据库读取新闻列表
-        if (listItems.size() > 0) {
+        listItems = newsTitleDatabase.loadNewsEntity();   //从数据库读取新闻列表
+        if (listItems.size() > 0) {     //数据库有数据，直接显示数据库中的数据
             initView();  //初始化布局
         }
-        else {
-            //加载最新的新闻
-            BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", "1", initResponse);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);  //等待网络更新数据
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    if (listItems.size() > 0) {
-                        Message message = handler.obtainMessage();
-                        message.what = 0x101;
-                        handler.sendMessage(message);   //告诉主线程执行任务
-                    }
-                }
-            }).start();
+        else {   //如果数据库没数据，再从网络加载最新的新闻
+            BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(temp), initResponse);
         }
 
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 0x101) {
-                    initView();  //初始化布局
-                }
-                super.handleMessage(msg);
-            }
-        };
     }
 
     private ResponseHandlerInterface initResponse = new NewsListHttpModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
-
-
+            toastTextView.setText("加载失败，请检查网络连接");
+            toast.show();
         }
 
         @Override
         protected void onSuccess(NewsListEntity result) {
             List<NewsEntity> list = result.getList();
-            for (int i = 0 ; i < list.size(); i++){
+           /* for (int i = 0 ; i < list.size(); i++){
                 newsTitleDatabase.saveNewsEntity(list.get(i));
             }
-
+            listItems = newsTitleDatabase.loadNewsEntity();   //从保存的数据库中读取新闻列表*/
+            listItems = list;
+            initView();  //初始化布局
         }
 
         @Override
         protected void onError() {
-
+            toastTextView.setText("加载错误");
+            toast.show();
         }
     };
 
 
-    /**初始化布局 */
-    private void initView() {
 
+    /** 初始化布局 */
+    private void initView() {
         /**显示新闻标题的ListView*/
         lv = (ListView) view.findViewById(R.id.news_title_list_view);
         /**为ListView创建自定义适配器*/
@@ -173,6 +147,79 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 android.R.color.holo_red_light);
     }
 
+    private int temp = 3;
+    /**下拉刷新监听*/
+    @Override
+    public void onRefresh() {
+        if(temp > 0){
+            temp--;
+        }
+        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(temp), refreshResponse);
+
+        swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
+
+    }
+
+    private int addNumber; //每次刷新或加载增加的数据
+    /**刷新更新数据*/
+    private ResponseHandlerInterface refreshResponse = new NewsListHttpModel<NewsListEntity>
+            (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+        @Override
+        protected void onFailure() {
+            toastTextView.setText("加载失败，请检查网络连接");
+            toast.show();
+        }
+
+        @Override
+        protected void onSuccess(NewsListEntity result) {
+            List<NewsEntity> list = result.getList();
+            List<NewsEntity> lastList = listItems;
+
+            addNumber = 0;
+            int k = 0;
+            for (int i = 0 ; i < list.size(); i++){
+
+                k = 0;
+                for(int j = 0; j < lastList.size(); j++){
+                    if( list.get(i).getSid() != lastList.get(j).getSid() ) {
+                        k++;
+                    }
+                }
+
+                if(k == lastList.size()){  //如果刷新的数据与之前的都不重复，则添加
+                    listItems.add(0,list.get(i));
+                    addNumber++;
+                }
+
+            }
+
+            mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+
+            //addNumber = listItems.size() - lastList.size();
+
+            if(addNumber > 0){
+                 toastTextView.setText("新增" + addNumber + "条资讯");
+             }
+
+            if (addNumber == 0){
+                if(toastTextView.getText().toString().equals("没有更多内容了")) {
+                    toastTextView.setText("刚刚刷新过，等下再试吧");
+                } else {
+                    toastTextView.setText("没有更多内容了");
+                }
+            }
+
+            toast.show();
+        }
+
+        @Override
+        protected void onError() {
+            toastTextView.setText("加载错误");
+            toast.show();
+        }
+    };
+
+
     private int page = 1; //传入页数，第一页为最新的新闻资讯，依次类推
     /**滑到底部自动加载*/
     @Override
@@ -193,80 +240,31 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
     }
 
-/*          loadMoreText.setText("加载中...");
-            loadMoreText.setText("加载更多");
 
-            toastTextView.setText("新增" + addNumber + "条资讯");
-            toastTextView.setText("没有更多内容了");
-            toastTextView.getText().toString().equals("没有更多内容了")
-            toastTextView.setText("刚刚刷新过，等下再试吧");
-            toast.show();
-            mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-            */
-
-
-    private int lastSize = 0; //更新前的列表数
-    @Override
-    public void onRefresh() {
-
-        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", "1", refreshResponse);
-        swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
-
-    }
-
-    /**刷新更新数据*/
-    private ResponseHandlerInterface refreshResponse = new NewsListHttpModel<NewsListEntity>
-            (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
-        @Override
-        protected void onFailure() {
-
-        }
-
-        @Override
-        protected void onSuccess(NewsListEntity result) {
-
-        }
-
-        @Override
-        protected void onError() {
-
-        }
-    };
 
     /**自动加载更新数据*/
     private ResponseHandlerInterface autoLoadResponse = new NewsListHttpModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
-
-        }
-
-        @Override
-        protected void onSuccess(NewsListEntity result) {
-
-           /* List<NewsEntity> list = result.getList();
-            for (int i = 0 ; i < list.size(); i++){
-                newsTitleDatabase.saveNewsEntity(list.get(i));
-            }*/
-
-            List<NewsEntity> list = result.getList();
-            lastSize = listItems.size();
-            for (int i = 0 ; i < 40; i++){
-                listItems.add(0, list.get(i));
-                Log.d("NewsEntity", list.get(i).toString());
-            }
-
-            mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-            swipeLayout.setRefreshing(false); //加载完数据后，隐藏刷新进度条
-            toastTextView.setText("新增" + (listItems.size() - lastSize) + "条资讯");
+            toastTextView.setText("加载失败，请检查网络连接");
             toast.show();
         }
 
         @Override
-        protected void onError() {
+        protected void onSuccess(NewsListEntity result) {
+            //loadMoreText.setText("加载中...");
+            //loadMoreText.setText("加载更多");
 
         }
+
+        @Override
+        protected void onError() {
+            toastTextView.setText("加载错误");
+            toast.show();
+        }
     };
+
 
     /**自定义Toast，用于数据更新的提示*/
     private void customToast() {

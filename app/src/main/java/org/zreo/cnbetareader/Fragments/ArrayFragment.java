@@ -2,16 +2,19 @@ package org.zreo.cnbetareader.Fragments;
 
 
 
-import android.app.Fragment;
+
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.zreo.cnbetareader.Adapters.Theme_viewpagerAdapter;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -19,39 +22,36 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ArrayFragment extends Fragment {
+public class ArrayFragment extends Fragment implements View.OnClickListener{
     private ViewPager viewpager;
-    private PagerAdapter mAdapter;
+    private Theme_viewpagerAdapter iAdapter;
     private ArrayList<View> views;
     private View view1;
     private View view2;
-
-
     private TextView itv_Tab1;
     private TextView itv_Tab2;
+    private int currentIndex = 0;//当前标签页
 
-
-    private int currentIndex = 0;
-
-
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-        View views=inflater.inflate(R.layout.information_theme,container,false);
-        init();
-        viewpager = (ViewPager)views. findViewById(R.id.viewpager);
-        viewpager.setCurrentItem(0);
-        itv_Tab1.setTextColor(Color.BLUE);
-        viewpager.setAdapter(mAdapter);
+
+        view=inflater.inflate(R.layout.information_theme,container,false);
+        initView();//初始化
+        viewpager = (ViewPager)view. findViewById(R.id.viewpager);
+        viewpager.setCurrentItem(0);//默认页面
+        itv_Tab1.setTextColor(Color.WHITE);
+        viewpager.setAdapter(iAdapter);
         viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 initColor();
                 switch (position) {
                     case 0:
-                        itv_Tab1.setTextColor(Color.BLUE);
+                        itv_Tab1.setTextColor(Color.WHITE);
                         break;
                     case 1:
-                        itv_Tab2.setTextColor(Color.BLUE);
+                        itv_Tab2.setTextColor(Color.WHITE);
                         break;
 
                 }
@@ -66,64 +66,56 @@ public class ArrayFragment extends Fragment {
             public void onPageScrollStateChanged(int arg0) {
             }
         });
-        return views;
+        return view;
 
     }
-
-
-
-
-
+    //初始化文本颜色
     public void initColor() {
-        itv_Tab1.setTextColor(Color.BLACK);
-        itv_Tab2.setTextColor(Color.BLACK);
-
+        itv_Tab1.setTextColor(Color.WHITE);
+        itv_Tab2.setTextColor(Color.DKGRAY);
     }
 
 
-    public void init(){
-        // textView1 = (TextView)view. findViewById(R.id.tv1);
-        // textView2 = (TextView) findViewById(R.id.tv2);
-        itv_Tab1.setOnClickListener((View.OnClickListener) this);
-        itv_Tab2.setOnClickListener((View.OnClickListener) this);
 
+    //初始主要显示的内容，并且加入组件中
+    public void initView(){
+       itv_Tab1=(TextView)view.findViewById(R.id.itv_Tab1);
+       itv_Tab2=(TextView)view.findViewById(R.id.itv_Tab2);
 
+        itv_Tab1.setOnClickListener(this);
+        itv_Tab2.setOnClickListener(this);
 
         views = new ArrayList<View>();
         LayoutInflater f = getLayoutInflater();
-        view1 = f.inflate(R.layout.itv_tab1, null);
+        view1 = f.inflate(R.layout.itv_tab1,null);
         view2 = f.inflate(R.layout.itv_tab2, null);
 
         views.add(view1);
         views.add(view2);
 
+        FragmentManager fm = getFragmentManager();
 
-        mAdapter = new PagerAdapter()
+
+        iAdapter =new Theme_viewpagerAdapter(fm)
         {
             @Override
-            public void destroyItem(ViewGroup container, int position, Object object)
-            {
-                container.removeView(views.get(position));
+            public int getCount() {
+                return super.getCount();
             }
 
             @Override
-            public Object instantiateItem(ViewGroup container, int position)
-            {
-                View view = views.get(position);
-                container.addView(view);
-                return view;
+            public Object instantiateItem(ViewGroup arg0, int arg1) {
+                return super.instantiateItem(arg0, arg1);
             }
 
             @Override
-            public boolean isViewFromObject(View arg0, Object arg1)
-            {
-                return arg0 == arg1;
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                super.destroyItem(container, position, object);
             }
 
             @Override
-            public int getCount()
-            {
-                return views.size();
+            public boolean isViewFromObject(View view, Object object) {
+                return super.isViewFromObject(view, object);
             }
         };
 
@@ -141,11 +133,11 @@ public class ArrayFragment extends Fragment {
         int FOCUS_RIGHT = 66;
         switch (v.getId()) {
             case R.id.itv_Tab1:
+                viewpager.arrowScroll(FOCUS_RIGHT);
                 if (currentIndex == 0) {
                 } else if (currentIndex == 1) {
                     viewpager.arrowScroll(FOCUS_LEFT);
                 } else if (currentIndex == 2) {
-                    viewpager.arrowScroll(FOCUS_LEFT);
                     viewpager.arrowScroll(FOCUS_LEFT);
                 }
                 break;

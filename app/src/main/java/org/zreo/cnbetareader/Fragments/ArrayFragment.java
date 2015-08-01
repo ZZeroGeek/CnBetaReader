@@ -11,7 +11,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
     private ArrayList<View> views;
     private View view1;
     private View view2;
+    private Button ibtn_theme;
     private TextView itv_Tab1;
     private TextView itv_Tab2;
     private int currentIndex = 0;//当前标签页
@@ -51,7 +55,6 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
                     case 1:
                         itv_Tab2.setTextColor(Color.WHITE);
                         break;
-
                 }
                 currentIndex = position;
             }
@@ -59,7 +62,6 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
             }
-
             @Override
             public void onPageScrollStateChanged(int arg0) {
             }
@@ -85,6 +87,9 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
         view1 = f.inflate(R.layout.itv_tab1, null);
         view2 = f.inflate(R.layout.itv_tab2, null);
 
+        ibtn_theme=(Button)view2.findViewById(R.id. ibtn_theme);
+        ibtn_theme.setOnClickListener(this);
+       //添加两个视图
         views.add(view1);
         views.add(view2);
 
@@ -97,27 +102,20 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
             }
 
             @Override
-            public Object instantiateItem(ViewGroup container, int position)
-            {
+            public Object instantiateItem(ViewGroup container, int position) {
                 View view = views.get(position);
                 container.addView(view);
                 return view;
             }
 
             @Override
-            public boolean isViewFromObject(View arg0, Object arg1)
-            {
-                return arg0 == arg1;
+            public boolean isViewFromObject(View arg0, Object arg1) {return arg0 == arg1;
             }
-
             @Override
-            public int getCount()
-            {
-                return views.size();
+            public int getCount() {return views.size();
             }
         };
     }
-
     public void onClick(View v) {
 
         int FOCUS_LEFT = 17;
@@ -140,6 +138,8 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
                     viewpager.arrowScroll(FOCUS_LEFT);
                 }
                 break;
+            case R.id.ibtn_theme:
+                Toast.makeText(getActivity(),"添加新闻到关注页面！",Toast.LENGTH_SHORT).show();
             default:
                 break;
         }

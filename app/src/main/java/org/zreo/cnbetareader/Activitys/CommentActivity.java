@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,19 +34,22 @@ import java.util.List;
 
 public class CommentActivity extends ListActivity   {
 
+    // 最大数据条数
+    private static final int MAX_DATA_NUM = 100;
+
+    private View moreDataView;
+    private Button loadButton;
+    private ProgressBar progressBar;
+
+    private int lastVisibleItemIndex;
+
+    private Handler handler = new Handler();
+
     private List<CnComment> cnCommentList = new ArrayList<CnComment>();
     private QuickReturnListView mListView;
     private ImageButton mQuickReturnButton;
     private int mQuickReturnHeight;
     CommentAdapter myAdapter;
-
-    //private static final String TAG = "LOADMORE";
-    private View loadMoreView;
-    private Button loadMoreButton;
-    private int visibleLastIndex = 0;   //最后的可视项索引
-    //private int visibleItemCount;       // 当前窗口可见项总数
-    private Handler handler = new Handler();
-    private boolean isLoading = false;
 
     private static final int STATE_ONSCREEN = 0;
     private static final int STATE_OFFSCREEN = 1;
@@ -64,16 +68,10 @@ public class CommentActivity extends ListActivity   {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comment_listview);
-
         initView();
         initCommentList();
-
+        loadComment();
         initButton();
-
-        loadMoreView = getLayoutInflater().inflate(R.layout.comment_load_more, null);
-        loadMoreButton = (Button) loadMoreView.findViewById(R.id.load_more_button);
-        mListView.addFooterView(loadMoreView);
-
        /* mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitle("发表评论");   // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
@@ -87,69 +85,71 @@ public class CommentActivity extends ListActivity   {
         });*/
     }
 
-/*
-    	private void initAdapter() {
-		ArrayList<String> items = new ArrayList<String>();
-		for (int i = 0; i < 10; i++) {
-			items.add(String.valueOf(i + 1));
-		}
-		adapter = new ListViewAdapter(this, items);
-	}*/
+    /**
+     * 加载评论
+     * */
+    private void loadComment(){
+        moreDataView = getLayoutInflater().inflate(R.layout.comment_load_more, null);
+       // loadButton = (Button) moreDataView.findViewById(R.id.load_more_button);
+       // mListView.addFooterView(moreDataView);
+        //moreDataView = getLayoutInflater().inflate(R.layout.comment_load_more, null);
+        loadButton = (Button) moreDataView.findViewById(R.id.loadButton);
+        progressBar = (ProgressBar) moreDataView.findViewById(R.id.progressBar);
+       // initCommentList();
+        myAdapter = new CommentAdapter(this, R.layout.comment_textview, cnCommentList);
+        mListView.addFooterView(moreDataView);
+        mListView.setAdapter(myAdapter);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                loadButton.setVisibility(View.GONE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadMoreData();
+                        loadButton.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        myAdapter.notifyDataSetChanged();
+                    }
+                }, 2000);
+            }
+        });
+    }
 
-	/*@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		int itemsLastIndex = myAdapter.getCount() - 1;    //数据集最后一项的索引
-		int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
-		if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-			//如果是自动加载,可以在这里放置异步加载数据的代码
-			loadMore(null);
-		}
-	}*/
-
-	/*public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		this.visibleItemCount = visibleItemCount;
-		visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
-	}*/
-
-	/*public void loadMore(View view) {
-		if (isLoading)
-			return;
-		loadMoreButton.setText("loading...");   //设置按钮文字loading
-		isLoading = true;
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				loadData();
-                myAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-				loadMoreButton.setText("click to load more");    //恢复按钮文字
-				isLoading = false;
-			}
-		}, 2000);
-	}
-
-	private void loadData() {
+    private void loadMoreData() {
         String userName = "匿名用户";
         String textComment = "100块都不给我";
         String sText = "支持:1 ";
         String aText = "反对:0";
-        for (int i = 0; i < 30; i++) {
-
-            CnComment cnComments = new CnComment();
-            cnComments.setImageId(R.drawable.circle_image);
-            cnComments.setUserName("jiazai "+userName);
-            cnComments.setTestComment(textComment);
-            cnComments.setCommentMenu(R.drawable.more_grey);
-            cnComments.setSupport(sText);
-            cnComments.setAgainst(aText);
-            cnCommentList.add(0, cnComments);
+       // initCommentList();
+       int count = myAdapter.getCount();
+        if (count + 5 < MAX_DATA_NUM) {
+            for (int i = count; i < count + 5; i++) {
+                CnComment cnComments = new CnComment();
+                cnComments.setImageId(R.drawable.circle_image);
+                cnComments.setUserName(i+userName);
+                cnComments.setTestComment(textComment);
+                cnComments.setCommentMenu(R.drawable.more_grey);
+                cnComments.setSupport(sText);
+                cnComments.setAgainst(aText);
+                cnCommentList.add(cnComments);
+            }
         }
-	}*/
-
-    /**
-     *
-     *
-     * */
-
+        // 剩余数据不足5条
+        else {
+            for (int i = count; i < MAX_DATA_NUM; i++) {
+                CnComment cnComments = new CnComment();
+                cnComments.setImageId(R.drawable.circle_image);
+                cnComments.setUserName(i+userName);
+                cnComments.setTestComment(textComment);
+                cnComments.setCommentMenu(R.drawable.more_grey);
+                cnComments.setSupport(sText);
+                cnComments.setAgainst(aText);
+                cnCommentList.add(cnComments);
+            }
+        }
+    }
 
 
     /**
@@ -189,10 +189,6 @@ public class CommentActivity extends ListActivity   {
 
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-
-               // this.visibleItemCount = visibleItemCount;
-               // visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
-
                 mScrollY = 0;
                 int translationY = 0;
                 if (mListView.scrollYIsComputed()) {
@@ -245,13 +241,6 @@ public class CommentActivity extends ListActivity   {
             }
 
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-//                int itemsLastIndex = myAdapter.getCount() - 1;    //数据集最后一项的索引
-//                int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
-//                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-//                    //如果是自动加载,可以在这里放置异步加载数据的代码
-//                    loadMore(null);
-               // }
             }
         });
     }
@@ -268,12 +257,12 @@ public class CommentActivity extends ListActivity   {
 
             CnComment cnComments = new CnComment();
             cnComments.setImageId(R.drawable.circle_image);
-            cnComments.setUserName(userName);
+            cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
             cnComments.setSupport(sText);
             cnComments.setAgainst(aText);
-            cnCommentList.add(0, cnComments);
+            cnCommentList.add(cnComments);
         }
     }
 }

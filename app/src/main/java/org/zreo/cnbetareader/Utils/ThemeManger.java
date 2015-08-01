@@ -30,10 +30,15 @@ public class ThemeManger {
     public static int getCurrentTheme(Context context) {
         return PrefKit.getInt(context, "theme", 0);
     }
-
-    public static boolean isNightTheme(Context context) {
-        return PrefKit.getInt(context, "theme", 0) == Theme.length - 1;
+      public static void onActivityCreateSetTheme(Activity activity) {
+        int[] theme = Theme[PrefKit.getInt(activity, "theme", 0)];
+            activity.setTheme(theme[0]);
     }
+
+
+  /*public static boolean isNightTheme(Context context) {
+        return PrefKit.getInt(context, "theme", 0) == Theme.length - 1;
+    }*/
 
     private static int[][] Theme = {{
             R.style.Theme_Basic,

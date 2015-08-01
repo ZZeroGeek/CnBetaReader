@@ -3,7 +3,7 @@ package org.zreo.cnbetareader.Utils;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-
+import android.util.Log;
 
 import java.io.File;
 import java.lang.ref.WeakReference;

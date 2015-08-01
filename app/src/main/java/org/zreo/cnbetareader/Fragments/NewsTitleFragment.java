@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,9 +53,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     private List<NewsEntity> listItems = new ArrayList<NewsEntity>();
     NewsTitleAdapter mAdapter;
 
-    private int visibleLastIndex = 0;   //最后的可视项索引
-    private int visibleItemCount;       // 当前窗口可见项总数
-    private View loadMoreView;     //加载更多布局
+
 
     SwipeRefreshLayout swipeLayout;  //下拉刷新控件
 
@@ -149,6 +148,9 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         }
     }
 
+    private int visibleLastIndex = 0;   //最后的可视项索引
+    private int visibleItemCount;       // 当前窗口可见项总数
+    private View loadMoreView;     //加载更多布局
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         this.visibleItemCount = visibleItemCount;
@@ -160,23 +162,23 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     @Override
     public void onRefresh() {
         // 这里做联网请求，然后handler处理完成之后的事情
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (totalNumber < 30) {
-//                    addData();  //加载刷新数据
-//                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-//                    toastTextView.setText("新增" + addNumber+ "条资讯");
-//                } else {
-//                    toastTextView.setText("没有更多内容了");
-//                    if(toastTextView.getText().toString().equals("没有更多内容了")) {
-//                        toastTextView.setText("刚刚刷新过，等下再试吧");
-//                    }
-//                }
-//                swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
-//                toast.show();
-//            }
-//        }, 1000);
+        /*new Handler().postDelayed(new Runnable() {
+            @Override
+           public void run() {
+                if (totalNumber < 30) {
+                    addData();  //加载刷新数据
+                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+                    toastTextView.setText("新增" + addNumber+ "条资讯");
+                } else {
+                    toastTextView.setText("没有更多内容了");
+                    if(toastTextView.getText().toString().equals("没有更多内容了")) {
+                        toastTextView.setText("刚刚刷新过，等下再试吧");
+                    }
+                }
+                swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
+                toast.show();
+            }
+        }, 1000);*/
         page++;
         BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(page), response);
     }
@@ -193,7 +195,9 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         lastSize = listItems.size();
         for (int i = 0 ; i < 40; i++){
             listItems.add(0, list.get(i));
+            Log.d("NewsEntity", list.get(i).toString());
         }
+
         mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
         swipeLayout.setRefreshing(false); //加载完数据后，隐藏刷新进度条
         toastTextView.setText("新增" + (listItems.size() - lastSize) + "条资讯");

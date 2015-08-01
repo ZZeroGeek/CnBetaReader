@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
-
+    public boolean changeTheme;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,9 +123,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
                     mArrayFragment = new ArrayFragment();
                     transaction.add(R.id.fragment_content, mArrayFragment);
                 } else{
-                    // 如果mCommentTop10Fragment不为空，则直接将它显示出来
+                    //如果mCommentTop10Fragment不为空，则直接将它显示出来
                     transaction.show(mArrayFragment);
                 }
+
                 break;
             case 7:   //设置界面
                 if (mSettingFragment == null) {
@@ -185,6 +186,15 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(!changeTheme) {
+            this.finish();
+            System.exit(0);
+        }
     }
 }
 

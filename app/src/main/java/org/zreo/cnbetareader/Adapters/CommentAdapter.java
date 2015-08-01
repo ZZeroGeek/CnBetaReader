@@ -71,7 +71,7 @@ public class CommentAdapter extends BaseAdapter{
             holder.textView2 =(TextView)view.findViewById(R.id.comment_text);
             holder.textView3 = (TextView)view.findViewById(R.id.against);
 
-            View.OnClickListener listener = new View.OnClickListener() {
+           View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu popup = new PopupMenu(_context, v);

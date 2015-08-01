@@ -3,6 +3,7 @@ package org.zreo.cnbetareader.Activitys;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -96,7 +97,7 @@ public class CommentActivity extends ListActivity   {
         loadButton = (Button) moreDataView.findViewById(R.id.loadButton);
         progressBar = (ProgressBar) moreDataView.findViewById(R.id.progressBar);
        // initCommentList();
-        myAdapter = new CommentAdapter(this, R.layout.comment_textview, cnCommentList);
+        //myAdapter = new CommentAdapter(this, R.layout.comment_textview, cnCommentList);
         mListView.addFooterView(moreDataView);
         mListView.setAdapter(myAdapter);
         loadButton.setOnClickListener(new View.OnClickListener() {
@@ -104,15 +105,29 @@ public class CommentActivity extends ListActivity   {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 loadButton.setVisibility(View.GONE);
-                handler.postDelayed(new Runnable() {
+              new AsyncTask<Void, Integer, Boolean>() {
                     @Override
-                    public void run() {
-                        loadMoreData();
-                        loadButton.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        myAdapter.notifyDataSetChanged();
+                    protected Boolean doInBackground(Void... params) {
+
+
+                             //   progressBar.setVisibility(View.VISIBLE);
+                             //   loadButton.setVisibility(View.GONE);
+                                loadMoreData();
+                                myAdapter.notifyDataSetChanged();
+
+//                          handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run () {
+//                        loadMoreData();
+//                        loadButton.setVisibility(View.VISIBLE);
+//                        progressBar.setVisibility(View.GONE);
+//                        myAdapter.notifyDataSetChanged();
+//                        }
+//                          },2000);
+                       return true;
                     }
-                }, 2000);
+
+              };
             }
         });
     }
@@ -123,33 +138,33 @@ public class CommentActivity extends ListActivity   {
         String sText = "支持:1 ";
         String aText = "反对:0";
        // initCommentList();
-       int count = myAdapter.getCount();
-        if (count + 5 < MAX_DATA_NUM) {
-            for (int i = count; i < count + 5; i++) {
+      // int count = myAdapter.getCount();
+       // if (count + 5 < MAX_DATA_NUM) {
+           // for (int i = count; i < count + 5; i++) {
                 CnComment cnComments = new CnComment();
                 cnComments.setImageId(R.drawable.circle_image);
-                cnComments.setUserName(i+userName);
+                cnComments.setUserName("1111"+userName);
                 cnComments.setTestComment(textComment);
                 cnComments.setCommentMenu(R.drawable.more_grey);
                 cnComments.setSupport(sText);
                 cnComments.setAgainst(aText);
                 cnCommentList.add(cnComments);
-            }
+           // }
         }
-        // 剩余数据不足5条
-        else {
-            for (int i = count; i < MAX_DATA_NUM; i++) {
-                CnComment cnComments = new CnComment();
-                cnComments.setImageId(R.drawable.circle_image);
-                cnComments.setUserName(i+userName);
-                cnComments.setTestComment(textComment);
-                cnComments.setCommentMenu(R.drawable.more_grey);
-                cnComments.setSupport(sText);
-                cnComments.setAgainst(aText);
-                cnCommentList.add(cnComments);
-            }
-        }
-    }
+//        // 剩余数据不足5条
+//        else {
+//            for (int i = count; i < MAX_DATA_NUM; i++) {
+//                CnComment cnComments = new CnComment();
+//                cnComments.setImageId(R.drawable.circle_image);
+//                cnComments.setUserName(i+userName);
+//                cnComments.setTestComment(textComment);
+//                cnComments.setCommentMenu(R.drawable.more_grey);
+//                cnComments.setSupport(sText);
+//                cnComments.setAgainst(aText);
+//                cnCommentList.add(cnComments);
+//            }
+//        }
+   // }
 
 
     /**

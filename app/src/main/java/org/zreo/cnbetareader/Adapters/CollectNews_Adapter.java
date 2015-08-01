@@ -60,7 +60,6 @@ public class CollectNews_Adapter extends BaseAdapter {
         }
         holder.firstword_text3.setText(CollectNewsItem.get(position).getNewsfirstWord());
         holder.newscontent.setText(CollectNewsItem.get(position).getNewscontent());
-        holder. newstypes.setText(CollectNewsItem.get(position).getNewstypes());
         return view;
     }
 

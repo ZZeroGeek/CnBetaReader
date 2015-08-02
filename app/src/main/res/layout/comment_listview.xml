@@ -4,20 +4,23 @@
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray">
 
-    <org.zreo.cnbetareader.Model.QuickReturnListView
+    <org.zreo.cnbetareader.Views.XListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@android:id/list"/>
-    <ImageButton
-        android:id="@+id/footer"
+        android:layout_height="match_parent"
+        android:id="@+id/xListView">
+        </org.zreo.cnbetareader.Views.XListView>
+    <ImageView
+        android:id="@+id/forum_listview_linearfooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:src="@drawable/comment_button"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/primary_text_dark" />
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/forum_shape_circle_white_dropshadow"
+        android:padding="12dp"
+        />
 
 </RelativeLayout>

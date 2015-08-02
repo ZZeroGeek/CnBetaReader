@@ -3,7 +3,6 @@ package org.zreo.cnbetareader.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommentAdapter extends BaseAdapter{
@@ -33,7 +33,17 @@ public class CommentAdapter extends BaseAdapter{
         commentItem=objects;
     }
 
-
+    public void addList(ArrayList<CnComment> list) {
+        if (list != null) {
+            commentItem.addAll(list);
+        } else {
+            commentItem = new ArrayList<CnComment>();
+        }
+    }
+    public void AddData(ArrayList<CnComment> list) {
+        this.addList(list);
+        this.notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         // TODO Auto-generated method stub

@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:background="@color/white"
                 android:orientation="vertical">
                 <RelativeLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2">
@@ -44,22 +44,22 @@
                     android:layout_weight="3">
                     <ImageView
                         android:id="@+id/imageView1"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:gravity="center_vertical"
+                        android:layout_width="@dimen/drawer_image"
+                        android:layout_height="@dimen/drawer_image"
                         android:src="@mipmap/drawer_information"
                         android:alpha="0.5"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/drawer_image"
+                        android:gravity="center_vertical"
                         android:text="全部资讯"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/drawer_text"
                         android:layout_alignBottom="@+id/imageView1"
                         android:layout_toRightOf="@+id/imageView1"
-                        android:layout_marginLeft="25dp"/>
+                        android:layout_marginLeft="@dimen/drawer_text_margin_Left"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/btn_comment"
@@ -69,22 +69,23 @@
                     android:layout_weight="3">
                     <ImageView
                         android:id="@+id/imageView2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/drawer_image"
+                        android:layout_height="@dimen/drawer_image"
                         android:gravity="center_vertical"
                         android:src="@mipmap/drawer_comment"
                         android:alpha="0.5"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/drawer_image"
+                        android:gravity="center_vertical"
                         android:text="精彩评论"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/drawer_text"
                         android:layout_alignBottom="@+id/imageView2"
                         android:layout_toRightOf="@+id/imageView2"
-                        android:layout_marginLeft="25dp"/>
+                        android:layout_marginLeft="@dimen/drawer_text_margin_Left"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/btn_hot"
@@ -94,22 +95,23 @@
                     android:layout_weight="3">
                     <ImageView
                         android:id="@+id/imageView3"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/drawer_image"
+                        android:layout_height="@dimen/drawer_image"
                         android:gravity="center_vertical"
                         android:src="@mipmap/drawer_hot"
                         android:alpha="0.5"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/drawer_image"
+                        android:gravity="center_vertical"
                         android:text="本月Top10"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/drawer_text"
                         android:layout_alignBottom="@+id/imageView3"
                         android:layout_toRightOf="@+id/imageView3"
-                        android:layout_marginLeft="25dp"/>
+                        android:layout_marginLeft="@dimen/drawer_text_margin_Left"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/btn_favorites"
@@ -119,22 +121,23 @@
                     android:layout_weight="3">
                     <ImageView
                         android:id="@+id/imageView4"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/drawer_image"
+                        android:layout_height="@dimen/drawer_image"
                         android:gravity="center_vertical"
                         android:src="@mipmap/drawer_favorites"
                         android:alpha="0.5"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/drawer_image"
+                        android:gravity="center_vertical"
                         android:text="收藏"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/drawer_text"
                         android:layout_alignBottom="@+id/imageView4"
                         android:layout_toRightOf="@+id/imageView4"
-                        android:layout_marginLeft="25dp"/>
+                        android:layout_marginLeft="@dimen/drawer_text_margin_Left"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/btn_topic"
@@ -144,22 +147,23 @@
                     android:layout_weight="3">
                     <ImageView
                         android:id="@+id/imageView5"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/drawer_image"
+                        android:layout_height="@dimen/drawer_image"
                         android:gravity="center_vertical"
                         android:src="@mipmap/drawer_topic"
                         android:alpha="0.5"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/drawer_image"
+                        android:gravity="center_vertical"
                         android:text="资讯主题"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/drawer_text"
                         android:layout_alignBottom="@+id/imageView5"
                         android:layout_toRightOf="@+id/imageView5"
-                        android:layout_marginLeft="25dp"/>
+                        android:layout_marginLeft="@dimen/drawer_text_margin_Left"/>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -173,7 +177,6 @@
                 android:layout_weight="4"
                 android:orientation="vertical">
                 <RelativeLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -183,12 +186,11 @@
                     android:layout_height="2px"
                     android:background="@color/light_gray"/>
                 <TextView
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                     android:text="其他"/>
                 <RelativeLayout
                     android:id="@+id/btn_web"
@@ -198,22 +200,23 @@
                     android:layout_weight="3">
                     <ImageView
                         android:id="@+id/imageView6"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/drawer_image"
+                        android:layout_height="@dimen/drawer_image"
                         android:gravity="center_vertical"
                         android:src="@mipmap/drawer_web"
                         android:alpha="0.5"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/drawer_image"
+                        android:gravity="center_vertical"
                         android:text="手机版网站"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/drawer_text"
                         android:layout_alignBottom="@+id/imageView6"
                         android:layout_toRightOf="@+id/imageView6"
-                        android:layout_marginLeft="25dp"/>
+                        android:layout_marginLeft="@dimen/drawer_text_margin_Left"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/btn_setting"
@@ -223,29 +226,28 @@
                     android:layout_weight="3">
                     <ImageView
                         android:id="@+id/imageView7"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/drawer_image"
+                        android:layout_height="@dimen/drawer_image"
                         android:gravity="center_vertical"
-                        android:src="@mipmap/drawer_topic"
+                        android:src="@mipmap/drawer_setting"
                         android:alpha="0.5"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/drawer_image_margin_Left"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/drawer_image"
+                        android:gravity="center_vertical"
                         android:text="设置"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/drawer_text"
                         android:layout_alignBottom="@+id/imageView7"
                         android:layout_toRightOf="@+id/imageView7"
-                        android:layout_marginLeft="25dp"/>
+                        android:layout_marginLeft="@dimen/drawer_text_margin_Left"/>
                 </RelativeLayout>
                 <RelativeLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="5">
-
                 </RelativeLayout>
 
             </LinearLayout>

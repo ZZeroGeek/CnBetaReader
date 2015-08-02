@@ -11,12 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.GestureDetector;
 
 import org.zreo.cnbetareader.R;
 
@@ -24,19 +27,35 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 
-public class NewsActivity extends ActionBarActivity {
+public class NewsActivity extends ActionBarActivity implements OnGestureListener{
     private Toolbar mToolbar;
     ImageButton imageButton;
     WebView webView;
     WebSettings webSettings;
     ButtonOnclick buttonOnclick;
+    GestureDetector gestureDetector;
     private String[] textsize1 = new String[]{"大", "中", "小"};
+
+    /*
+     *一个页面里放入了一个webview组件，并将其组件铺满屏幕，全屏幕除了下面的导航栏其余 都是这个webview，
+     * 后来我想在webview中触发滑动手势的onfling方法，在webview还没加载完网页内容之前正常，可是 webview加载完网页之后，就无法触发方法了，
+     *一般我们用于接收GestureDetector对象的方法是OnTouchevent();,而在View组件占用了屏幕空间之后，这个方法就无 效了，只有换成 dispatchTouchEvent方法才有效！
+     */
+    public boolean dispatchTouchEvent(MotionEvent ev) {    //注意这里不能用ONTOUCHEVENT方法，不然无效的
+        gestureDetector.onTouchEvent(ev);
+        webView.onTouchEvent(ev);//这几行代码也要执行，将webview载入MotionEvent对象一下，况且用载入把，不知道用什么表述合适
+        return super.dispatchTouchEvent(ev);
+    }
+
 
     private class ButtonOnclick implements DialogInterface.OnClickListener {
         private int index;
 
         public ButtonOnclick(int index) {
             this.index = index;
+        }
+        public void setDefault(ButtonOnclick buttonOnclick){
+            buttonOnclick.index=1;
         }
 
 
@@ -62,13 +81,10 @@ public class NewsActivity extends ActionBarActivity {
         }
 
     }
-    
 
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news);
+    public void init(){
         ShareSDK.initSDK(this);
+        gestureDetector=new GestureDetector(this);
         buttonOnclick=new ButtonOnclick(1);
         webView = (WebView) findViewById(R.id.wv);
         webSettings = webView.getSettings();
@@ -121,6 +137,14 @@ public class NewsActivity extends ActionBarActivity {
         });
     }
 
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_news);
+        init();
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -139,7 +163,7 @@ public class NewsActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "已取消收藏", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.font:
-                Toast.makeText(getApplicationContext(), "已改变字体", Toast.LENGTH_SHORT).show();
+                buttonOnclick.setDefault(buttonOnclick);
                 new AlertDialog.Builder(this).setTitle("请选择字体的大小")
                         .setSingleChoiceItems(textsize1, 1,buttonOnclick).
                                 setPositiveButton("确定",buttonOnclick).setNegativeButton("取消",buttonOnclick).create().show();
@@ -159,6 +183,41 @@ public class NewsActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        if (e1.getX() - e2.getX() < -100) {
+            Intent intent=new Intent(NewsActivity.this,MainActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        return false;
     }
 
     private void showShare() {

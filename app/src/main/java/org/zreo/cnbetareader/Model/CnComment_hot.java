@@ -11,17 +11,13 @@ public class CnComment_hot {
     }
     public CnComment_hot(String firstWord,String comment,String content){
         this.comment = comment;
-        this.content =content;
-        this.firstWord =firstWord;
+        this.content = content;
+        this.firstWord = firstWord;
     }
-    public void setFirstWord(String firstWord){this.firstWord =firstWord;}
-
+    public void setFirstWord(String firstWord){this.firstWord = firstWord;}
     public void setComment(String comment) {this.comment = comment;}
-    public void setContent(String content){this.content =content;}
-
+    public void setContent(String content){this.content = content;}
     public String getComment() {return comment;}
-
     public String getContent() {return content;}
-
     public String getFirstWord() {return firstWord;}
 }

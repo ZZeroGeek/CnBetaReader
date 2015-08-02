@@ -5,8 +5,10 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.ResponseHandlerInterface;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
@@ -33,6 +36,7 @@ import org.zreo.cnbetareader.Entitys.ResponseEntity;
 import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
 import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
+import org.zreo.cnbetareader.databases.NewsTitleDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +47,21 @@ import java.util.List;
  */
 public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollListener, SwipeRefreshLayout.OnRefreshListener{
 
-    Toast toast;  //数据更新提示的Toast
-    TextView toastTextView; //Toast显示的文本
 
     View view;  //当前布局
     private ListView lv;
-    /**定义一个动态数组，保存新闻信息*/
-    private List<News> listItem = new ArrayList<News>();
+    private List<NewsEntity> listItems = new ArrayList<NewsEntity>();   /**保存新闻信息*/
     NewsTitleAdapter mAdapter;
 
-    private int visibleLastIndex = 0;   //最后的可视项索引
-    private int visibleItemCount;       // 当前窗口可见项总数
+    Toast toast;  //数据更新提示的Toast
+    TextView toastTextView; //Toast显示的文本
+
     private View loadMoreView;     //加载更多布局
+    private TextView loadMoreText;    //加载提示文本
+
+
+    private NewsTitleDatabase newsTitleDatabase;  //数据库
+    //private Handler handler;
 
     SwipeRefreshLayout swipeLayout;  //下拉刷新控件
 
@@ -62,22 +69,64 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_news_title, container, false);
         setHasOptionsMenu(true); //在fragment中使用menu菜单
+
+        newsTitleDatabase = NewsTitleDatabase.getInstance(getActivity());  //初始化数据库实例
+
         initListItem(); //初始化新闻列表
-        initView();  //初始化布局
-        customToast();
+
+        customToast();  //初始化自定义Toast，用于数据更新的提示
         return  view;
     }
 
-    /**
-     *  初始化布局
-     */
+        /** 初始化新闻列表*/
+    public void initListItem(){
+        listItems = newsTitleDatabase.loadNewsEntity();   //从数据库读取新闻列表
+        if (listItems.size() > 0) {     //数据库有数据，直接显示数据库中的数据
+            initView();  //初始化布局
+        }
+        else {   //如果数据库没数据，再从网络加载最新的新闻
+            BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(temp), initResponse);
+        }
+
+    }
+
+    private ResponseHandlerInterface initResponse = new NewsListHttpModel<NewsListEntity>
+            (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+        @Override
+        protected void onFailure() {
+            toastTextView.setText("加载失败，请检查网络连接");
+            toast.show();
+        }
+
+        @Override
+        protected void onSuccess(NewsListEntity result) {
+            List<NewsEntity> list = result.getList();
+           /* for (int i = 0 ; i < list.size(); i++){
+                newsTitleDatabase.saveNewsEntity(list.get(i));
+            }
+            listItems = newsTitleDatabase.loadNewsEntity();   //从保存的数据库中读取新闻列表*/
+            listItems = list;
+            initView();  //初始化布局
+        }
+
+        @Override
+        protected void onError() {
+            toastTextView.setText("加载错误");
+            toast.show();
+        }
+    };
+
+
+
+    /** 初始化布局 */
     private void initView() {
         /**显示新闻标题的ListView*/
         lv = (ListView) view.findViewById(R.id.news_title_list_view);
         /**为ListView创建自定义适配器*/
-        mAdapter = new NewsTitleAdapter(getActivity(), R.layout.news_title_item, listItem);
+        mAdapter = new NewsTitleAdapter(getActivity(), R.layout.news_title_item, listItems);
         lv.setVerticalScrollBarEnabled(false);//隐藏ListView滑动进度条
         loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
+        loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
         lv.addFooterView(loadMoreView);   //设置列表底部视图
         lv.setOnScrollListener(this);     //添加滑动监听
         lv.setAdapter(mAdapter);  //为ListView绑定Adapter
@@ -85,10 +134,8 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(MainActivity.this, "你点击了 " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), NewsActivity.class);
                 startActivity(intent);
-
             }
         });
 
@@ -101,102 +148,126 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 android.R.color.holo_red_light);
     }
 
-    /**
-     * 初始化新闻列表
-     */
-    public void initListItem(){
-        String title = "Windows 10应用商店中国定制版现身 系统界面曝光";
-        String summary = "7月24日消息，昨日有网友在国内某知名论坛发布疑似Win10应用商店中国定制版的系统界面图片，" +
-                "一时间引发诸多热议。这名网友发帖称是从内部人士手里拿到了Win10特别版的系统映像，安装后发现这竟然" +
-                "是Win10针对中国地区的定制版本。系统中除内置了很多微软旗下的服务外，还有一些本地化的功能。" +
-                "据此他猜测，这极有可能就是专门提供给中国盗版用户免费使用的定制版本。";
-        /**为动态数组添加数据*/
-        for(int i = 0; i < 20; i++){
-            News news = new News();
-            news.setNewsTitle(i + "  " + title);
-            news.setNewsContent(summary);
-            news.setPublishTime("2015-07-24 10:30:38");
-            news.setImageId(R.mipmap.news_picture);
-            news.setCommentNumber(i * 20);
-            news.setReaderNumber(i * 100);
-            listItem.add(0,news);
+    private int temp = 3;
+    /**下拉刷新监听*/
+    @Override
+    public void onRefresh() {
+        if(temp > 0){
+            temp--;
         }
+        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(temp), refreshResponse);
+
+        swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
+
     }
 
+    private int addNumber; //每次刷新或加载增加的数据
+    /**刷新更新数据*/
+    private ResponseHandlerInterface refreshResponse = new NewsListHttpModel<NewsListEntity>
+            (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+        @Override
+        protected void onFailure() {
+            toastTextView.setText("加载失败，请检查网络连接");
+            toast.show();
+        }
+
+        @Override
+        protected void onSuccess(NewsListEntity result) {
+            List<NewsEntity> list = result.getList();
+            List<NewsEntity> lastList = listItems;
+
+            addNumber = 0;
+            int k = 0;
+            for (int i = 0 ; i < list.size(); i++){
+
+                k = 0;
+                for(int j = 0; j < lastList.size(); j++){
+                    if( list.get(i).getSid() != lastList.get(j).getSid() ) {
+                        k++;
+                    }
+                }
+
+                if(k == lastList.size()){  //如果刷新的数据与之前的都不重复，则添加
+                    listItems.add(0,list.get(i));
+                    addNumber++;
+                }
+
+            }
+
+            mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+
+            //addNumber = listItems.size() - lastList.size();
+
+            if(addNumber > 0){
+                 toastTextView.setText("新增" + addNumber + "条资讯");
+             }
+
+            if (addNumber == 0){
+                if(toastTextView.getText().toString().equals("没有更多内容了")) {
+                    toastTextView.setText("刚刚刷新过，等下再试吧");
+                } else {
+                    toastTextView.setText("没有更多内容了");
+                }
+            }
+
+            toast.show();
+        }
+
+        @Override
+        protected void onError() {
+            toastTextView.setText("加载错误");
+            toast.show();
+        }
+    };
+
+
+    private int page = 1; //传入页数，第一页为最新的新闻资讯，依次类推
+    /**滑到底部自动加载*/
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        int itemsLastIndex = listItem.size() - 1;    //数据集最后一项的索引
+        int itemsLastIndex = listItems.size() - 1;    //数据集最后一项的索引
         int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-            //如果是自动加载,可以在这里放置异步加载数据的代码
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    addData();
-                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-                    ((TextView) loadMoreView.findViewById(R.id.load_more)).setText("加载中...");
-                    toastTextView.setText("新增" + addNumber + "条资讯");
-                    toast.show();
-                }
-            }, 2000); //模拟加载自动加载太快，所以模拟加载延时执行
-
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    ((TextView) loadMoreView.findViewById(R.id.load_more)).setText("加载更多");
-                }
-            }, 1800); //模拟加载自动加载太快，所以模拟加载延时执行
+            page++;
+            BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
         }
     }
 
+    private int visibleLastIndex = 0;   //最后的可视项索引
+    private int visibleItemCount;       // 当前窗口可见项总数
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         this.visibleItemCount = visibleItemCount;
         visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
     }
 
-    @Override
-    public void onRefresh() {
 
-        // 这里做联网请求，然后handler处理完成之后的事情
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (totalNumber < 30) {
-//                    addData();  //加载刷新数据
-//                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-//                    toastTextView.setText("新增" + addNumber+ "条资讯");
-//                } else {
-//                    toastTextView.setText("没有更多内容了");
-//                    if(toastTextView.getText().toString().equals("没有更多内容了")) {
-//                        toastTextView.setText("刚刚刷新过，等下再试吧");
-//                    }
-//                }
-//                swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
-//                toast.show();
-//            }
-//        }, 1000);
-        BaseHttpClient.getInsence().getNewsListByPage("all","1",response);
-    }
-private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
-    @Override
-    protected void onFailure() {
 
-    }
+    /**自动加载更新数据*/
+    private ResponseHandlerInterface autoLoadResponse = new NewsListHttpModel<NewsListEntity>
+            (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+        @Override
+        protected void onFailure() {
+            toastTextView.setText("加载失败，请检查网络连接");
+            toast.show();
+        }
 
-    @Override
-    protected void onSuccess(NewsListEntity result) {
-        List<NewsEntity> list = result.getList();
-        Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
-        swipeLayout.setRefreshing(false);
-    }
+        @Override
+        protected void onSuccess(NewsListEntity result) {
+            //loadMoreText.setText("加载中...");
+            //loadMoreText.setText("加载更多");
 
-    @Override
-    protected void onError() {
+        }
 
-    }
-};
-    /**
-     * 自定义Toast，用于数据更新的提示
-     */
+        @Override
+        protected void onError() {
+            toastTextView.setText("加载错误");
+            toast.show();
+        }
+    };
+
+
+    /**自定义Toast，用于数据更新的提示*/
     private void customToast() {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);  //获取屏幕分辨率
@@ -210,30 +281,6 @@ private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(toastView);
         //toast.show();
-    }
-
-    private int totalNumber = 0;  //总列表数
-    private int addNumber;  //每次新增的资讯数量
-    public void addData(){
-        String title = "Windows 10应用商店中国定制版现身 系统界面曝光";
-        String summary = "7月24日消息，昨日有网友在国内某知名论坛发布疑似Win10应用商店中国定制版的系统界面图片，" +
-                "一时间引发诸多热议。这名网友发帖称是从内部人士手里拿到了Win10特别版的系统映像，安装后发现这竟然" +
-                "是Win10针对中国地区的定制版本。系统中除内置了很多微软旗下的服务外，还有一些本地化的功能。" +
-                "据此他猜测，这极有可能就是专门提供给中国盗版用户免费使用的定制版本。";
-        /**为动态数组添加数据*/
-        totalNumber = listItem.size();
-        addNumber = (int)(Math.random() * 10 + 1); //产生从1 - 10的随机数
-        for(int i = totalNumber; i < totalNumber + addNumber; i++){
-            News news = new News();
-            news.setNewsTitle((i + 1) + "  " + title);
-            news.setNewsContent(summary);
-            news.setPublishTime("2015-07-24 10:30:38");
-            news.setImageId(R.mipmap.news_picture);
-            news.setCommentNumber(i * 20);
-            news.setReaderNumber(i * 100);
-            listItem.add(0, news);
-        }
-        totalNumber = totalNumber + addNumber;
     }
 
     @Override

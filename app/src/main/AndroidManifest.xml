@@ -32,9 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.zreo.cnbetareader.Activitys.Information_ThemeActivity"
-            android:label="资讯主题">
-        </activity>
 
         <activity
             android:name=".Activitys.NewsActivity"

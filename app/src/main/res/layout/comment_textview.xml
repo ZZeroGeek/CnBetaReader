@@ -1,64 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:background="@android:color/white"
-    >
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+    android:orientation="vertical"
+   android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
-        android:padding="1sp"
-        
-     />
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imageView1"
-        android:textSize="25sp"
-        android:layout_marginLeft="10sp"
-        android:layout_marginTop="10sp"
-        android:textColor="@android:color/black"
-        android:text="TextView" />
+        android:id="@+id/frameLayout"
+        android:layout_gravity="center"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/support_against"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
-        android:layout_toRightOf="@+id/imageView1"
-        android:layout_marginLeft="10sp"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:text="支持:0  反对:1"/>
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/circle_image"
+            android:layout_gravity="center"
+            android:padding="3sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:id="@+id/textName"
+            android:layout_gravity="center"
+            android:text="匿"
+            android:textColor="@android:color/white"/>
+
+    </FrameLayout>
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_weight="5">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="TextView" />
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp">
+                 <TextView
+                android:id="@+id/support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="支持:0"/>
+
+                 <TextView
+                android:id="@+id/against"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@android:color/black"
+                android:text="反对:1"/>
+                 </LinearLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="ImageButton"
+            android:src="@drawable/more_grey"
+            android:background="@android:color/white"
+            android:focusable="false" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/comment_text"
-        android:layout_below="@id/imageView1"
         android:textColor="@android:color/black"
-        android:maxLines="2"
-        android:text="100块都不给我100块都不给我100块都不给我100块都不给我100块都不给我"
-        android:padding="10sp"/>
+        android:maxLines="3"
+        android:text="100块都不给我100块都不给我100块都不给我100块都不给我100块都不给我"/>
 
-
-    <ImageButton
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/imageView1"
-        android:layout_alignBottom="@id/imageView1"
-        android:layout_below="@+id/user_name"
-        android:text="ImageButton" 
-        android:src="@drawable/more_grey"
-        android:background="@android:color/white"
-        android:focusable="false"
-       />
-
-</RelativeLayout>
+</LinearLayout>

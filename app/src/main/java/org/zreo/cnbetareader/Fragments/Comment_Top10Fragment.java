@@ -26,7 +26,6 @@ public class Comment_Top10Fragment extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_c_top10listview,container,false);
         initCommentTop10List();
         top10_listView = (ListView)rootview.findViewById(R.id.top10_listView);
-        //top10_listView = (ListView) findViewById(R.id.top10_listView);
         CommentTop10Adapter myAdapter = new CommentTop10Adapter(getActivity(),R.layout.fragment_c_top10textview,cnCommentTop10List);
         top10_listView.setAdapter(myAdapter);
         return rootview;
@@ -38,7 +37,7 @@ public class Comment_Top10Fragment extends Fragment {
         for(int i = 1; i < 11; i++){
 
             CnCommentTop10 cnCommentTop10s = new CnCommentTop10();
-            cnCommentTop10s.setNewsTitle( "  " + title);
+            cnCommentTop10s.setNewsTitle(title);
             cnCommentTop10s.setRanking(i+"");
             cnCommentTop10s.setHot(hot);
             cnCommentTop10List.add(cnCommentTop10s);

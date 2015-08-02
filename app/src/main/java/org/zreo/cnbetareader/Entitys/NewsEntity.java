@@ -1,10 +1,12 @@
 package org.zreo.cnbetareader.Entitys;
 
+import java.io.Serializable;
+
 /**
  * Created by zqh on 2015/7/30  10:25.
  * Email:zqhkey@163.com
  */
-public class NewsEntity {
+public class NewsEntity implements Serializable {
 
 
     private int sid;/*帖子id*/

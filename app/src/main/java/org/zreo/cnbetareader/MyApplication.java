@@ -17,6 +17,7 @@ public class MyApplication extends Application {
     public void onCreate() {
 
         super.onCreate();
+        mApplicationInstance=this;
         initImageLoader(getApplicationContext());
 
     }

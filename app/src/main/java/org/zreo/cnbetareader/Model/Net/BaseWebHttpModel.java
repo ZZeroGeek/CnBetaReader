@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
  * Email:zqhkey@163.com
  * 基础的WebHttp连接抽象模型
  */
-public abstract class BaseWebHttpModel extends BaseDateModel<String> {
+public  class BaseWebHttpModel extends BaseDateModel<String> {
     public BaseWebHttpModel(Activity activity) {
         setActivity(activity);
 

@@ -117,7 +117,7 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
     public void onRefresh() {
 
 
-        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all","1",response);
+        BaseHttpClient.getInsence().getNewsListByPage("all","1",response);
     }
     private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override

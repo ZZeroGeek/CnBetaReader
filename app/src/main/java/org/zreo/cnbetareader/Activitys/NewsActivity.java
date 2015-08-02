@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,12 +17,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.GestureDetector;
 
+import org.zreo.cnbetareader.Entitys.NewsEntity;
+import org.zreo.cnbetareader.Model.Net.BaseWebHttpModel;
+import org.zreo.cnbetareader.Model.Net.NewsWebDetailModel;
 import org.zreo.cnbetareader.R;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -35,17 +37,18 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
     ButtonOnclick buttonOnclick;
     GestureDetector gestureDetector;
     private String[] textsize1 = new String[]{"大", "中", "小"};
+    private NewsWebDetailModel newsWebDetailModel;
 
     /*
      *一个页面里放入了一个webview组件，并将其组件铺满屏幕，全屏幕除了下面的导航栏其余 都是这个webview，
      * 后来我想在webview中触发滑动手势的onfling方法，在webview还没加载完网页内容之前正常，可是 webview加载完网页之后，就无法触发方法了，
      *一般我们用于接收GestureDetector对象的方法是OnTouchevent();,而在View组件占用了屏幕空间之后，这个方法就无 效了，只有换成 dispatchTouchEvent方法才有效！
      */
-    public boolean dispatchTouchEvent(MotionEvent ev) {    //注意这里不能用ONTOUCHEVENT方法，不然无效的
-        gestureDetector.onTouchEvent(ev);
-        webView.onTouchEvent(ev);//这几行代码也要执行，将webview载入MotionEvent对象一下，况且用载入把，不知道用什么表述合适
-        return super.dispatchTouchEvent(ev);
-    }
+//    public boolean dispatchTouchEvent(MotionEvent ev) {    //注意这里不能用ONTOUCHEVENT方法，不然无效的
+//        gestureDetector.onTouchEvent(ev);
+//        webView.onTouchEvent(ev);//这几行代码也要执行，将webview载入MotionEvent对象一下，况且用载入把，不知道用什么表述合适
+//        return super.dispatchTouchEvent(ev);
+//    }
 
 
     private class ButtonOnclick implements DialogInterface.OnClickListener {
@@ -107,42 +110,46 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
                 startActivity(intent5);
             }
         });
-        webView.loadUrl("http://m.cnbeta.com");
-        webView.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlloading(WebView webView, String url) {
-                webView.loadUrl(url);
-                return false;
-            }
-
-            public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
-                return super.shouldOverrideKeyEvent(view, event);
-            }
-
-        });
-        webView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {  //表示按返回键时的操作
-
-
-                        webView.goBack();   //后退
-
-                        //webview.goForward();//前进
-                        return true;    //已处理
-                    }
-                }
-                return false;
-            }
-        });
+//        webView.loadUrl("http://m.cnbeta.com");
+//        webView.setWebViewClient(new WebViewClient() {
+//            public boolean shouldOverrideUrlloading(WebView webView, String url) {
+//                webView.loadUrl(url);
+//                return false;
+//            }
+//
+//            public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
+//                return super.shouldOverrideKeyEvent(view, event);
+//            }
+//
+//        });
+//        webView.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+//                    if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {  //表示按返回键时的操作
+//
+//
+//                        webView.goBack();   //后退
+//
+//                        //webview.goForward();//前进
+//                        return true;    //已处理
+//                    }
+//                }
+//                return false;
+//            }
+//        });
     }
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+        NewsEntity entity=(NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
         init();
-
+        newsWebDetailModel = new NewsWebDetailModel(new BaseWebHttpModel(this));
+        newsWebDetailModel.setActivity(this);
+        newsWebDetailModel.InitView(webView, entity);
+        newsWebDetailModel.LoadData(true);
     }
 
     @Override
@@ -218,6 +225,11 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return newsWebDetailModel.onKeyDown(keyCode, event)|| super.onKeyDown(keyCode, event);
     }
 
     private void showShare() {

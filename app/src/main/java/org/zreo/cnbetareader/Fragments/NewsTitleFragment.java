@@ -4,11 +4,8 @@ package org.zreo.cnbetareader.Fragments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,11 +22,9 @@ import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.ResponseHandlerInterface;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
-import org.zreo.cnbetareader.Entitys.News;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
@@ -85,7 +80,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             initView();  //初始化布局
         }
         else {   //如果数据库没数据，再从网络加载最新的新闻
-            BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(temp), initResponse);
+            BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(temp), initResponse);
         }
 
     }
@@ -134,7 +129,12 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                NewsEntity entity = listItems.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("NewsItem",entity);
+
                 Intent intent = new Intent(getActivity(), NewsActivity.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -155,7 +155,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         if(temp > 0){
             temp--;
         }
-        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(temp), refreshResponse);
+        BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(temp), refreshResponse);
 
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
 
@@ -229,7 +229,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
             page++;
-            BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
+            BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
         }
     }
 

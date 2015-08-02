@@ -20,7 +20,9 @@ import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by guang on 2015/7/24. 实现视图与数据的绑定
@@ -31,7 +33,7 @@ public class NewsTitleAdapter extends BaseAdapter{
     private List<NewsEntity> listItem;
     private Context mContext;
     /**构造函数*/
-    public NewsTitleAdapter(Context context, int textViewResourcedId, List<NewsEntity> objects) {
+   public NewsTitleAdapter(Context context, int textViewResourcedId, List<NewsEntity> objects) {
         super();
         resourceId = textViewResourcedId;
         listItem = objects;

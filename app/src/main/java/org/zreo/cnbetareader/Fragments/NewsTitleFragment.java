@@ -34,7 +34,10 @@ import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.databases.NewsTitleDatabase;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by guang on 2015/7/23.
@@ -45,7 +48,13 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
     View view;  //当前布局
     private ListView lv;
-    private List<NewsEntity> listItems = new ArrayList<NewsEntity>();   /**保存新闻信息*/
+    private List<NewsEntity> listItems;  // = new ArrayList<NewsEntity>();   /**保存新闻信息*/
+    Map<Integer, NewsEntity> map = new TreeMap<Integer, NewsEntity>(new Comparator<Integer>() {  //将获取到的新闻列表排序
+                @Override
+                public int compare(Integer lhs, Integer rhs) {
+                    return rhs.compareTo(lhs);   // 降序排序, 默认为升序
+                }
+            });
     NewsTitleAdapter mAdapter;
 
     Toast toast;  //数据更新提示的Toast
@@ -54,9 +63,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     private View loadMoreView;     //加载更多布局
     private TextView loadMoreText;    //加载提示文本
 
-
     private NewsTitleDatabase newsTitleDatabase;  //数据库
-    //private Handler handler;
 
     SwipeRefreshLayout swipeLayout;  //下拉刷新控件
 
@@ -80,9 +87,8 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             initView();  //初始化布局
         }
         else {   //如果数据库没数据，再从网络加载最新的新闻
-            BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(temp), initResponse);
+            BaseHttpClient.getInsence().getNewsListByPage("all", "1", initResponse);
         }
-
     }
 
     private ResponseHandlerInterface initResponse = new NewsListHttpModel<NewsListEntity>
@@ -95,12 +101,21 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         @Override
         protected void onSuccess(NewsListEntity result) {
-            List<NewsEntity> list = result.getList();
-           /* for (int i = 0 ; i < list.size(); i++){
-                newsTitleDatabase.saveNewsEntity(list.get(i));
+            List<NewsEntity> list = result.getList(); //网络请求返回的数据
+            for (int i = 0 ; i < list.size(); i++){
+               map.put(list.get(i).getSid(), list.get(i));
             }
-            listItems = newsTitleDatabase.loadNewsEntity();   //从保存的数据库中读取新闻列表*/
-            listItems = list;
+            listItems = new ArrayList<NewsEntity>(map.values()); //将Map值转化为List
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0 ; i < listItems.size(); i++){
+                        newsTitleDatabase.saveNewsEntity(listItems.get(i));  //开启子线程将数据保存到数据库
+                    }
+                }
+            });
+
             initView();  //初始化布局
         }
 
@@ -111,14 +126,13 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         }
     };
 
-
-
     /** 初始化布局 */
     private void initView() {
         /**显示新闻标题的ListView*/
         lv = (ListView) view.findViewById(R.id.news_title_list_view);
         /**为ListView创建自定义适配器*/
         mAdapter = new NewsTitleAdapter(getActivity(), R.layout.news_title_item, listItems);
+        //mAdapter = new NewsTitleAdapter(getActivity(), R.layout.news_title_item, map);
         lv.setVerticalScrollBarEnabled(false);//隐藏ListView滑动进度条
         loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
         loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
@@ -148,20 +162,18 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 android.R.color.holo_red_light);
     }
 
-    private int temp = 3;
     /**下拉刷新监听*/
     @Override
     public void onRefresh() {
-        if(temp > 0){
-            temp--;
-        }
-        BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(temp), refreshResponse);
+        BaseHttpClient.getInsence().getNewsListByPage("all", "1", refreshResponse);
 
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
 
     }
 
-    private int addNumber; //每次刷新或加载增加的数据
+    private int addNumber = 0; //每次刷新或加载增加的数据
+    private int lastNumber = 0;  //更新数据前的新闻数
+    private int currentNumber = 0;  //当前新闻数
     /**刷新更新数据*/
     private ResponseHandlerInterface refreshResponse = new NewsListHttpModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
@@ -173,41 +185,32 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         @Override
         protected void onSuccess(NewsListEntity result) {
-            List<NewsEntity> list = result.getList();
-            List<NewsEntity> lastList = listItems;
+            List<NewsEntity> list = result.getList();  //网络请求返回的数据
+            lastNumber = listItems.size();   //更新数据前的新闻数
 
-            addNumber = 0;
-            int k = 0;
             for (int i = 0 ; i < list.size(); i++){
-
-                k = 0;
-                for(int j = 0; j < lastList.size(); j++){
-                    if( list.get(i).getSid() != lastList.get(j).getSid() ) {
-                        k++;
-                    }
-                }
-
-                if(k == lastList.size()){  //如果刷新的数据与之前的都不重复，则添加
-                    listItems.add(0,list.get(i));
-                    addNumber++;
-                }
-
+                map.put(list.get(i).getSid(), list.get(i));  //将返回的数据添加到Map中
             }
+            listItems.clear();
+            listItems.addAll(new ArrayList<NewsEntity>(map.values()));
+            //listItems = new ArrayList<NewsEntity>(map.values()); //将Map值转化为List
+            currentNumber = listItems.size();  //当前新闻数
 
             mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
 
-            //addNumber = listItems.size() - lastList.size();
+            addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
 
             if(addNumber > 0){
                  toastTextView.setText("新增" + addNumber + "条资讯");
              }
 
             if (addNumber == 0){
-                if(toastTextView.getText().toString().equals("没有更多内容了")) {
+                toastTextView.setText("没有更多内容了");
+               /* if(toastTextView.getText().toString().equals("没有更多内容了")) {
                     toastTextView.setText("刚刚刷新过，等下再试吧");
                 } else {
                     toastTextView.setText("没有更多内容了");
-                }
+                }*/
             }
 
             toast.show();
@@ -220,7 +223,6 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         }
     };
 
-
     private int page = 1; //传入页数，第一页为最新的新闻资讯，依次类推
     /**滑到底部自动加载*/
     @Override
@@ -228,8 +230,10 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         int itemsLastIndex = listItems.size() - 1;    //数据集最后一项的索引
         int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
+            loadMoreText.setText("加载中...");
             page++;
             BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
+
         }
     }
 
@@ -240,8 +244,6 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         this.visibleItemCount = visibleItemCount;
         visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
     }
-
-
 
     /**自动加载更新数据*/
     private ResponseHandlerInterface autoLoadResponse = new NewsListHttpModel<NewsListEntity>
@@ -254,8 +256,27 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         @Override
         protected void onSuccess(NewsListEntity result) {
-            //loadMoreText.setText("加载中...");
-            //loadMoreText.setText("加载更多");
+            List<NewsEntity> list = result.getList();  //网络请求返回的数据
+            lastNumber = listItems.size();   //更新数据前的新闻数
+
+            for (int i = 0 ; i < list.size(); i++){
+                map.put(list.get(i).getSid(), list.get(i));  //将返回的数据添加到Map中
+            }
+
+            listItems.clear();
+            listItems.addAll(new ArrayList<NewsEntity>(map.values()));
+            //listItems = new ArrayList<NewsEntity>(map.values()); //将Map值转化为List
+            currentNumber = listItems.size();  //当前新闻数
+
+            mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+
+            addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
+
+            if(addNumber > 0){
+                toastTextView.setText("新增" + addNumber + "条资讯");
+            }
+            loadMoreText.setText("加载更多");
+            toast.show();
 
         }
 

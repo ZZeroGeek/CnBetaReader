@@ -174,7 +174,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 //                toast.show();
 //            }
 //        }, 1000);
-        BaseHttpClient.getInsence(getActivity()).getNewsListByPage("all","1",response);
+        BaseHttpClient.getInsence().getNewsListByPage("all","1",response);
     }
 private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
     @Override

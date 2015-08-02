@@ -1,6 +1,5 @@
 package org.zreo.cnbetareader.Net;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -13,19 +12,22 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.message.BasicHeader;
 import org.zreo.cnbetareader.AppConfig;
 
+import java.util.Locale;
+
 /**
  * Created by zqh on 2015/7/29  22:21.
  * Email:zqhkey@163.com
+ * 所有数据连接方式
  */
 public class BaseHttpClient {
     private static BaseHttpClient client;
     private AsyncHttpClient asyncHttpClient;
     private SyncHttpClient syncHttpClient;
-    private Context mContext;
 
-    public static BaseHttpClient getInsence(Context context) {
+
+    public static BaseHttpClient getInsence( ) {
         if (client == null) {
-            client = new BaseHttpClient(context);
+            client = new BaseHttpClient();
         }
         return client;
     }
@@ -33,8 +35,8 @@ public class BaseHttpClient {
     /**
      * 初始化阶段进行属性设置
      */
-    private BaseHttpClient(Context context) {
-        mContext = context;
+    private BaseHttpClient( ) {
+
         asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setResponseTimeout(5000);//响应时间
         asyncHttpClient.setConnectTimeout(3000);//连接时间
@@ -60,6 +62,10 @@ public class BaseHttpClient {
         asyncHttpClient.get(null, AppConfig.NEWS_LIST_URL, ClientHeader(), params, responsehandler);
     }
 
+    public void getNewsDetialBySid(int sid, ResponseHandlerInterface responseHandlerInterface) {
+        String Url = String.format(Locale.CANADA, AppConfig.ARTICLE_URL, sid);
+        asyncHttpClient.get(Url, responseHandlerInterface);
+    }
     /**
      * 链接头部
      *
@@ -73,4 +79,5 @@ public class BaseHttpClient {
         };
 
     }
+
 }

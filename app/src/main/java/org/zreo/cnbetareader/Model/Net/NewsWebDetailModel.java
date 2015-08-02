@@ -1,0 +1,207 @@
+package org.zreo.cnbetareader.Model.Net;
+
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Handler;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+
+import org.zreo.cnbetareader.AppConfig;
+import org.zreo.cnbetareader.Entitys.NewsEntity;
+import org.zreo.cnbetareader.R;
+import org.zreo.cnbetareader.Utils.NetTools;
+
+import java.util.Locale;
+
+/**
+ * Created by zqh on 2015/8/1  11:29.
+ * Email:zqhkey@163.com
+ * 新闻WebView数据实现模块
+ */
+public class NewsWebDetailModel extends WebDetailModel<String, BaseWebHttpModel> {
+
+    private WebView mWebView;
+    private NewsEntity mEntity;
+    private boolean hascontent;
+    private Handler myHandler;
+//    private VideoWebChromeClient client = new VideoWebChromeClient();
+private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"/>" +
+        "<link  rel=\"stylesheet\" href=\"file:///android_asset/style.css\" type=\"text/css\"/><style>.title{color: #%s;}%s</style></head>" +
+        "<body><div><div class=\"title\">%s</div><div class=\"from\">%s<span style=\"float: right\">%s</span></div><div id=\"introduce\">%s<div class=\"clear\"></div></div><div class=\"content\">%s</div><div class=\"clear foot\">-- The End --</div></div>" +
+        "<script>var config = {\"enableImage\":%s,\"enableFlashToHtml5\":%s};" +
+        "</script><script src=\"file:///android_asset/loder.js\"></script></body></html>";
+    private String night = "body{color:#9bafcb}#introduce{background-color:#262f3d;color:#616d80}.content blockquote{background-color:#262f3d;color:#616d80}";
+    private String light = "#introduce{background-color:#F1F1F1;color: #444;}";
+    public NewsWebDetailModel(BaseWebHttpModel model) {
+        super(model);
+
+    }
+
+    @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    /**
+     * 初始化View中的各项参数
+     *
+     * @param view
+     */
+    @Override
+    public void assumeView(View view) {
+
+    }
+
+    @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
+    public void InitView(WebView view, NewsEntity entity) {
+        mWebView = view;
+        mEntity = entity;
+        this.myHandler = new Handler();
+        WebSettings settings = mWebView.getSettings();
+        settings.setSupportZoom(false);
+        settings.setAllowFileAccess(true);//启用或禁止WebView访问文件数据
+        settings.setPluginState(WebSettings.PluginState.ON_DEMAND);//播放或者Flash相关
+        settings.setJavaScriptEnabled(true);//设置支持JavaScript脚本
+        settings.setDomStorageEnabled(true);//设置是否启用了DOM storage API。
+        settings.setLoadsImagesAutomatically(true); //支持自动加载图片
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);//webview 远程调试
+        }
+        /*判断网络类型，优化流量*/
+        if (NetTools.isWifiConnected()) {
+            settings.setCacheMode(WebSettings.LOAD_DEFAULT);//根据cache-control决定是否从网络上取数据。
+        } else {
+            settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。
+        }
+        settings.setTextZoom(100);//字体大小
+//        mWebView.addJavascriptInterface(new JavascriptInterface(mActivity), "Interface");//回调页面中的方法
+    }
+
+    @Override
+    public void LoadData(boolean startup) {
+        DataModel.loadWebData(mEntity.getSid());
+
+    }
+
+    @Override
+    public void LoadStart() {
+
+    }
+
+    @Override
+    public void LoadSuccess(String object) {
+//       int titleColor = array.getColor(2,mActivity.getResources().getColor(R.color.toolbarColor));
+        if (AppConfig.STANDRA_PATTERN.matcher(object).find()) {
+            new AsyncTask<String, String, Boolean>() {
+                @Override
+                protected Boolean doInBackground(String... strings) {
+                    hascontent = BaseWebHttpModel.handleResponceString(mEntity, strings[0],false);
+                    return hascontent;
+                }
+
+                @Override
+                protected void onPostExecute(Boolean hascontent) {
+                    if (hascontent) {
+                        LoadWebData(mEntity);
+                    } else {
+                        LoadFialure();
+                    }
+                }
+            }.execute(object);
+        } else {
+            LoadFialure();
+        }
+
+    }
+
+    private void LoadWebData(NewsEntity mNewsItem) {
+        String add="light";
+        String colorString = Integer.toHexString(R.color.toolbarColor);
+        String data = String.format(Locale.CHINA, webTemplate, colorString.substring(2, colorString.length()),
+                add,mNewsItem.getTitle(),mNewsItem.getFrom(),mNewsItem.getInputtime(),mNewsItem.getHometext(),mNewsItem.getContent(), true, true);
+        mWebView.loadDataWithBaseURL(AppConfig.BASE_URL, data, "text/html", "utf-8", null);
+
+    }
+    @Override
+    public void LoadFialure() {
+
+    }
+
+    @Override
+    public void LoadFinish() {
+
+    }
+
+//    private class JavascriptInterface {
+//        private Activity mActivity;
+//
+//        public JavascriptInterface(Activity activity) {
+//            this.mActivity = activity;
+//        }
+//
+//        @android.webkit.JavascriptInterface
+//        public void showImage(String pos, final String[] imageSrcs) {
+//            final int posi;
+//            try {
+//                posi = Integer.parseInt(pos);
+//                myHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Intent intent = new Intent(mContext, ImageViewActivity.class);
+//                        intent.putExtra(ImageViewActivity.IMAGE_URLS, imageSrcs);
+//                        intent.putExtra(ImageViewActivity.CURRENT_POS, posi);
+//                        mContext.startActivity(intent);
+//                    }
+//                });
+//            } catch (Exception e) {
+//                Log.d(getClass().getName(), "Illegal argument");
+//            }
+//        }
+//
+//        @android.webkit.JavascriptInterface
+//        public void loadSohuVideo(final String hoder_id, final String requestUrl) {
+//            myHandler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    NetKit.getInstance().getClient().get(requestUrl, new JsonHttpResponseHandler() {
+//                        @Override
+//                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                            try {
+//                                mWebView.loadUrl("javascript:Loader.VideoCallBack(\"" + hoder_id + "\",\"" + response.getJSONObject("data").getString("url_high_mp4") + "\",\"" + response.getJSONObject("data").getString("hor_big_pic") + "\")");
+//                            } catch (Exception e) {
+//                                Toolkit.showCrouton(mActivity, "搜狐视频加载失败", Style.ALERT);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                            Toolkit.showCrouton(mActivity, "搜狐视频加载失败", Style.ALERT);
+//                        }
+//                    });
+//                }
+//            });
+//        }
+//
+//        @android.webkit.JavascriptInterface
+//        public void showMessage(final String message, final String type) {
+//            myHandler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toolkit.showCrouton(mActivity, message, CroutonStyle.getStyle(type));
+//                }
+//            });
+//        }
+//    }
+}

@@ -18,7 +18,11 @@ public class NewsEntity {
     private int counter;/*查看数*/
     private String inputtime;/*发布时间*/
     private String thumb;/*图片地址*/
-
+    private String SN;
+    private String largeImage;
+    private String from;
+    private String content;
+    private String summary;
     @Override
     public String toString() {
         return "NewsEntity{" +
@@ -33,7 +37,52 @@ public class NewsEntity {
                 ", counter=" + counter +
                 ", inputtime='" + inputtime + '\'' +
                 ", thumb='" + thumb + '\'' +
+                ", SN='" + SN + '\'' +
+                ", largeImage='" + largeImage + '\'' +
+                ", from='" + from + '\'' +
+                ", content='" + content + '\'' +
+                ", summary='" + summary + '\'' +
                 '}';
+    }
+
+    public String getSN() {
+        return SN;
+    }
+
+    public void setSN(String SN) {
+        this.SN = SN;
+    }
+
+    public String getLargeImage() {
+        return largeImage;
+    }
+
+    public void setLargeImage(String largeImage) {
+        this.largeImage = largeImage;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public int getSid() {

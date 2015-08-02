@@ -1,8 +1,12 @@
 package org.zreo.cnbetareader.Activitys;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -18,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CommentActivity extends Activity implements XListView.IXListViewListener, View.OnClickListener {
+public class CommentActivity extends AppCompatActivity implements XListView.IXListViewListener, View.OnClickListener {
 
     // 最大数据条数
     private static final int MAX_DATA_NUM = 100;
@@ -43,7 +47,7 @@ public class CommentActivity extends Activity implements XListView.IXListViewLis
     private int mState = STATE_ONSCREEN;
     private int mScrollY;
     private int mMinRawY = 0;
-    // private Toolbar mToolbar;
+     private Toolbar mToolbar;
 
     private TranslateAnimation anim;
     private XListView myListView;
@@ -92,6 +96,18 @@ public class CommentActivity extends Activity implements XListView.IXListViewLis
         mQuickReturnView = (ImageView) findViewById(R.id.forum_listview_linearfooter);
         mQuickReturnView.setOnClickListener(this); // 下拉快速显示item功能
         myListView.setQuickReturnView(mQuickReturnView);
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
+        mToolbar.setTitle("评论");   // 标题的文字需在setSupportActionBar之前，不然会无效
+        mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
+        setSupportActionBar(mToolbar);  //将ToolBar设置为ActionBAr
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //在ToolBar左边，即当前标题前添加图标
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
     /**
      * 实现按钮下拉浮现，上滑隐藏
@@ -209,6 +225,7 @@ public class CommentActivity extends Activity implements XListView.IXListViewLis
      */
     @Override
     public void onClick(View v) {
-
+        Intent intent = new Intent(CommentActivity.this, PostCommentActivity.class);
+        startActivity(intent);
     }
 }

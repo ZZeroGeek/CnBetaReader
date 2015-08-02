@@ -9,18 +9,15 @@
         android:layout_height="match_parent"
         android:id="@+id/xListView">
         </org.zreo.cnbetareader.Views.XListView>
+    <include layout="@layout/toolbar"></include>
     <ImageView
         android:id="@+id/forum_listview_linearfooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/forum_shape_circle_white_dropshadow"
-        android:padding="12dp"
+        android:background="@drawable/comment_button"
+        android:padding="20dp"
         />
 
 </RelativeLayout>

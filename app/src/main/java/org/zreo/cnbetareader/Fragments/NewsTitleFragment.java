@@ -74,19 +74,19 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         newsTitleDatabase = NewsTitleDatabase.getInstance(getActivity());  //初始化数据库实例
 
+        customToast();  //初始化自定义Toast，用于数据更新的提示
+
         initListItem(); //初始化新闻列表
 
-        customToast();  //初始化自定义Toast，用于数据更新的提示
         return  view;
     }
 
-        /** 初始化新闻列表*/
+    /** 初始化新闻列表*/
     public void initListItem(){
         listItems = newsTitleDatabase.loadNewsEntity();   //从数据库读取新闻列表
         if (listItems.size() > 0) {     //数据库有数据，直接显示数据库中的数据
-            initView();  //初始化布局
-        }
-        else {   //如果数据库没数据，再从网络加载最新的新闻
+            initView();   //初始化布局
+        } else {    //如果数据库没数据，再从网络加载最新的新闻
             BaseHttpClient.getInsence().getNewsListByPage("all", "1", initResponse);
         }
     }
@@ -101,22 +101,27 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         @Override
         protected void onSuccess(NewsListEntity result) {
-            List<NewsEntity> list = result.getList(); //网络请求返回的数据
+            List<NewsEntity> list = result.getList();   //网络请求返回的数据
             for (int i = 0 ; i < list.size(); i++){
-               map.put(list.get(i).getSid(), list.get(i));
+                map.put(list.get(i).getSid(), list.get(i));
             }
+
             listItems = new ArrayList<NewsEntity>(map.values()); //将Map值转化为List
 
+            initView();  //初始化布局
+
+            toastTextView.setText("自动为您加载了 " + listItems.size() + " 条资讯");
+            toast.show();
+
+            //开启子线程将数据保存到数据库
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0 ; i < listItems.size(); i++){
-                        newsTitleDatabase.saveNewsEntity(listItems.get(i));  //开启子线程将数据保存到数据库
+                        newsTitleDatabase.saveNewsEntity(listItems.get(i));  //将数据保存到数据库
                     }
                 }
-            });
-
-            initView();  //初始化布局
+            }).start();
         }
 
         @Override
@@ -125,6 +130,9 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             toast.show();
         }
     };
+
+
+
 
     /** 初始化布局 */
     private void initView() {
@@ -166,15 +174,14 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     @Override
     public void onRefresh() {
         BaseHttpClient.getInsence().getNewsListByPage("all", "1", refreshResponse);
-
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
-
     }
 
-    private int addNumber = 0; //每次刷新或加载增加的数据
     private int lastNumber = 0;  //更新数据前的新闻数
     private int currentNumber = 0;  //当前新闻数
-    /**刷新更新数据*/
+    private int addNumber = 0; //每次刷新或加载增加的数据
+
+    /**刷新时更新数据*/
     private ResponseHandlerInterface refreshResponse = new NewsListHttpModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
@@ -191,29 +198,37 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             for (int i = 0 ; i < list.size(); i++){
                 map.put(list.get(i).getSid(), list.get(i));  //将返回的数据添加到Map中
             }
-            listItems.clear();
-            listItems.addAll(new ArrayList<NewsEntity>(map.values()));
-            //listItems = new ArrayList<NewsEntity>(map.values()); //将Map值转化为List
-            currentNumber = listItems.size();  //当前新闻数
 
-            mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+            if(map.size() > lastNumber)    //当新闻列表有更新
+            {
+                listItems.clear();
+                listItems.addAll(new ArrayList<NewsEntity>(map.values()));
+                mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
 
-            addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
-
-            if(addNumber > 0){
-                 toastTextView.setText("新增" + addNumber + "条资讯");
-             }
-
-            if (addNumber == 0){
+                currentNumber = listItems.size();  //当前新闻数
+                addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
+                toastTextView.setText("新增" + addNumber + "条资讯");
+            } else {
                 toastTextView.setText("没有更多内容了");
-               /* if(toastTextView.getText().toString().equals("没有更多内容了")) {
+                /*if(toastTextView.getText().toString().equals("没有更多内容了")) {
                     toastTextView.setText("刚刚刷新过，等下再试吧");
-                } else {
-                    toastTextView.setText("没有更多内容了");
-                }*/
+                } */
             }
 
             toast.show();
+
+            //开启子线程将数据保存到数据库
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Map<Integer, NewsEntity> tempMap =  newsTitleDatabase.loadMapNewsEntity();  //从数据库读取之前保存的数据
+                    for (int i = 0 ; i < listItems.size(); i++){
+                        if(!tempMap.containsKey(listItems.get(i).getSid())){
+                            newsTitleDatabase.saveNewsEntity(listItems.get(i));  //如果数据库中不存在这个键值id的话，则添加到数据库
+                        }
+                    }
+                }
+            }).start();
         }
 
         @Override
@@ -223,26 +238,26 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         }
     };
 
-    private int page = 1; //传入页数，第一页为最新的新闻资讯，依次类推
-    /**滑到底部自动加载*/
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        int itemsLastIndex = listItems.size() - 1;    //数据集最后一项的索引
-        int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
-        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-            loadMoreText.setText("加载中...");
-            page++;
-            BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
-
-        }
-    }
-
     private int visibleLastIndex = 0;   //最后的可视项索引
     private int visibleItemCount;       // 当前窗口可见项总数
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         this.visibleItemCount = visibleItemCount;
         visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
+    }
+
+    private int page = 1; //传入页数，第一页为最新的新闻资讯，依次类推
+    /**滑到底部自动加载*/
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        int itemsLastIndex = listItems.size() - 1;    //数据集最后一项的索引
+        int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
+        //当滑到底部时自动加载
+        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
+            loadMoreText.setText("加载中...");
+            page++;
+            BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
+        }
     }
 
     /**自动加载更新数据*/
@@ -256,6 +271,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         @Override
         protected void onSuccess(NewsListEntity result) {
+            loadMoreText.setText("加载更多");
             List<NewsEntity> list = result.getList();  //网络请求返回的数据
             lastNumber = listItems.size();   //更新数据前的新闻数
 
@@ -265,18 +281,25 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
             listItems.clear();
             listItems.addAll(new ArrayList<NewsEntity>(map.values()));
-            //listItems = new ArrayList<NewsEntity>(map.values()); //将Map值转化为List
-            currentNumber = listItems.size();  //当前新闻数
-
             mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
 
+            currentNumber = listItems.size();  //当前新闻数
             addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
-
-            if(addNumber > 0){
-                toastTextView.setText("新增" + addNumber + "条资讯");
-            }
-            loadMoreText.setText("加载更多");
+            toastTextView.setText("新增" + addNumber + "条资讯");
             toast.show();
+
+            //开启子线程将数据保存到数据库
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Map<Integer, NewsEntity> tempMap =  newsTitleDatabase.loadMapNewsEntity();  //从数据库读取之前保存的数据
+                    for (int i = 0 ; i < listItems.size(); i++){
+                        if(!tempMap.containsKey(listItems.get(i).getSid())){
+                            newsTitleDatabase.saveNewsEntity(listItems.get(i));  //如果数据库中不存在这个键值id的话，则添加到数据库
+                        }
+                    }
+                }
+            }).start();
 
         }
 

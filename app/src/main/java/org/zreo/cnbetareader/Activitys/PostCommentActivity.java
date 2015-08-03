@@ -11,17 +11,27 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CheckCode;
+import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.R;
+import org.zreo.cnbetareader.Views.XListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostCommentActivity extends AppCompatActivity {
 
+    EditText commentTest;
     ImageView codeImage;
     Button refresh;
     String getCode=null;
     EditText editCode;
     public Button send;
     private Toolbar mToolbar;
+    private List<CnComment> cnCommentList = new ArrayList<CnComment>();
+    CommentAdapter myAdapter;
+    private XListView myListView;
 
     public PostCommentActivity() {
     }
@@ -29,6 +39,7 @@ public class PostCommentActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_comment);
+        commentTest = (EditText)findViewById(R.id.commentTest);
         codeImage =(ImageView)findViewById(R.id.codeImage);
         codeImage.setImageBitmap(CheckCode.getInstance().getBitmap());
         editCode =(EditText) findViewById(R.id.mEditPass);
@@ -48,17 +59,26 @@ public class PostCommentActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    String	v_code= editCode.getText().toString().trim();
-                    if(v_code==null||v_code.equals("")){
-                        Toast.makeText(PostCommentActivity.this, "没有填写验证码", Toast.LENGTH_LONG).show();
-                    }else if(!v_code.equals(getCode)){
-                        Toast.makeText(PostCommentActivity.this, "验证码填写不正确", Toast.LENGTH_LONG).show();
-                    }else{
+                // TODO Auto-generated method stub
+                String v_code = editCode.getText().toString().trim();
+                if (v_code == null || v_code.equals("")) {
+                    Toast.makeText(PostCommentActivity.this, "没有填写验证码", Toast.LENGTH_LONG).show();
+                } else if (!v_code.equals(getCode)) {
+                    Toast.makeText(PostCommentActivity.this, "验证码填写不正确", Toast.LENGTH_LONG).show();
+                } else {
+                    String content = commentTest.getText().toString();
+//                    if (!"".equals(content)) {
+//                        CnComment cnComment = new CnComment(null, null, 0, content, null, null,0, 0);
+//                        cnCommentList.add(cnComment);
+//                      //  myAdapter.notifyDataSetChanged(); // 当有新消息时，刷新ListView中的显示
+//                        myListView.setSelection(cnCommentList.size()); // 将ListView定位到最后一行
+//                        commentTest.setText(""); // 清空输入框中的内容
                         Toast.makeText(PostCommentActivity.this, "发送成功", Toast.LENGTH_LONG).show();
+                        onBackPressed();
                     }
-               // Toast.makeText(PostCommentActivity.this,"发送成功", Toast.LENGTH_SHORT ).show();
-            }
+                    // Toast.makeText(PostCommentActivity.this,"发送成功", Toast.LENGTH_SHORT ).show();
+                }
+           // }
         });
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitle("发表评论");   // 标题的文字需在setSupportActionBar之前，不然会无效

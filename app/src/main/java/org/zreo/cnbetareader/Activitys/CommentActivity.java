@@ -24,9 +24,6 @@ import java.util.List;
 
 public class CommentActivity extends AppCompatActivity implements XListView.IXListViewListener, View.OnClickListener {
 
-    // 最大数据条数
-    private static final int MAX_DATA_NUM = 100;
-
     private View moreDataView;
     private Button loadButton;
     private ProgressBar progressBar;
@@ -66,20 +63,30 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
 
 
-    private CnComment loadMoreData() {
-        String userName = "匿名用户";
-        String textComment = "100块都不给我";
-        String sText = "支持:1 ";
-        String aText = "反对:0";
-        CnComment cnComments = new CnComment();
-        cnComments.setImageId(R.drawable.circle_image);
-        cnComments.setUserName("1111" + userName);
-        cnComments.setTestComment(textComment);
-        cnComments.setCommentMenu(R.drawable.more_grey);
-        cnComments.setSupport(sText);
-        cnComments.setAgainst(aText);
-//                cnCommentList.add(cnComments);
-        return cnComments;
+    private void loadMoreData() {
+        String[] FName = {"东"};
+        String userName = "东方用户";
+        String textComment = "200块都不给我";
+        String sText = "支持:";
+        String aText = "反对:";
+        int supportNum = 10;
+        int againstNum = 50;
+        ArrayList<CnComment> resultList = new ArrayList<CnComment>();
+        for (int i = 0; i < 10; i++) {
+
+            CnComment cnComments = new CnComment();
+            cnComments.setFName(FName[0]);
+            cnComments.setSupportNumber(supportNum);
+            cnComments.setAgainstNumber(againstNum);
+            cnComments.setImageId(R.drawable.circle_image);
+            cnComments.setUserName(i+userName);
+            cnComments.setTestComment(textComment);
+            cnComments.setCommentMenu(R.drawable.more_grey);
+            cnComments.setSupport(sText);
+            cnComments.setAgainst(aText);
+            resultList.add(cnComments);
+        }
+        myAdapter.AddData(resultList);
     }
 
     /**
@@ -189,14 +196,20 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
      * 初始化评论列表
      */
     private void initCommentList() {
+        String[] FName = {"匿"};
         String userName = "匿名用户";
         String textComment = "100块都不给我";
-        String sText = "支持:1 ";
-        String aText = "反对:0";
+        String sText = "支持:";
+        String aText = "反对:";
+        int supportNum = 1;
+        int againstNum = 0;
         ArrayList<CnComment> resultList = new ArrayList<CnComment>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
 
             CnComment cnComments = new CnComment();
+            cnComments.setFName(FName[0]);
+            cnComments.setSupportNumber(supportNum);
+            cnComments.setAgainstNumber(againstNum);
             cnComments.setImageId(R.drawable.circle_image);
             cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
@@ -215,7 +228,8 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
     @Override
     public void onLoadMore() {
-        initCommentList();
+        loadMoreData();
+       // initCommentList();
         myListView.stopRefresh();
         myListView.stopLoadMore();
     }

@@ -36,7 +36,7 @@
         android:id="@+id/news_picture"
         android:layout_width="78dp"
         android:layout_height="52dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@mipmap/news_picture"
         android:layout_alignTop="@+id/news_summary"
         android:layout_alignRight="@+id/news_title"

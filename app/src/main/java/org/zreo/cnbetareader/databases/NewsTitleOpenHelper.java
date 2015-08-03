@@ -1,4 +1,4 @@
-package org.zreo.cnbetareader.databases;
+package org.zreo.cnbetareader.Databases;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,8 +1,7 @@
-package org.zreo.cnbetareader.databases;
+package org.zreo.cnbetareader.Databases;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 

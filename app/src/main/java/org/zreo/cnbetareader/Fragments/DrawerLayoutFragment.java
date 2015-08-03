@@ -75,6 +75,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         mBtnHot.setBackgroundColor(getResources().getColor(R.color.white));
         mBtnFavorites.setBackgroundColor(getResources().getColor(R.color.white));
         mBtnTopic.setBackgroundColor(getResources().getColor(R.color.white));
+        mBtnSetting.setBackgroundColor(getResources().getColor(R.color.white));
     }
 
     @Override
@@ -111,6 +112,8 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.btn_setting:
                 listener.selection(7);
+                resetLayout();  //初始化右滑菜单当前标签页选项的背景
+                mBtnSetting.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             default:
                 break;

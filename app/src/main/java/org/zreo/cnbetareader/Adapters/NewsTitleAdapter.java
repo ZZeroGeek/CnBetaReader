@@ -29,9 +29,11 @@ import java.util.Map;
  */
 
 public class NewsTitleAdapter extends BaseAdapter{
+
     private int resourceId;
     private List<NewsEntity> listItem;
     private Context mContext;
+
     /**构造函数*/
    public NewsTitleAdapter(Context context, int textViewResourcedId, List<NewsEntity> objects) {
         super();
@@ -103,10 +105,9 @@ public class NewsTitleAdapter extends BaseAdapter{
 
     /**初始化图片加载器*/
     public void  initImageLoader(){
-        //获取图片加载器对象
-        imageLoader = ImageLoader.getInstance();
 
-        File cacheDir = StorageUtils.getOwnCacheDirectory(mContext, "imageloader/Cache");   //自定义缓存路径
+        imageLoader = ImageLoader.getInstance();  //获取图片加载器对象
+        //File cacheDir = StorageUtils.getOwnCacheDirectory(mContext, "imageloader/Cache");   //自定义缓存路径
         //File cacheDir = StorageUtils.getCacheDirectory(mContext);   //缓存文件夹路径
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(mContext)
@@ -116,7 +117,7 @@ public class NewsTitleAdapter extends BaseAdapter{
                 .denyCacheImageMultipleSizesInMemory()
                 .memoryCacheSize(2 * 1024 * 1024)  // 内存缓存的最大值
                 .memoryCacheSizePercentage(13) // default
-                .diskCache(new UnlimitedDiskCache(cacheDir)) // default 可以自定义缓存路径
+                //.diskCache(new UnlimitedDiskCache(cacheDir)) // default 可以自定义缓存路径
                 .diskCacheSize(50 * 1024 * 1024) // 50 Mb sd卡(本地)缓存的最大值
                 .diskCacheFileCount(100)  // 可以缓存的文件数量
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())  // default为使用HASHCODE对UIL进行加密命名， 还可以用MD5(new Md5FileNameGenerator())加密

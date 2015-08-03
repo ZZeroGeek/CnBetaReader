@@ -6,4 +6,8 @@
         android:title="@string/offline_download"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item android:id="@+id/clear_cache"
+        android:title="清除缓存"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

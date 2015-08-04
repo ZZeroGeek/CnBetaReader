@@ -34,7 +34,7 @@ public class CnComment {
     public CnComment() {
     }
 
-    public CnComment(String FName, String userName, int imageId, String testComment, String support, String against,int commentMenu, long tid) {
+    public CnComment(String FName, String userName, int imageId, String testComment, String support, String against,int commentMenu, long tid, int supportNumber,int againstNumber ) {
         this.userName = userName;
         this.imageView1 = imageId;
         this.testComment = testComment;
@@ -43,6 +43,8 @@ public class CnComment {
         this.commentMenu = commentMenu;
         this.FName = FName;
         this.tid = tid;
+        this.supportNumber = supportNumber;
+        this.againstNumber = againstNumber;
     }
 
     public void setFName(String FName) {

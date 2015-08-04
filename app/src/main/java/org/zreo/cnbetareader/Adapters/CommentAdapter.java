@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentAdapter extends BaseAdapter{
-
     Context _context;
     private int resourceId;
     private List<CnComment> commentItem;

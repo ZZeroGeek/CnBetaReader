@@ -10,9 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import org.simple.eventbus.EventBus;
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.R;
@@ -23,7 +26,8 @@ import java.util.List;
 
 
 public class CommentActivity extends AppCompatActivity implements XListView.IXListViewListener, View.OnClickListener {
-
+    Intent intent;
+    Bundle bundle;
     private View moreDataView;
     private Button loadButton;
     private ProgressBar progressBar;
@@ -56,6 +60,14 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comment_listview);
+        EventBus.getDefault().register(this);
+//        intent = this.getIntent();/* 取得Intent中的Bundle对象 */
+//        bundle = intent.getExtras(); /* 取得Bundle对象中的数据 */
+//        String content =bundle.getString("content");/* 取得Bundle对象中的数据 */
+//        TextView textView2 = (TextView)findViewById(R.id.comment_text);
+//        textView2.setText(content);
+//        this.setResult(RESULT_OK, intent); /* 关闭activity */
+//        this.finish();
         initView();
         initCommentList();
     }
@@ -241,5 +253,35 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     public void onClick(View v) {
         Intent intent = new Intent(CommentActivity.this, PostCommentActivity.class);
         startActivity(intent);
+    }
+    public void onEventMainThread(PostCommentActivity.PostCommentActivityEvent postCommentActivityEvent) {
+
+        String content =postCommentActivityEvent.getContent();
+        String[] FName = {"男"};
+        String userName = "男方用户";
+        String sText = "支持:";
+        String aText = "反对:";
+        int supportNum = 20;
+        int againstNum = 40;
+        ArrayList<CnComment> resultList = new ArrayList<CnComment>();
+           CnComment cnComments = new CnComment();
+            cnComments.setFName(FName[0]);
+            cnComments.setSupportNumber(supportNum);
+            cnComments.setAgainstNumber(againstNum);
+            cnComments.setImageId(R.drawable.circle_image);
+            cnComments.setUserName(userName);
+            cnComments.setTestComment(content);
+            cnComments.setCommentMenu(R.drawable.more_grey);
+            cnComments.setSupport(sText);
+            cnComments.setAgainst(aText);
+            resultList.add(cnComments);
+        myAdapter.AddData(resultList);
+        //tv.setText(content);
+       // Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

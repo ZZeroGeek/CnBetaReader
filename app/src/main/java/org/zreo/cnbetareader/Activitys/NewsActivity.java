@@ -92,8 +92,14 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
         webView = (WebView) findViewById(R.id.wv);
         webSettings = webView.getSettings();
         imageButton = (ImageButton) findViewById(R.id.imageBtn);
+
+        Bundle bundle=new Bundle();
+        bundle=getIntent().getExtras();
+        NewsEntity newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
+        String title=newsEntity.getTitle();
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
-        mToolbar.setTitle("新闻详细页");   // 标题的文字需在setSupportActionBar之前，不然会无效
+        mToolbar.setTitle(title);   // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
         setSupportActionBar(mToolbar);  //将ToolBar设置为ActionBAr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //在ToolBar左边，即当前标题前添加图标
@@ -103,6 +109,7 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
                 onBackPressed();
             }
         });
+        imageButton.getBackground().setAlpha(0);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

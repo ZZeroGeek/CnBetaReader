@@ -60,20 +60,9 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comment_listview);
-        EventBus.getDefault().register(this);
-//        intent = this.getIntent();/* 取得Intent中的Bundle对象 */
-//        bundle = intent.getExtras(); /* 取得Bundle对象中的数据 */
-//        String content =bundle.getString("content");/* 取得Bundle对象中的数据 */
-//        TextView textView2 = (TextView)findViewById(R.id.comment_text);
-//        textView2.setText(content);
-//        this.setResult(RESULT_OK, intent); /* 关闭activity */
-//        this.finish();
         initView();
         initCommentList();
     }
-
-
-
 
     private void loadMoreData() {
         String[] FName = {"东"};
@@ -252,36 +241,41 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(CommentActivity.this, PostCommentActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
-    public void onEventMainThread(PostCommentActivity.PostCommentActivityEvent postCommentActivityEvent) {
 
-        String content =postCommentActivityEvent.getContent();
-        String[] FName = {"男"};
-        String userName = "男方用户";
-        String sText = "支持:";
-        String aText = "反对:";
-        int supportNum = 20;
-        int againstNum = 40;
-        ArrayList<CnComment> resultList = new ArrayList<CnComment>();
-           CnComment cnComments = new CnComment();
-            cnComments.setFName(FName[0]);
-            cnComments.setSupportNumber(supportNum);
-            cnComments.setAgainstNumber(againstNum);
-            cnComments.setImageId(R.drawable.circle_image);
-            cnComments.setUserName(userName);
-            cnComments.setTestComment(content);
-            cnComments.setCommentMenu(R.drawable.more_grey);
-            cnComments.setSupport(sText);
-            cnComments.setAgainst(aText);
-            resultList.add(cnComments);
-        myAdapter.AddData(resultList);
-        //tv.setText(content);
-       // Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+                if(resultCode == RESULT_OK){
+                    String contentData = data.getStringExtra("content");
+                    String userName = "南方用户";
+                    //String textComment = "100块都不给我";
+                    String[] FName = {"南"};
+                    String sText = "支持:";
+                    String aText = "反对:";
+                    int supportNum = 100;
+                    int againstNum = 50;
+                    ArrayList<CnComment> resultList = new ArrayList<CnComment>();
+
+                    CnComment cnComments = new CnComment();
+                    cnComments.setFName(FName[0]);
+                    cnComments.setSupportNumber(supportNum);
+                    cnComments.setAgainstNumber(againstNum);
+                    cnComments.setImageId(R.drawable.circle_image);
+                    cnComments.setUserName(userName);
+                    cnComments.setTestComment(contentData);
+                    cnComments.setCommentMenu(R.drawable.more_grey);
+                    cnComments.setSupport(sText);
+                    cnComments.setAgainst(aText);
+                    resultList.add(cnComments);
+                    myAdapter.AddData(resultList);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

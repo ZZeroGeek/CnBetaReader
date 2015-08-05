@@ -28,9 +28,6 @@ public class PostCommentActivity extends AppCompatActivity {
     EditText editCode;
     public Button send;
     private Toolbar mToolbar;
-    private List<CnComment> cnCommentList = new ArrayList<CnComment>();
-    CommentAdapter myAdapter = new CommentAdapter(this, R.layout.comment_textview, cnCommentList);
-    private XListView myListView;
 
     public PostCommentActivity() {
     }
@@ -65,11 +62,15 @@ public class PostCommentActivity extends AppCompatActivity {
                     Toast.makeText(PostCommentActivity.this, "验证码填写不正确", Toast.LENGTH_LONG).show();
                 } else {
                     String content = commentTest.getText().toString();
-                    Intent intent = new Intent();
-                    intent.putExtra("content", content);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                    Toast.makeText(PostCommentActivity.this, "发送成功", Toast.LENGTH_LONG).show();
+                    if(!"".equals(content)){
+                        Intent intent = new Intent();
+                        intent.putExtra("content", content);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        Toast.makeText(PostCommentActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(PostCommentActivity.this, "请输入评论内容",Toast.LENGTH_SHORT).show();
+                    }
                 }
            }
         });

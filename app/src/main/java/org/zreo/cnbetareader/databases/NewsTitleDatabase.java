@@ -1,4 +1,4 @@
-package org.zreo.cnbetareader.databases;
+package org.zreo.cnbetareader.Databases;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by guang on 2015/8/1.
@@ -56,11 +59,11 @@ public class NewsTitleDatabase {
 
 
 
-    //从数据库读取新闻标题信息
+    //从数据库读取新闻标题信息，返回List
     public List<NewsEntity> loadNewsEntity() {
         List<NewsEntity> list = new ArrayList<NewsEntity>();
         //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
-        Cursor cursor = db.query("NewsEntity", null, null, null, null, null, "sid desc");   //查询结果排序，降序desc，升序asc
+        Cursor cursor = db.query("NewsEntity", null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();
@@ -78,5 +81,37 @@ public class NewsTitleDatabase {
             cursor.close();
         }
         return list;
+    }
+
+    //从数据库读取新闻标题信息，返回Map
+    public Map<Integer,NewsEntity> loadMapNewsEntity() {
+
+        Map<Integer,NewsEntity> map = new TreeMap<Integer,NewsEntity>(new Comparator<Integer>() {  //将获取到的新闻列表排序
+            @Override
+            public int compare(Integer lhs, Integer rhs) {
+                return rhs.compareTo(lhs);   // 降序排序, 默认为升序
+            }
+        });
+        int sid;  //新闻id
+        //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
+        Cursor cursor = db.query("NewsEntity", null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
+        if (cursor.moveToFirst()) {
+            do {
+                NewsEntity newsEntity = new NewsEntity();
+                sid = cursor.getInt(cursor.getColumnIndex("sid"));
+                newsEntity.setSid(sid);
+                newsEntity.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+                newsEntity.setHometext(cursor.getString(cursor.getColumnIndex("hometext")));
+                newsEntity.setInputtime(cursor.getString(cursor.getColumnIndex("inputtime")));
+                newsEntity.setThumb(cursor.getString(cursor.getColumnIndex("thumb")));
+                newsEntity.setComments(cursor.getInt(cursor.getColumnIndex("comments")));
+                newsEntity.setCounter(cursor.getInt(cursor.getColumnIndex("counter")));
+                map.put(sid, newsEntity);
+            } while (cursor.moveToNext());
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+        return map;
     }
 }

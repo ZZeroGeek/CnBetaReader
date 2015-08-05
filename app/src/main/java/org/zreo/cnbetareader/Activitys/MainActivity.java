@@ -27,17 +27,20 @@ import org.zreo.cnbetareader.R;
  */
 public class MainActivity extends AppCompatActivity implements DrawerLayoutFragment.TabSelectionListener{
 
-    private FragmentManager fragmentManager;  //用于对Fragment进行管理
-    private NewsTitleFragment mNewsTitleFragment; //新闻标题界面
-    private Comment_hot_Fragment mCommentHotFragment; //精彩评论界面
-    private Comment_Top10Fragment mCommentTop10Fragment; //本月Top10界面
-    private CollectNewsFragment mCollectNewsFragment;  //收藏界面
+    private FragmentManager fragmentManager;    //用于对Fragment进行管理
+
+    private NewsTitleFragment mNewsTitleFragment;   //全部资讯界面
+    private Comment_hot_Fragment mCommentHotFragment;   //精彩评论界面
+    private Comment_Top10Fragment mCommentTop10Fragment;    //本月Top10界面
+    private CollectNewsFragment mCollectNewsFragment;   //收藏界面
+    private ArrayFragment mArrayFragment;   //资讯主题界面
     private SettingFragment mSettingFragment;   //设置界面
-    private ArrayFragment mArrayFragment; //资讯主题界面
+
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     public boolean changeTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,68 +89,58 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         hideFragments(transaction);  // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
         switch (index) {
             case 1:    //全部资讯界面
-                if (mNewsTitleFragment == null) {
-                    // 如果mNewsTitleFragment为空，则创建一个并添加到界面上
+                if (mNewsTitleFragment == null) {  // 如果mNewsTitleFragment为空，则创建一个并添加到界面上
                     mNewsTitleFragment = new NewsTitleFragment();
                     transaction.add(R.id.fragment_content, mNewsTitleFragment);
                 } else{
-                    // 如果mNewsTitleFragment不为空，则直接将它显示出来
-                    transaction.show(mNewsTitleFragment);
+                    transaction.show(mNewsTitleFragment);  // 如果mNewsTitleFragment不为空，则直接将它显示出来
                 }
                 break;
 
             case 2:   //精彩评论界面
-                if (mCommentHotFragment == null) {
-                    // 如果mCommentHotFragment为空，则创建一个并添加到界面上
+                if (mCommentHotFragment == null) {   // 如果mCommentHotFragment为空，则创建一个并添加到界面上
                     mCommentHotFragment = new Comment_hot_Fragment();
                     transaction.add(R.id.fragment_content, mCommentHotFragment);
                 } else{
-                    // 如果mCommentHotFragment不为空，则直接将它显示出来
-                    transaction.show(mCommentHotFragment);
+                    transaction.show(mCommentHotFragment);  // 如果mCommentHotFragment不为空，则直接将它显示出来
                 }
                 break;
 
             case 3:  //本月Top10界面
-                if (mCommentTop10Fragment == null) {
-                    // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
+                if (mCommentTop10Fragment == null) {  // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
                     mCommentTop10Fragment = new Comment_Top10Fragment();
                     transaction.add(R.id.fragment_content, mCommentTop10Fragment);
                 } else{
-                    // 如果mCommentTop10Fragment不为空，则直接将它显示出来
-                    transaction.show(mCommentTop10Fragment);
+                    transaction.show(mCommentTop10Fragment);  // 如果mCommentTop10Fragment不为空，则直接将它显示出来
                 }
                 break;
+
             case 4:   //收藏界面
-                if (mCollectNewsFragment == null) {
-                    // 如果mCollectNewsFragment为空，则创建一个并添加到界面上
+                if (mCollectNewsFragment == null) {  // 如果mCollectNewsFragment为空，则创建一个并添加到界面上
                     mCollectNewsFragment = new CollectNewsFragment();
                     transaction.add(R.id.fragment_content, mCollectNewsFragment);
                 } else{
-                    //如果mCollectNewsFragment不为空，则直接将它显示出来
-                    transaction.show(mCollectNewsFragment);
+                    transaction.show(mCollectNewsFragment);   //如果mCollectNewsFragment不为空，则直接将它显示出来
                 }
                 break;
             case 5:   //资讯主题界面 mArrayFragment
-                if (mArrayFragment == null) {
-                    // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
+                if (mArrayFragment == null) {  // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
                     mArrayFragment = new ArrayFragment();
                     transaction.add(R.id.fragment_content, mArrayFragment);
                 } else{
-                    //如果mCommentTop10Fragment不为空，则直接将它显示出来
-                    transaction.show(mArrayFragment);
+                    transaction.show(mArrayFragment);  //如果mCommentTop10Fragment不为空，则直接将它显示出来
                 }
 
                 break;
             case 7:   //设置界面
-                if (mSettingFragment == null) {
-                    // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
+                if (mSettingFragment == null) {  // 如果mCommentTop10Fragment为空，则创建一个并添加到界面上
                     mSettingFragment = new SettingFragment();
                     transaction.add(R.id.fragment_content, mSettingFragment);
                 } else{
-                    // 如果mCommentTop10Fragment不为空，则直接将它显示出来
-                    transaction.show(mSettingFragment);
+                    transaction.show(mSettingFragment);   // 如果mCommentTop10Fragment不为空，则直接将它显示出来
                 }
                 break;
+
             default:
                 break;
         }
@@ -159,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         if (mNewsTitleFragment != null){
             transaction.hide(mNewsTitleFragment);
         }
-        if (mCommentTop10Fragment != null){
-            transaction.hide(mCommentTop10Fragment);
-        }
         if (mCommentHotFragment != null){
             transaction.hide(mCommentHotFragment);
+        }
+        if (mCommentTop10Fragment != null){
+            transaction.hide(mCommentTop10Fragment);
         }
         if (mCollectNewsFragment != null){
             transaction.hide(mCollectNewsFragment);

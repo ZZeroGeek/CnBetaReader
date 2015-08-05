@@ -59,6 +59,14 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
      */
    private void  initCollectNewsList(){
            collectnews = new CollectNews();
+           String firstword="德";
+           String cnewscontent="德玛西亚！德玛西亚万岁··";
+       for(int i=0;i<15;i++){
+           collectnews.setNewscontent(cnewscontent);
+           collectnews.setNewsfirstWord(firstword);
+           CollectNewsList.add(collectnews);
+       }
+
    }
     private void initView(){
         /*显示collectnews的ListView*/
@@ -99,7 +107,7 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
     }
     @Override
        public void onRefresh() {
-        addData();
+       // addData();
         cnsAdapter.notifyDataSetChanged();
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
     }
@@ -116,21 +124,21 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
         @Override
         protected void onError() {}
     };
-    private int totalNumber = 0;  //总列表数
-    private int addNumber;  //每次新增的资讯数量
-    public void addData() {
-        totalNumber = CollectNewsList.size();
-        addNumber = (int) (Math.random() * 10 + 1); //产生从1 - 10的随机数
-        String  newscontent=null;
-        String newsfirstWord ="A";
-        for (int i = 1; i < 20; i++) {
-
-            collectnews = new CollectNews();
-            collectnews.setNewscontent("android大家还哦啊阿斯顿和覅额" );
-            collectnews.setNewsfirstWord(newsfirstWord);
-            CollectNewsList.add( collectnews);
-        }
-    }
+//  private int totalNumber = 0;  //总列表数
+//    private int addNumber;  //每次新增的资讯数量
+//    public void addData() {
+//        totalNumber = CollectNewsList.size();
+//        addNumber = (int) (Math.random() * 10 + 1); //产生从1 - 10的随机数
+//        String  newscontent=null;
+//        String newsfirstWord ="A";
+//        for (int i = 1; i < 20; i++) {
+//
+//            collectnews = new CollectNews();
+//            collectnews.setNewscontent("android大家还哦啊阿斯顿和覅额" );
+//            collectnews.setNewsfirstWord(newsfirstWord);
+//            CollectNewsList.add( collectnews);
+//        }
+   // }
 
 }
 

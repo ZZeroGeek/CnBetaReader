@@ -14,4 +14,6 @@
     <color name="green_1">#307351</color>
     <color name="gray_80">#CC000000</color>
     <color name="textColor" >#474747</color>
+    <color name="background_light">#eeeeee</color>
+
 </resources>

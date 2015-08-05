@@ -6,20 +6,19 @@
     android:layout_gravity="center">
     
     <TextView
-        android:id="@+id/tiptv"
+        android:id="@+id/tipTv"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="评论将在审核后发布"
         android:textColor="@android:color/holo_blue_dark"/>
 
     <EditText
-        android:layout_marginTop="5sp"
-        android:id="@+id/itcomment"
+        android:id="@+id/etComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:imeOptions="actionDone"
-        android:layout_below="@id/tiptv"
+        android:layout_below="@id/tipTv"
         android:maxLines="3"
         android:inputType="text"/>
 

@@ -7,11 +7,14 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 2015/7/28.
  */
 public class MyApplication extends Application {
     private static MyApplication mApplicationInstance;
+    private static MyApplication instance;
    // private static LoadImage instance;
     public static DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).build();
     public void onCreate() {
@@ -32,7 +35,12 @@ public class MyApplication extends Application {
     public static DisplayImageOptions getDefaultDisplayOption() {
         return options;
     }
-
+    public File getInternalCacheDir() {
+        return super.getCacheDir();
+    }
+    public static MyApplication getInstance() {
+        return instance;
+    }
     public static Application getMyApplicationInstance() {
         return mApplicationInstance;
     }

@@ -9,7 +9,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="colorPrimary">@color/toolbarColor</item>
         <item name="colorPrimaryDark">@color/statusColor</item>
-
+        <item name="android:windowBackground">@color/background_light</item>
         <item name="actionModeBackground">?colorPrimary</item>
         <item name="android:preferenceCategoryStyle">@style/Preference.Category</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat</item>

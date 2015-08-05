@@ -18,8 +18,8 @@ public class ThemeManger {
             intent.putExtras(saveData);
         }
 
-        activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        activity.startActivity(intent);
     }
 
 
@@ -36,9 +36,6 @@ public class ThemeManger {
     }
 
 
-  /*public static boolean isNightTheme(Context context) {
-        return PrefKit.getInt(context, "theme", 0) == Theme.length - 1;
-    }*/
 
     private static int[][] Theme = {{
             R.style.Theme_Basic,

@@ -64,5 +64,6 @@ public class Comment_hot_Adapter extends BaseAdapter {
         public TextView comment;
 
     }
+
 }
 

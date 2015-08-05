@@ -57,9 +57,9 @@ public class PostCommentActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 String v_code = editCode.getText().toString().trim();
                 if (v_code == null || v_code.equals("")) {
-                    Toast.makeText(PostCommentActivity.this, "没有填写验证码", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PostCommentActivity.this, "没有填写验证码", Toast.LENGTH_SHORT).show();
                 } else if (!v_code.equals(getCode)) {
-                    Toast.makeText(PostCommentActivity.this, "验证码填写不正确", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PostCommentActivity.this, "验证码填写不正确", Toast.LENGTH_SHORT).show();
                 } else {
                     String content = commentTest.getText().toString();
                     if(!"".equals(content)){

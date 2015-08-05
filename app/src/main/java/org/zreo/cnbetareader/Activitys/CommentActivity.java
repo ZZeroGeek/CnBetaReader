@@ -14,13 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import org.simple.eventbus.EventBus;
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Views.XListView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +75,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
             CnComment cnComments = new CnComment();
             cnComments.setFName(FName[0]);
+            cnComments.setResponseText("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
             cnComments.setImageId(R.drawable.circle_image);
@@ -209,6 +208,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
             CnComment cnComments = new CnComment();
             cnComments.setFName(FName[0]);
+            cnComments.setResponseText("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
             cnComments.setImageId(R.drawable.circle_image);
@@ -259,9 +259,9 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                     int supportNum = 100;
                     int againstNum = 50;
                     ArrayList<CnComment> resultList = new ArrayList<CnComment>();
-
                     CnComment cnComments = new CnComment();
                     cnComments.setFName(FName[0]);
+                    cnComments.setResponseText("");
                     cnComments.setSupportNumber(supportNum);
                     cnComments.setAgainstNumber(againstNum);
                     cnComments.setImageId(R.drawable.circle_image);
@@ -272,6 +272,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                     cnComments.setAgainst(aText);
                     resultList.add(cnComments);
                     myAdapter.AddData(resultList);
+                    myListView.setSelection(myAdapter.getCount());// 将myListView定位到刚刚评论的一行
                 }
                 break;
             default:

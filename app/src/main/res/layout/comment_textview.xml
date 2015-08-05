@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="5dp"
    android:background="@android:color/white">
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/circle_image"
             android:layout_gravity="center"
             android:padding="3sp"/>
@@ -60,15 +60,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:text="支持:0"/>
-
+                android:text="支持:"/>
+                <TextView
+                    android:id="@+id/supportNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"/>
                  <TextView
                 android:id="@+id/against"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:textColor="@android:color/black"
-                android:text="反对:1"/>
+                android:text="反对:"/>
+                    <TextView
+                        android:id="@+id/againstNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"/>
                  </LinearLayout>
         </LinearLayout>
 

@@ -38,6 +38,7 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
     GestureDetector gestureDetector;
     private String[] textsize1 = new String[]{"大", "中", "小"};
     private NewsWebDetailModel newsWebDetailModel;
+    private NewsEntity newsEntity;
 
     /*
      *一个页面里放入了一个webview组件，并将其组件铺满屏幕，全屏幕除了下面的导航栏其余 都是这个webview，
@@ -95,7 +96,7 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
 
         Bundle bundle=new Bundle();
         bundle=getIntent().getExtras();
-        NewsEntity newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
+        newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
         String title=newsEntity.getTitle();
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
@@ -168,10 +169,11 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int sid=newsEntity.getSid();
         switch (item.getItemId()) {
             case R.id.refresh:
                 Toast.makeText(getApplicationContext(), "刷新中", Toast.LENGTH_SHORT).show();
-                webView.reload();
+                webView.loadUrl("http://m.cnbeta.com/view_"+sid+".htm");
                 return true;
             case R.id.qxsc:
                 Toast.makeText(getApplicationContext(), "已取消收藏", Toast.LENGTH_SHORT).show();
@@ -183,10 +185,10 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
                                 setPositiveButton("确定",buttonOnclick).setNegativeButton("取消",buttonOnclick).create().show();
                 return true;
             case R.id.browser:
-                Toast.makeText(getApplicationContext(), "已打开浏览器", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "打开浏览器", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse("http://m.cnbeta.com");
+                Uri content_url = Uri.parse("http://m.cnbeta.com/view_"+sid+".htm");
                 intent.setData(content_url);
                 startActivity(intent);
                 return true;

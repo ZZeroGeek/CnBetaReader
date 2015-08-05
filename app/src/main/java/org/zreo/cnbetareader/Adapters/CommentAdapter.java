@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentAdapter extends BaseAdapter{
-
     Context _context;
     private int resourceId;
     private List<CnComment> commentItem;
@@ -67,31 +66,34 @@ public class CommentAdapter extends BaseAdapter{
         // TODO Auto-generated method stub
 
         // TODO Auto-generated method stub
-        View view;
+        final View view;
         final ViewHolder holder;
 
         if(convertView==null){
             LayoutInflater inflater = LayoutInflater.from(_context);
             view = inflater.inflate(resourceId, null);
             holder = new ViewHolder();
+            holder.FName = (TextView)view.findViewById(R.id.textName);
             holder.imageView=(ImageView)view.findViewById(R.id.imageView1);
             holder.textView=(TextView)view.findViewById(R.id.user_name);
             holder.textView1 =(TextView)view.findViewById(R.id.support);
             holder.viewBtn=(ImageButton)view.findViewById(R.id.button1);
             holder.textView2 =(TextView)view.findViewById(R.id.comment_text);
             holder.textView3 = (TextView)view.findViewById(R.id.against);
-
+            holder.supportNumber = (TextView)view.findViewById(R.id.supportNumber);
+            holder.againstNumber = (TextView)view.findViewById(R.id.againstNumber);
            View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu popup = new PopupMenu(_context, v);
                     popup.getMenuInflater().inflate(R.menu.popup, popup.getMenu());
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                   popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.action1:
+                                   // CnComment cmt = (CnComment)item.getTag();
                                     Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
                                     break;
                                 case R.id.action2:
@@ -149,12 +151,15 @@ public class CommentAdapter extends BaseAdapter{
         //TextView textView = (TextView)view.findViewById(R.id.textView1);
         //imageView.setImageResource(_images[position]);
         //textView.setText(_texts[position]);
+        holder.FName.setText(commentItem.get(position).getFName());
         holder.imageView.setImageResource(commentItem.get(position).getImageId());
         holder.textView2.setText(commentItem.get(position).getTestComment());
         holder.textView.setText(commentItem.get(position).getUserName());
         holder.textView1.setText(commentItem.get(position).getSupport());
         holder.viewBtn.setImageResource(commentItem.get(position).getCommentMenu());
         holder.textView3.setText(commentItem.get(position).getAgainst());
+        holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber()));
+        holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber()));
        /* holder.viewBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -167,6 +172,9 @@ public class CommentAdapter extends BaseAdapter{
         return view;
     }
     public class ViewHolder{
+        public TextView supportNumber;
+        public TextView againstNumber;
+        public TextView FName;
         public ImageView imageView;
         public TextView textView1;
         public TextView textView;

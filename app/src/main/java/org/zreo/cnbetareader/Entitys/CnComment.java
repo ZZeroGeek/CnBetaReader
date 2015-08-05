@@ -3,24 +3,57 @@ package org.zreo.cnbetareader.Entitys;
 
 public class CnComment {
 
-
+    private String FName;
     private int imageView1;
     private String userName;
     private String testComment;
     private String support;
     private String against;
+    private int supportNumber;
+    private int againstNumber;
+    private long tid;
+
+    public int getSupportNumber() {
+        return supportNumber;
+    }
+
+    public int getAgainstNumber() {
+        return againstNumber;
+    }
+
+    public void setSupportNumber(int supportNumber) {
+        this.supportNumber = supportNumber;
+    }
+
+    public void setAgainstNumber(int againstNumber) {
+        this.againstNumber = againstNumber;
+    }
+
     private int commentMenu;
 
     public CnComment() {
     }
 
-    public CnComment(String userName, int imageId, String testComment, String support, String against,int commentMenu) {
+    public CnComment(String FName, String userName, int imageId, String testComment, String support, String against,int commentMenu, long tid, int supportNumber,int againstNumber ) {
         this.userName = userName;
         this.imageView1 = imageId;
         this.testComment = testComment;
         this.support= support;
         this.against = against;
         this.commentMenu = commentMenu;
+        this.FName = FName;
+        this.tid = tid;
+        this.supportNumber = supportNumber;
+        this.againstNumber = againstNumber;
+    }
+
+    public void setFName(String FName) {
+        this.FName = FName;
+    }
+
+    public String getFName() {
+        return FName;
+
     }
 
     public void setUserName(String userName) {

@@ -10,9 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import org.simple.eventbus.EventBus;
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.R;
@@ -23,10 +26,8 @@ import java.util.List;
 
 
 public class CommentActivity extends AppCompatActivity implements XListView.IXListViewListener, View.OnClickListener {
-
-    // 最大数据条数
-    private static final int MAX_DATA_NUM = 100;
-
+    Intent intent;
+    Bundle bundle;
     private View moreDataView;
     private Button loadButton;
     private ProgressBar progressBar;
@@ -63,23 +64,30 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         initCommentList();
     }
 
+    private void loadMoreData() {
+        String[] FName = {"东"};
+        String userName = "东方用户";
+        String textComment = "200块都不给我";
+        String sText = "支持:";
+        String aText = "反对:";
+        int supportNum = 10;
+        int againstNum = 50;
+        ArrayList<CnComment> resultList = new ArrayList<CnComment>();
+        for (int i = 0; i < 10; i++) {
 
-
-
-    private CnComment loadMoreData() {
-        String userName = "匿名用户";
-        String textComment = "100块都不给我";
-        String sText = "支持:1 ";
-        String aText = "反对:0";
-        CnComment cnComments = new CnComment();
-        cnComments.setImageId(R.drawable.circle_image);
-        cnComments.setUserName("1111" + userName);
-        cnComments.setTestComment(textComment);
-        cnComments.setCommentMenu(R.drawable.more_grey);
-        cnComments.setSupport(sText);
-        cnComments.setAgainst(aText);
-//                cnCommentList.add(cnComments);
-        return cnComments;
+            CnComment cnComments = new CnComment();
+            cnComments.setFName(FName[0]);
+            cnComments.setSupportNumber(supportNum);
+            cnComments.setAgainstNumber(againstNum);
+            cnComments.setImageId(R.drawable.circle_image);
+            cnComments.setUserName(i+userName);
+            cnComments.setTestComment(textComment);
+            cnComments.setCommentMenu(R.drawable.more_grey);
+            cnComments.setSupport(sText);
+            cnComments.setAgainst(aText);
+            resultList.add(cnComments);
+        }
+        myAdapter.AddData(resultList);
     }
 
     /**
@@ -189,14 +197,20 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
      * 初始化评论列表
      */
     private void initCommentList() {
+        String[] FName = {"匿"};
         String userName = "匿名用户";
         String textComment = "100块都不给我";
-        String sText = "支持:1 ";
-        String aText = "反对:0";
+        String sText = "支持:";
+        String aText = "反对:";
+        int supportNum = 1;
+        int againstNum = 0;
         ArrayList<CnComment> resultList = new ArrayList<CnComment>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
 
             CnComment cnComments = new CnComment();
+            cnComments.setFName(FName[0]);
+            cnComments.setSupportNumber(supportNum);
+            cnComments.setAgainstNumber(againstNum);
             cnComments.setImageId(R.drawable.circle_image);
             cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
@@ -215,7 +229,8 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
     @Override
     public void onLoadMore() {
-        initCommentList();
+        loadMoreData();
+       // initCommentList();
         myListView.stopRefresh();
         myListView.stopLoadMore();
     }
@@ -226,6 +241,41 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(CommentActivity.this, PostCommentActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+                if(resultCode == RESULT_OK){
+                    String contentData = data.getStringExtra("content");
+                    String userName = "南方用户";
+                    //String textComment = "100块都不给我";
+                    String[] FName = {"南"};
+                    String sText = "支持:";
+                    String aText = "反对:";
+                    int supportNum = 100;
+                    int againstNum = 50;
+                    ArrayList<CnComment> resultList = new ArrayList<CnComment>();
+
+                    CnComment cnComments = new CnComment();
+                    cnComments.setFName(FName[0]);
+                    cnComments.setSupportNumber(supportNum);
+                    cnComments.setAgainstNumber(againstNum);
+                    cnComments.setImageId(R.drawable.circle_image);
+                    cnComments.setUserName(userName);
+                    cnComments.setTestComment(contentData);
+                    cnComments.setCommentMenu(R.drawable.more_grey);
+                    cnComments.setSupport(sText);
+                    cnComments.setAgainst(aText);
+                    resultList.add(cnComments);
+                    myAdapter.AddData(resultList);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

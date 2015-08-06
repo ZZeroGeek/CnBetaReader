@@ -2,12 +2,19 @@
 <selector
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <item
+       <item
             android:drawable="@color/light_gray"
             android:state_pressed="true" />
 
         <item
             android:drawable="@color/white"
             android:state_pressed="false" />
+       <!-- <item
+            android:drawable="@color/light_gray"
+            android:state_focused="true" />
+
+        <item
+            android:drawable="@color/white"
+            android:state_focused="false" />-->
  </selector>
 

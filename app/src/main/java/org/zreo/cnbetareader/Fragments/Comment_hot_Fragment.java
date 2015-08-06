@@ -161,7 +161,7 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
     public void addData(){
         totalNumber = cnComment_hotList.size();
         addNumber = (int)(Math.random() * 10 + 1); //产生从1 - 10的随机数
-        String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！";
+        String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！0000000000000000000000000000000000000000000000000000000000000000000000000";
         String comment = "城里人真会玩";
         String firstWord ="有";
         for(int i = 1; i < 20; i++){

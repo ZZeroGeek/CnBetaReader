@@ -16,7 +16,7 @@
         android:layout_margin="10dp">
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/layout">
@@ -24,25 +24,25 @@
             <FrameLayout
                 android:layout_alignParentTop="true"
                 android:id="@+id/Feame"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="50dp"
+                android:layout_height="50dp">
                 <ImageView
+                    android:padding="1dp"
                     android:id="@+id/img"
-                    android:src="@drawable/circularbtn1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" />
+                    android:layout_gravity="center"
+                    android:src="@drawable/circle_btn"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp" />
 
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:background="@android:color/transparent"
                     android:id="@+id/firstWord_text"
-                    android:layout_height="45dp"
-                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:text="上"
-                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="25dp"
-                    android:layout_gravity="left|center_vertical" />
+                    android:textSize="20dp" />
 
             </FrameLayout>
 
@@ -60,7 +60,7 @@
                 android:layout_marginLeft="1dp"
                 android:text="上大大师傅了门djfkldjf地方就考虑到口死定放假了三等奖飞洛實打實大大大大杉矶的福建省地方叫对方将冯绍峰"/>
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:textColor="@color/black"

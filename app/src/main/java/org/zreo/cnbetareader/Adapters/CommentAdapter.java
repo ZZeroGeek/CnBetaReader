@@ -8,8 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +33,6 @@ public class CommentAdapter extends BaseAdapter{
         resourceId = textViewResourcedId;
         commentItem=objects;
     }
-
     public void addList(ArrayList<CnComment> list) {
         if (list != null) {
             commentItem.addAll(list);
@@ -64,11 +65,8 @@ public class CommentAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-
-        // TODO Auto-generated method stub
         final View view;
         final ViewHolder holder;
-
         if(convertView==null){
             LayoutInflater inflater = LayoutInflater.from(_context);
             view = inflater.inflate(resourceId, null);
@@ -82,7 +80,8 @@ public class CommentAdapter extends BaseAdapter{
             holder.textView3 = (TextView)view.findViewById(R.id.against);
             holder.supportNumber = (TextView)view.findViewById(R.id.supportNumber);
             holder.againstNumber = (TextView)view.findViewById(R.id.againstNumber);
-           View.OnClickListener listener = new View.OnClickListener() {
+            holder.responseText = (TextView)view.findViewById(R.id.response_text);
+                    View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu popup = new PopupMenu(_context, v);
@@ -100,20 +99,19 @@ public class CommentAdapter extends BaseAdapter{
                                     Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
                                     break;
                                 case R.id.action3:
-
                                     AlertDialog.Builder builder = new AlertDialog.Builder(_context);
                                     LayoutInflater inflater = LayoutInflater.from(_context);//getLayoutInflater();
-                                    View view = inflater.inflate(R.layout.response_dialog, null);
-
-                                    // builder.setTitle();
+                                    final View view = inflater.inflate(R.layout.response_dialog, null);
+                                            // builder.setTitle();
                                     builder.setView(view);
-
                                     builder.setPositiveButton("发送", new DialogInterface.OnClickListener() {
 
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
                                             // TODO Auto-generated method stub
-
+                                            EditText etComment = (EditText)view.findViewById(R.id.etComment );
+                                            String etContent = etComment.getText().toString();
+                                            Toast.makeText(_context, etContent, Toast.LENGTH_SHORT).show();
                                         }
                                     });
 
@@ -125,14 +123,11 @@ public class CommentAdapter extends BaseAdapter{
 
                                         }
                                     });
-
                                     AlertDialog dialog = builder.create();
                                     dialog.show();
-
                                     //Toast.makeText(_context, " 发送成功" , Toast.LENGTH_SHORT).show();
                                     break;
                             }
-
                             return true;
                         }
                     });
@@ -160,6 +155,7 @@ public class CommentAdapter extends BaseAdapter{
         holder.textView3.setText(commentItem.get(position).getAgainst());
         holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber()));
         holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber()));
+        holder.responseText.setText(commentItem.get(position).getResponseText());
        /* holder.viewBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -172,6 +168,7 @@ public class CommentAdapter extends BaseAdapter{
         return view;
     }
     public class ViewHolder{
+        public TextView responseText;
         public TextView supportNumber;
         public TextView againstNumber;
         public TextView FName;

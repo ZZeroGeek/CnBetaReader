@@ -30,6 +30,8 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.ResponseHandlerInterface;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.zreo.cnbetareader.Activitys.NewsActivity;
@@ -415,11 +417,11 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     }
 
 
-
     private int offlinePage = 0;     //离线下载页数
     private int offlineTimes = 0;    //离线下载次数
-    private int offlineFailure = 0;  //网络请求失败次数
-    private int offlineError = 0;    //网络请求错误次数
+    private int offlineFailure = 0;  //离线下载网络请求失败次数
+    private int offlineError = 0;    //离线下载网络请求错误次数
+    private int offlineLoadingImage = 0;  //离线下载的新闻标题图片数
 
     /**离线下载*/
     public void offlineDownload(){
@@ -431,6 +433,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         progressDialog();
         offlineFailure = 0;
         offlineError = 0;
+        offlineLoadingImage = 0;
         offlineTimes++;
         lastNumber = listItems.size();   //离线下载前的新闻数
         for(int i = 0; i < 10; i++){   //离线下载10页的新闻内容，大概有300多条新闻
@@ -448,6 +451,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             offlineFailure++;  //网络请求失败次数加1
             offlinePage++;     //离线下载页数加1
             if(offlineFailure == 10){
+                page = page - 10;   //离线下载失败后，将页码定位到失败前的页数
                 offlineProgressDialog.hide();
                 toastTextView.setText("离线下载失败，请检查网络连接");
                 toast.show();
@@ -461,59 +465,65 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             for (int i = 0 ; i < list.size(); i++){
                 if(!map.containsKey(list.get(i).getSid())) {  //如果Map中没有该新闻的id，则添加到Map中
                     map.put(list.get(i).getSid(), list.get(i));  //将返回的数据添加到Map中
+
                     imageLoader.loadImage(list.get(i).getThumb(), options, new SimpleImageLoadingListener() {  //缓存图片
+
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                             super.onLoadingComplete(imageUri, view, loadedImage);
+                            if(offlineLoadingImage > addNumber - 20 && addNumber > 100){   //图片缓存完成
+                                offlineLoadingImage = addNumber;
+                                offlineProgressDialog.setTitle("离线下载完成");
+                                toastTextView.setText("离线下载了 " + addNumber + " 条资讯");
+                                toast.show();
+
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
+                                        offlineProgressDialog.hide();  //下载完成后隐藏进度框
+                                    }
+                                }, 1000);
+
+                            } else {
+                                offlineLoadingImage++;  //下载图片数加1
+                            }
+                            offlineProgressDialog.setProgress(offlineLoadingImage);  //设置下载对话框进度条
+
                         }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                            super.onLoadingFailed(imageUri, view, failReason);
+                            offlineLoadingImage++;  //下载图片数加1
+                            offlineProgressDialog.setProgress(offlineLoadingImage);  //设置下载对话框进度条
+                        }
+
                     });
                 }
             }
 
             offlinePage++;  //离线下载页数加1
-            if(offlinePage == offlineTimes * 10){   //当下载完成后
-                /*if(map.size() > lastNumber ){   //当新闻列表有增加时*/
+            if(offlinePage == offlineTimes * 10){   //当下载完10页的数据后
 
-                    listItems.clear();
-                    listItems.addAll(new ArrayList<NewsEntity>(map.values()));
-                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
+                listItems.clear();
+                listItems.addAll(new ArrayList<NewsEntity>(map.values()));
+                mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
 
-                    currentNumber = listItems.size();  //当前新闻数
-                    addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
-                    offlineProgressDialog.setTitle("离线下载完成");
-                    toastTextView.setText("离线下载了 " + addNumber + " 条资讯");
-                    toast.show();
+                currentNumber = listItems.size();  //当前新闻数
+                addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
+                offlineProgressDialog.setMax(addNumber);  //设置需要下载的资讯数量
 
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            offlineProgressDialog.hide();  //下载完成后隐藏进度框
-                        }
-                    }, 1000);
-
-                    //开启子线程将数据保存到数据库
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Map<Integer, NewsEntity> tempMap =  newsTitleDatabase.loadMapNewsEntity();  //从数据库读取之前保存的数据
-                            for (int i = 0 ; i < listItems.size(); i++){
-                                if(!tempMap.containsKey(listItems.get(i).getSid())){
-                                    newsTitleDatabase.saveNewsEntity(listItems.get(i));  //如果数据库中不存在这个键值id的话，则添加到数据库
-                                }
+                //开启子线程将数据保存到数据库
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Map<Integer, NewsEntity> tempMap =  newsTitleDatabase.loadMapNewsEntity();  //从数据库读取之前保存的数据
+                        for (int i = 0 ; i < listItems.size(); i++){
+                            if(!tempMap.containsKey(listItems.get(i).getSid())){
+                                newsTitleDatabase.saveNewsEntity(listItems.get(i));  //如果数据库中不存在这个键值id的话，则添加到数据库
                             }
                         }
-                    }).start();
-
-                /*} else{
-                    offlineTimes++;
-                    for(int i = 0; i < 10; i++){   //前10页的内容与之前的重复，下载后10页的新闻内容
-                        page++;
-                        BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), offlineDownloadResponse);
                     }
-                }*/
-            }
-
-            if(map.size() > lastNumber ){
-                offlineProgressDialog.setProgress(offlinePage * 10);  //下载对话框进度条
+                }).start();
             }
 
         }
@@ -523,6 +533,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             offlinePage++;  //离线下载页数加1
             offlineError++; //网络请求错误次数加1
             if(offlineError == 10) {
+                page = page - 10;   //离线下载错误后，将页码定位到错误前的页数
                 toastTextView.setText("离线下载错误, 请重试");
                 toast.show();
             }
@@ -535,7 +546,8 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     public void progressDialog(){
         offlineProgressDialog = new ProgressDialog(getActivity());   //实例化
         offlineProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);  //设置进度条风格，风格为长形，有刻度的
-        offlineProgressDialog.setTitle("离线下载中...");  //设置ProgressDialog 标题
+        offlineProgressDialog.setTitle("离线下载中 . . .");  //设置ProgressDialog 标题
+        offlineProgressDialog.setMax(400);
         offlineProgressDialog.show();  //让ProgressDialog显示
     }
 

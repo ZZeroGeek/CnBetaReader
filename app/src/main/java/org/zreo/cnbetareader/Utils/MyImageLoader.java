@@ -43,12 +43,12 @@ public class MyImageLoader {
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(mContext)
                 .memoryCacheExtraOptions(480, 800) // default = device screen dimensions 内存缓存文件的最大长宽
-                .threadPoolSize(3) // default  线程池内加载的数量
+                .threadPoolSize(10) // default  线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2) // default 设置当前线程的优先级
                 .denyCacheImageMultipleSizesInMemory()
                 .memoryCacheSize(2 * 1024 * 1024)  // 内存缓存的最大值
                 .memoryCacheSizePercentage(13) // default
-                        //.diskCache(new UnlimitedDiskCache(cacheDir)) // default 可以自定义缓存路径
+                //.diskCache(new UnlimitedDiskCache(cacheDir)) // default 可以自定义缓存路径
                 .diskCacheSize(50 * 1024 * 1024) // 50 Mb sd卡(本地)缓存的最大值
                 .diskCacheFileCount(100)  // 可以缓存的文件数量
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())  // default为使用HASHCODE对UIL进行加密命名， 还可以用MD5(new Md5FileNameGenerator())加密

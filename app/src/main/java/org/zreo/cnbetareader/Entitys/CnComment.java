@@ -12,6 +12,15 @@ public class CnComment {
     private int supportNumber;
     private int againstNumber;
     private long tid;
+    private String responseText;
+
+    public void setResponseText(String responseText) {
+        this.responseText = responseText;
+    }
+
+    public String getResponseText() {
+        return responseText;
+    }
 
     public int getSupportNumber() {
         return supportNumber;
@@ -34,7 +43,9 @@ public class CnComment {
     public CnComment() {
     }
 
-    public CnComment(String FName, String userName, int imageId, String testComment, String support, String against,int commentMenu, long tid, int supportNumber,int againstNumber ) {
+    public CnComment(String FName, String userName, int imageId, String testComment, String support,
+                     String against,int commentMenu, long tid, int supportNumber,int againstNumber,
+                     String responseText ) {
         this.userName = userName;
         this.imageView1 = imageId;
         this.testComment = testComment;
@@ -45,6 +56,7 @@ public class CnComment {
         this.tid = tid;
         this.supportNumber = supportNumber;
         this.againstNumber = againstNumber;
+        this.responseText = responseText;
     }
 
     public void setFName(String FName) {

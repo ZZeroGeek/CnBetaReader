@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarStyle="outsideOverlay"
-            android:scrollbarThumbVertical="@color/gray"
+            android:scrollbarThumbVertical="@color/mainColor"
             android:scrollbarSize="5dp"
             android:dividerHeight="4dp"
             android:divider="@null">

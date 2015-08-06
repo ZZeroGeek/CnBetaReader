@@ -10,21 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.ResponseHandlerInterface;
-
 import org.zreo.cnbetareader.Adapters.Comment_hot_Adapter;
-import org.zreo.cnbetareader.Entitys.NewsEntity;
-import org.zreo.cnbetareader.Entitys.NewsListEntity;
-import org.zreo.cnbetareader.Entitys.ResponseEntity;
 import org.zreo.cnbetareader.Model.CnComment_hot;
-import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
-import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -79,6 +72,12 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        hot_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               // to do something
+            }
+        });
     }
 
 
@@ -115,28 +114,31 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public void onRefresh() {
-
-
-        BaseHttpClient.getInsence().getNewsListByPage("all","1",response);
+        addData1();
+        toastTextView.setText("新增" + addNumber + "条资讯");
+        toast.show();
+        mAdapter.notifyDataSetChanged();
+        swipeLayout.setRefreshing(false);
+        //BaseHttpClient.getInsence().getNewsListByPage("all", "1", response);
     }
-    private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
-        @Override
-        protected void onFailure() {
+    // private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+       // @Override
+       // protected void onFailure() {
 
-        }
+       // }
 
-        @Override
-        protected void onSuccess(NewsListEntity result) {
-            List<NewsEntity> list = result.getList();
-            Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
-            swipeLayout.setRefreshing(false);
-        }
+       // @Override
+       // protected void onSuccess(NewsListEntity result) {
+        //    List<NewsEntity> list = result.getList();
+         //   Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
+        //    swipeLayout.setRefreshing(false);
+      //  }
 
-        @Override
-        protected void onError() {
-
-        }
-    };
+      //  @Override
+       // protected void onError() {
+//
+   //     }
+   // };
     /**
      * 自定义Toast，用于数据更新的提示
      */
@@ -175,8 +177,27 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
 
 
         totalNumber = totalNumber + addNumber;
+        addNumber =cnComment_hotList.size()-totalNumber ;
     }
+    public void addData1(){
+        totalNumber = cnComment_hotList.size();
+        addNumber = (int)(Math.random() * 10+ 1); //产生从1 - 10的随机数
+        String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！0000000000000000000000000000000000000000000000000000000000000000000000000";
+        String comment = "城里人真会玩";
+        String firstWord ="有";
+        for(int i = 1; i < 20; i++){
 
+            CnComment_hot cnComment_hots = new CnComment_hot();
+            cnComment_hots.setComment("匿名网友 评论于 "+comment);
+            cnComment_hots.setContent(content);
+            cnComment_hots.setFirstWord(firstWord);
+            cnComment_hotList.add(0,cnComment_hots);
+        }
+
+
+        totalNumber = totalNumber + addNumber;
+        addNumber =cnComment_hotList.size()-totalNumber ;
+    }
 
 
     private void initComment_hotList(){

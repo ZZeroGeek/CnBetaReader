@@ -32,7 +32,7 @@ public class CommentTop10Adapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return CommentTop10Item.size();
+        return 10;
     }
 
     @Override

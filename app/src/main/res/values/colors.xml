@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="lightblue">#239ae3</color><!--浅蓝-->
+    <color name="lightblue">#296fb7</color><!--浅蓝-->
     <color name="yellow">#eae687</color><!--黄色-->
     <color name="gray">#dddbdb</color><!--灰色-->
     <color name="mainColor">#3366CC</color><!--App状态栏颜色 -->

@@ -2,6 +2,7 @@ package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,9 +88,10 @@ public class NewsTitleAdapter extends BaseAdapter{
         }
         viewHolder.newsTitle.setText(listItem.get(position).getTitle());
         //格式化输出新闻简介
-        String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
-                                                            .replace("</p>", "").replace("</strong>", "");
-        viewHolder.newsContent.setText(homeText);
+        //String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
+        //                                                    .replace("</p>", "").replace("</strong>", "");
+        String homeText = listItem.get(position).getHometext().replace("<strong>", "").replace("</strong>", "");
+        viewHolder.newsContent.setText(Html.fromHtml(homeText));
         viewHolder.publishTime.setText(listItem.get(position).getInputtime());
         //viewHolder.imageUrl = listItem.get(position).getThumb();  //获取图片地址
         imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);

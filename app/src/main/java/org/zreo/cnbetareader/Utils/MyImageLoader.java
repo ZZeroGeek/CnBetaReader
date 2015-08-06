@@ -43,7 +43,7 @@ public class MyImageLoader {
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(mContext)
                 .memoryCacheExtraOptions(480, 800) // default = device screen dimensions 内存缓存文件的最大长宽
-                .threadPoolSize(10) // default  线程池内加载的数量
+                .threadPoolSize(5) // default  线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2) // default 设置当前线程的优先级
                 .denyCacheImageMultipleSizesInMemory()
                 .memoryCacheSize(2 * 1024 * 1024)  // 内存缓存的最大值

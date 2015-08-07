@@ -14,9 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import org.simple.eventbus.EventBus;
+import android.widget.Toast;
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CnComment;
+import org.zreo.cnbetareader.Entitys.ResponseCommentEvent;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Views.XListView;
 import java.util.ArrayList;
@@ -75,10 +76,10 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
             CnComment cnComments = new CnComment();
             cnComments.setFName(FName[0]);
-            cnComments.setResponseText("");
+           // cnComments.setLayout("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
-            cnComments.setImageId(R.drawable.circle_image);
+            cnComments.setImageId(R.drawable.circle_btn);
             cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
@@ -208,10 +209,10 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
             CnComment cnComments = new CnComment();
             cnComments.setFName(FName[0]);
-            cnComments.setResponseText("");
+           // cnComments.setLayout("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
-            cnComments.setImageId(R.drawable.circle_image);
+            cnComments.setImageId(R.drawable.circle_btn);
             cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
@@ -261,10 +262,10 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                     ArrayList<CnComment> resultList = new ArrayList<CnComment>();
                     CnComment cnComments = new CnComment();
                     cnComments.setFName(FName[0]);
-                    cnComments.setResponseText("");
+                  //  cnComments.setLayout("");
                     cnComments.setSupportNumber(supportNum);
                     cnComments.setAgainstNumber(againstNum);
-                    cnComments.setImageId(R.drawable.circle_image);
+                    cnComments.setImageId(R.drawable.circle_btn);
                     cnComments.setUserName(userName);
                     cnComments.setTestComment(contentData);
                     cnComments.setCommentMenu(R.drawable.more_grey);

@@ -17,12 +17,15 @@
     
     <ImageButton
         android:id="@+id/imageBtn"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/comments"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_comment"
+        android:background="#3366CC"
         android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp" />
 
 
 </RelativeLayout>

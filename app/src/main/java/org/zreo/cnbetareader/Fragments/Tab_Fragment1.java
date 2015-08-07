@@ -33,9 +33,6 @@ public class Tab_Fragment1 extends Fragment {
         iview = inflater.inflate(R.layout.information_theme, container, false); //获取布局
         theme_listview=(ListView)iview.findViewById(R.id.theme_listview);
         iniTab_Fragment1List();//初始化
-        Information_theme_Adapter itAdapter=new Information_theme_Adapter(
-                getActivity(), R.layout.itv_tab1,CnInformation_ThemeList);
-        theme_listview.setAdapter(itAdapter);
         return iview;
     }
 

@@ -8,8 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="类型为："
-        android:textSize="22sp"
-        android:textColor="@color/green"/>
+        android:textSize="18sp"
+        android:textColor="@color/green"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"/>
 
     <RelativeLayout
         android:background="@color/gray"
@@ -38,7 +40,7 @@
                         android:id="@+id/image1"
                         android:src="@drawable/circularbtn"
                         android:layout_height="50dp"
-                        android:layout_width="50dp"
+                        android:layout_width="65dp"
                         android:layout_marginTop="10dp"
                         />
 
@@ -48,26 +50,25 @@
                         android:layout_width="match_parent"
                         android:textSize="18dp"
                         android:textColor="@color/blue"
-                        android:text=" asdfghkj/lzmncb"
+                        android:text=" 美国队长：开始的粉丝的奥斯卡的"
                         android:layout_toRightOf="@+id/image"
-                        android:layout_marginLeft="65dp"
+                        android:layout_marginLeft="75dp"
                         android:layout_marginRight="70dp"
                         android:layout_gravity="center"
-                        />
+                        android:lines="1"
+                        android:ellipsize="end"/>
 
                     <TextView
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="20dp"
                         android:id="@+id/firstword_text1"
                         android:layout_height="50dp"
                         android:layout_width="50dp"
-                        android:text="A"
+                        android:text="美"
                         android:textColor="@color/white"
-                        android:textSize="30dp"
-
+                        android:textSize="25dp"
                         android:layout_gravity="left|center_vertical"
                         />
-
                 </FrameLayout>
             </RelativeLayout>
         </RelativeLayout>

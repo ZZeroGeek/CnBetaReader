@@ -1,7 +1,10 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -25,7 +28,7 @@ import org.zreo.cnbetareader.R;
  * Created by guang on 2015/7/28.
  * 功能：实现右滑菜单和Toolbar与右滑菜单的关联, 以及管理不同页面的显示
  */
-public class MainActivity extends AppCompatActivity implements DrawerLayoutFragment.TabSelectionListener{
+public class MainActivity extends AppCompatActivity implements DrawerLayoutFragment.TabSelectionListener, SettingFragment.SetColorListener{
 
     private FragmentManager fragmentManager;    //用于对Fragment进行管理
 
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
-    public boolean changeTheme;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         fragmentManager = getFragmentManager();
         initView();  //初始化右滑菜单布局和Toolbar
         setTabSelection(1);  //显示默认标签页
+        //读取设置文件的值
+        pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
+        setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
     }
 
     /**
@@ -194,13 +200,41 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(!changeTheme) {
-            this.finish();
-            System.exit(0);
+    /**更改主题颜色*/
+    @SuppressLint("NewApi")
+    public void setThemeColor(int index){
+        switch (index){
+            case 0:  //蓝色（默认）
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
+                break;
+            case 1:  //棕色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
+                break;
+            case 2:  //橙色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
+                break;
+            case 3:  //紫色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
+                break;
+            case 4:  //绿色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.green));
+                break;
+            default:  //默认
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
+                break;
         }
+
+    }
+    /**通过设置界面选择更改颜色*/
+    @Override
+    public void setColor(int index) {
+        setThemeColor(index);
     }
 }
 

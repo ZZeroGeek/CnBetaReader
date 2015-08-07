@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -77,13 +79,16 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
     private View loadMoreView;     //加载更多布局
     private TextView loadMoreText;    //加载提示文本
+    private LinearLayout loadMoreLayout;  //点击加载更多布局
 
     private NewsTitleDatabase newsTitleDatabase;  //数据库
+    SharedPreferences pref;
 
     private MyImageLoader myImageLoader;
     private ImageLoader imageLoader;  //图片加载器对象
     private DisplayImageOptions options;  //显示图片的配置
 
+    private Toolbar mToolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,13 +96,14 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         setHasOptionsMenu(true);    //在fragment中使用menu菜单
 
         newsTitleDatabase = NewsTitleDatabase.getInstance(getActivity());  //初始化数据库实例
+        ////读取设置文件的值
+        pref = getActivity().getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
 
         customToast();  //初始化自定义Toast，用于数据更新的提示
 
         initSwipeRefreshLayout();  //初始化下拉刷新控件
 
         initListItem(); //初始化新闻列表及布局
-
         return  view;
     }
 
@@ -188,8 +194,9 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         /**为ListView创建自定义适配器*/
         mAdapter = new NewsTitleAdapter(getActivity(), R.layout.news_title_item, listItems);
         //lv.setVerticalScrollBarEnabled(false);    //隐藏ListView滑动进度条
-        loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
-        loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
+        loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);  //加载更多布局
+        loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);   //加载更多文本
+        loadMoreLayout = (LinearLayout) loadMoreView.findViewById(R.id.load_more_LinearLayout);  //点击加载更多布局
         lv.addFooterView(loadMoreView);   //设置列表底部视图
 
         lv.setOnScrollListener(this);     //添加滑动监听
@@ -313,9 +320,22 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
         //当滑到底部时自动加载
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-            loadMoreText.setText("加载中...");
-            page++;
-            BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
+            if(pref.getBoolean("autoLoadMore", true)){   //如果设置自动加载
+                loadMoreText.setText("加载中...");
+                page++;
+                BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
+            }else{        //读取是否加载自动加载的值，如果为真，则要点击才有加载更多
+                loadMoreText.setText("点击加载更多");
+                loadMoreLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        page++;
+                        BaseHttpClient.getInsence().getNewsListByPage("all", String.valueOf(page), autoLoadResponse);
+                    }
+                });
+
+            }
+
         }
     }
 
@@ -572,11 +592,12 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             @Override
             public void run() {
                 page = 0;  //清除缓存将加载的页码清0
-                listItems.clear();  //清空新闻列表
-                map.clear();
                 ImageLoader.getInstance().clearMemoryCache();  // 清除新闻标题图片本地缓存内存缓存
                 ImageLoader.getInstance().clearDiskCache();  // 清除新闻标题图片本地缓存
                 getActivity().deleteDatabase("NewsEntity");  //删除数据库
+
+                listItems.clear();  //清空新闻列表
+                map.clear();
 
                 Message message = clearHandler.obtainMessage();
                 message.what = 0x101;
@@ -589,8 +610,8 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences pref = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-        page = pref.getInt("page", 1);   //读取页码, 没有值时为1
+        SharedPreferences prefPage = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        page = prefPage.getInt("page", 1);   //读取页码, 没有值时为1
     }
 
     @Override

@@ -22,7 +22,7 @@ public class FileKit {
     /**
 
      */
-    /**
+    /**文件管理
      *
      * @param context
      * @return
@@ -108,11 +108,10 @@ public class FileKit {
             deleteDir(context.getExternalCacheDir());
         }
     }
-   
+
     public static void deleteDir(File dir) {
         File to = new File(dir.getAbsolutePath() + System.currentTimeMillis());
-        dir.renameTo(to);// in order to fix android java.io.IOException: open failed: EBUSY (Device or resource busy)
-        // detail http://stackoverflow.com/questions/11539657/open-failed-ebusy-device-or-resource-busy
+        dir.renameTo(to);
         if (to.isDirectory()) {
             String[] children = to.list();
             for (String aChildren : children) {
@@ -126,4 +125,5 @@ public class FileKit {
             to.delete();
         }
     }
+
 }

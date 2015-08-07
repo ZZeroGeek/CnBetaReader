@@ -21,6 +21,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Utils.FileKit;
 
+import java.io.File;
+
 
 public class SettingFragment extends PreferenceFragment {
 
@@ -30,7 +32,7 @@ public class SettingFragment extends PreferenceFragment {
     public interface SetColorListener{
         void setColor(int index);
     }
-
+    File file=new File("/data/data/org.zreo.cnbetareader/cache");
     private static  String cache ="/data/data/org.zreo.cnbetareader/cache";
     private int themeid;
     private Toolbar mToolbar;
@@ -43,9 +45,7 @@ public class SettingFragment extends PreferenceFragment {
         preference.setSummary(getFileSize());
         Preference theme = findPreference("theme");
         theme.setOnPreferenceClickListener(onPreferenceClickListener);
-        findPreference(getString(R.string.clean_cache_key)).setOnPreferenceClickListener(onPreferenceClickListener);
-        //clean_cache_key.setOnPreferenceClickListener(onPreferenceClickListener);
-
+        preference.setOnPreferenceClickListener(onPreferenceClickListener);
         View view = getActivity().getLayoutInflater().inflate(R.layout.toolbar, null); //获取布局
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitleTextColor(Color.RED);  //设置ToolBar字体颜色为白色
@@ -54,44 +54,28 @@ public class SettingFragment extends PreferenceFragment {
    Preference.OnPreferenceClickListener onPreferenceClickListener = new Preference.OnPreferenceClickListener() {
         public boolean onPreferenceClick(Preference preference) {
             if (preference.getKey().equals("theme")) {
-                final String[] items = new String[] {"蓝色", "棕色", "橙色", "紫色", "绿色"};
+                final String[] items = new String[]{"蓝色", "棕色", "橙色", "紫色", "绿色"};
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                 alert.setTitle("主题配色");
                 alert.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE).edit();
-                    editor.putInt("theme",which);     //将页码保存
-                    editor.commit();
-                    SetColorListener listener =(SetColorListener) getActivity();
-                    listener.setColor(which);
+                        SharedPreferences.Editor editor = getActivity().getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE).edit();
+                        editor.putInt("theme", which);     //将页码保存
+                        editor.commit();
+                        SetColorListener listener = (SetColorListener) getActivity();
+                        listener.setColor(which);
                     }
                 });
                 alert.show();   //显示对话框
             }
-            return false;
-        }
-   };
 
-                       /* .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (getActivity() instanceof MainActivity) {
-                            ((MainActivity) getActivity()).changeTheme = true;
-                        }
-                        ThemeManger.changeToTheme(getActivity(), themeid);
-                    }
-                }).create().show();*/
-
-             /*else {
-
+            else{
                 clearCache();
 
             }
-            return false;*/
-
-
-
+        return false;}
+   };
 
      public void clearCache(){
 
@@ -112,6 +96,7 @@ public class SettingFragment extends PreferenceFragment {
                 ImageLoader.getInstance().clearMemoryCache();  // 清除新闻标题图片本地缓存内存缓存
                 ImageLoader.getInstance().clearDiskCache();  // 清除新闻标题图片本地缓存
                 getActivity().deleteDatabase("NewsEntity");  //删除数据库
+                FileKit.deleteDir(file);//删除cache文件夹
                 Message message = clearHandler.obtainMessage();
                 message.what = 0x101;
                 clearHandler.sendMessage(message);   //告诉主线程执行任务
@@ -123,7 +108,7 @@ public class SettingFragment extends PreferenceFragment {
 
       private String getFileSize() {
         long size = 0;
-        size += FileKit.getFolderSize(cache);
+        size += FileKit.getFolderSize(file);
         return Formatter.formatFileSize(getActivity(), size);
     }
 

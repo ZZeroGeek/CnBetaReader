@@ -1,6 +1,7 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class NewsTitleAdapter extends BaseAdapter{
     private MyImageLoader myImageLoader;
     private ImageLoader imageLoader;  //图片加载器对象
     private DisplayImageOptions options;  ////显示图片的配置
+    SharedPreferences pref;
 
     /**构造函数*/
    public NewsTitleAdapter(Context context, int textViewResourcedId, List<NewsEntity> objects) {
@@ -49,6 +51,8 @@ public class NewsTitleAdapter extends BaseAdapter{
         myImageLoader = new MyImageLoader(mContext);
         imageLoader = myImageLoader.getImageLoader();
         options = myImageLoader.getDisplayImageOptions();
+        //读取设置文件的值
+        pref = mContext.getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
 
     }
 
@@ -77,7 +81,7 @@ public class NewsTitleAdapter extends BaseAdapter{
             viewHolder.newsTitle = (TextView) view.findViewById(R.id.news_title);
             viewHolder.newsContent = (TextView) view.findViewById(R.id.news_summary);
             viewHolder.publishTime = (TextView) view.findViewById(R.id.news_publish_time);
-            viewHolder.titleImage = (ImageView) view.findViewById(R.id.news_picture);
+            viewHolder.titleImage = (ImageView) view.findViewById(R.id.news_image);
             viewHolder.commentNumber = (TextView) view.findViewById(R.id.news_comment_number);
             viewHolder.readerNumber = (TextView) view.findViewById(R.id.news_reader_number);
             view.setTag(viewHolder);
@@ -94,7 +98,13 @@ public class NewsTitleAdapter extends BaseAdapter{
         viewHolder.newsContent.setText(Html.fromHtml(homeText));
         viewHolder.publishTime.setText(listItem.get(position).getInputtime());
         //viewHolder.imageUrl = listItem.get(position).getThumb();  //获取图片地址
-        imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
+
+        if(pref.getBoolean("informationList", true)){   // //读取是否加载列表图片的值，如果为真，就加载图片
+            imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
+        }else {    //如果设置不加载图片就显示默认图片
+            viewHolder.titleImage.setImageResource(R.mipmap.news_title_default_image);
+        }
+
         viewHolder.commentNumber.setText(String.valueOf(listItem.get(position).getComments()));
         viewHolder.readerNumber.setText(String.valueOf(listItem.get(position).getCounter()));
         return view;

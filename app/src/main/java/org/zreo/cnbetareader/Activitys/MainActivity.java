@@ -1,7 +1,10 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     public boolean changeTheme;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         fragmentManager = getFragmentManager();
         initView();  //初始化右滑菜单布局和Toolbar
         setTabSelection(1);  //显示默认标签页
+        //读取设置文件的值
+        pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
     }
 
     /**
@@ -201,6 +207,33 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
             this.finish();
             System.exit(0);
         }
+    }
+
+    /**更改主题颜色*/
+    @SuppressLint("NewApi")
+    public void setThemeColor(int index){
+        switch (index){
+            case 1:
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            default:
+                break;
+        }
+
+    }
+    /**通过设置界面选择更改颜色*/
+    //@Override
+    public void setColor(int index) {
+        setThemeColor(index);
     }
 }
 

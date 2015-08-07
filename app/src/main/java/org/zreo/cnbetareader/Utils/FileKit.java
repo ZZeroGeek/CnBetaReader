@@ -15,28 +15,23 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-/**
- * Created by ywwxhz on 2014/10/17.
- */
+
+
 public class FileKit {
 
     /**
 
      */
     /**
-     * 获取缓存文件大小,这里不仅获取了sdCard缓存文件的目录，还获取了手机缓存的目录
+     *
      * @param context
      * @return
      */
 
-
-
-
-    
     public static String getTotalCacheSize(Context context){
-        //context.getCacheDir()获取的是内存缓存的目录/data/data/wj.com.universalimageloader/cache
+
         long cacheSize = getFolderSize(context.getCacheDir());
-        //context.getExternalCacheDir()获取的是sdCard的缓存目录
+
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             cacheSize += getFolderSize(context.getExternalCacheDir());
         }
@@ -79,7 +74,7 @@ public class FileKit {
     public static String getFormatSize(double size) {
         double kiloByte = size / 1024;
         if (kiloByte < 1) {
-//            return size + "Byte";
+//          return size + "Byte";
             return "0K";
         }
 
@@ -107,8 +102,13 @@ public class FileKit {
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "TB";
     }
-
-
+    public static void clearAllCache(Context context) {
+        deleteDir(context.getCacheDir());
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            deleteDir(context.getExternalCacheDir());
+        }
+    }
+   
     public static void deleteDir(File dir) {
         File to = new File(dir.getAbsolutePath() + System.currentTimeMillis());
         dir.renameTo(to);// in order to fix android java.io.IOException: open failed: EBUSY (Device or resource busy)

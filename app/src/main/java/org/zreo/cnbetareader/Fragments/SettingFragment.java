@@ -2,6 +2,7 @@ package org.zreo.cnbetareader.Fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,7 +11,10 @@ import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 import android.text.format.Formatter;
 
@@ -28,18 +32,22 @@ import java.math.BigDecimal;
 public class SettingFragment extends PreferenceFragment {
     private static  String cache ="/data/data/org.zreo.cnbetareader/cache";
     private int themeid;
-
+    private Toolbar mToolbar;
+    private Handler clearHandler;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pre_setting);
         Preference   preference = findPreference(getString(R.string.clean_cache_key));
-
         preference.setSummary(getFileSize());
         Preference theme = findPreference("theme");
         theme.setOnPreferenceClickListener(onPreferenceClickListener);
         findPreference(getString(R.string.clean_cache_key)).setOnPreferenceClickListener(onPreferenceClickListener);
         //clean_cache_key.setOnPreferenceClickListener(onPreferenceClickListener);
+
+        View view = getActivity().getLayoutInflater().inflate(R.layout.toolbar, null); //获取布局
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);   //ToolBar布局
+        mToolbar.setTitleTextColor(Color.RED);  //设置ToolBar字体颜色为白色
     }
 
     Preference.OnPreferenceClickListener onPreferenceClickListener = new Preference.OnPreferenceClickListener() {
@@ -62,10 +70,49 @@ public class SettingFragment extends PreferenceFragment {
                             }
                         }).create().show();
 
+
+                return false;
+            } else {
+
+                clearCache();
+
             }
             return false;
-        }};
-    private String getFileSize() {
+        }
+    };
+
+
+
+     public void clearCache(){
+
+        /**通知已清除缓存*/
+        clearHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 0x101) {
+                    Toast.makeText(getActivity(), "缓存已清除", Toast.LENGTH_SHORT).show();
+                }
+                super.handleMessage(msg);
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ImageLoader.getInstance().clearMemoryCache();  // 清除新闻标题图片本地缓存内存缓存
+                ImageLoader.getInstance().clearDiskCache();  // 清除新闻标题图片本地缓存
+                getActivity().deleteDatabase("NewsEntity");  //删除数据库
+                Message message = clearHandler.obtainMessage();
+                message.what = 0x101;
+                clearHandler.sendMessage(message);   //告诉主线程执行任务
+            }
+        }).start();
+
+    }
+
+
+
+     private String getFileSize() {
         long size = 0;
         size += FileKit.getFolderSize(cache);
         return Formatter.formatFileSize(getActivity(), size);

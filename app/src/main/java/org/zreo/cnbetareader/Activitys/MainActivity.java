@@ -13,6 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.zreo.cnbetareader.Fragments.ArrayFragment;
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private ActionBarDrawerToggle mDrawerToggle;
     SharedPreferences pref;
 
+    private LinearLayout cnBetaBackground;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +57,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         fragmentManager = getFragmentManager();
         initView();  //初始化右滑菜单布局和Toolbar
         setTabSelection(1);  //显示默认标签页
+
         //读取设置文件的值
         pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
         setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
+
+
     }
 
     /**
@@ -70,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
                 R.string.drawer_close);
         mDrawerToggle.syncState();   //该方法会自动和actionBar关联, 将开关的图片显示在了action上
         mDrawerLayout.setDrawerListener(mDrawerToggle);  //设置drawer的开关监听
+
+        cnBetaBackground = (LinearLayout) findViewById(R.id.cnBeta_background);
     }
 
     /**设置当前Fragment界面标题*/
@@ -207,30 +218,37 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
             case 0:  //蓝色（默认）
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
                 getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
+                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.mainColor));
                 break;
             case 1:  //棕色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
+                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.brown));
                 break;
             case 2:  //橙色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
+                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.orange));
                 break;
             case 3:  //紫色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
+                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.purple));
                 break;
             case 4:  //绿色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.green));
+                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.green));
                 break;
             default:  //默认
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
+                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.mainColor));
                 break;
         }
 
     }
+
     /**通过设置界面选择更改颜色*/
     @Override
     public void setColor(int index) {

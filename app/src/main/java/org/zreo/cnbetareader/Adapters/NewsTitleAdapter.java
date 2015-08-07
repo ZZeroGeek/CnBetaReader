@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Utils.MyImageLoader;
+import org.zreo.cnbetareader.Utils.NetTools;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -99,10 +100,14 @@ public class NewsTitleAdapter extends BaseAdapter{
         viewHolder.publishTime.setText(listItem.get(position).getInputtime());
         //viewHolder.imageUrl = listItem.get(position).getThumb();  //获取图片地址
 
-        if(pref.getBoolean("informationList", true)){   // //读取是否加载列表图片的值，如果为真，就加载图片
+        if(NetTools.isWifiConnected()){   //判断是否在Wifi环境下，如果是就加载图片
             imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
-        }else {    //如果设置不加载图片就显示默认图片
-            viewHolder.titleImage.setImageResource(R.mipmap.news_title_default_image);
+        }else {     // 在移动网络下
+            if(pref.getBoolean("informationList", true)){   // 读取是否加载列表图片的值，如果为真，就加载图片
+                imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
+            }else {    //如果设置不加载图片就显示默认图片
+                viewHolder.titleImage.setImageResource(R.mipmap.news_title_default_image);
+            }
         }
 
         viewHolder.commentNumber.setText(String.valueOf(listItem.get(position).getComments()));

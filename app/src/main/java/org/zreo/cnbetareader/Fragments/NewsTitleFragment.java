@@ -1,6 +1,7 @@
 package org.zreo.cnbetareader.Fragments;
 
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -118,13 +119,21 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         loadDialog.show();  //让ProgressDialog显示
     }*/
 
+
+    private boolean isLoad = true;   //打开软件时自动加载的新闻
     /** 初始化新闻列表*/
     public void initListItem(){
+
         listItems = newsTitleDatabase.loadNewsEntity();   //从数据库读取新闻列表
         if (listItems.size() > 0) {     //数据库有数据，直接显示数据库中的数据
             initView();   //初始化布局
         } else {    //如果数据库没数据，再从网络加载最新的新闻，首次打开软件时执行
             BaseHttpClient.getInsence().getNewsListByPage("all", "1", initResponse);
+        }
+
+        if(pref.getBoolean("loadLatestInformation", true)){    //读取设置里的是否打开软件加载最新资讯
+            isLoad = false;
+            BaseHttpClient.getInsence().getNewsListByPage("all", "1", refreshResponse);
         }
 
         new Thread(new Runnable() {
@@ -277,11 +286,15 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 currentNumber = listItems.size();  //当前新闻数
                 addNumber = currentNumber - lastNumber;  //每次刷新增加的数据
                 toastTextView.setText("新增 " + addNumber + " 条资讯");
+                toast.show();
             } else {
                 toastTextView.setText("没有更多内容了");
+                if(isLoad){   //当打开加载的新闻是最新的时，不需要提示
+                    toast.show();
+                }
             }
 
-            toast.show();
+
 
             //开启子线程将数据保存到数据库
             new Thread(new Runnable() {
@@ -518,6 +531,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                         }
 
                     });
+
                 }
             }
 
@@ -583,6 +597,16 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                     lv.removeFooterView(loadMoreView);  //移除底部自动加载布局
                     mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
                     Toast.makeText(getActivity(), "缓存已清除", Toast.LENGTH_SHORT).show();
+
+                    /*LinearLayout mLinearLayout = new LinearLayout(getActivity());
+
+                    LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+                    mLinearLayout.setLayoutParams(mLayoutParams);
+                    TextView mTextView = new TextView(getActivity());
+                    mTextView.setText("当前资讯列表为空，请重新刷新加载最新的资讯");
+                    mLinearLayout.addView(mTextView, mLayoutParams);*/
                 }
                 super.handleMessage(msg);
             }

@@ -102,6 +102,7 @@
     <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="MobLogCollector" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Douban-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="androideventbus-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-QZone-2.6.1" level="project" />

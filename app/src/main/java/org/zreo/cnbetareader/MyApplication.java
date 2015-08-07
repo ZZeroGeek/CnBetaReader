@@ -2,10 +2,13 @@ package org.zreo.cnbetareader;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import org.zreo.cnbetareader.Utils.FileCacheKit;
 
 import java.io.File;
 
@@ -18,7 +21,7 @@ public class MyApplication extends Application {
    // private static LoadImage instance;
     public static DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).build();
     public void onCreate() {
-
+        FileCacheKit.getInstance(this);
         super.onCreate();
         mApplicationInstance=this;
         initImageLoader(getApplicationContext());
@@ -43,5 +46,13 @@ public class MyApplication extends Application {
     }
     public static Application getMyApplicationInstance() {
         return mApplicationInstance;
+    }
+
+    public File getCacheDir() {
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            return getExternalCacheDir();
+        } else {
+            return super.getCacheDir();
+        }
     }
 }

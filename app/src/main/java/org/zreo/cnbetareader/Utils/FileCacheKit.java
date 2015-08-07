@@ -1,20 +1,47 @@
 package org.zreo.cnbetareader.Utils;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
-
+import android.content.Context;
 import java.io.File;
-import java.lang.ref.WeakReference;
+
 
 /**
  * Created by Administrator on 2015/7/30.
  */
-public class FileCacheKit {
 
-    private File cacheDir;
+public class FileCacheKit {
     private static final int MESSAGE_FINISH = 0x01;
+    private static FileCacheKit fileCacheKit;
+    private File cacheDir;
+
+    FileCacheKit(File cacheDir) {
+        this.cacheDir = cacheDir;
+    }
+
+    FileCacheKit(Context context) {
+        this.cacheDir = context.getCacheDir();
+    }
+
+    public static FileCacheKit getInstance(File cacheDir) {
+        if (fileCacheKit == null) {
+            fileCacheKit = new FileCacheKit(cacheDir);
+        }
+        return fileCacheKit;
+    }
+
+    public static FileCacheKit getInstance() {
+        if (fileCacheKit == null)
+            throw new NullPointerException(
+                    "must getInstance(File cacheDir) before getInstance()");
+        return fileCacheKit;
+    }
+
+    public static FileCacheKit getInstance(Context context) {
+        if (fileCacheKit == null) {
+            fileCacheKit = new FileCacheKit(context);
+        }
+        return fileCacheKit;
+    }
+
     public void cleanCache() {
         File[] files = cacheDir.listFiles();
         if (files != null) {
@@ -32,77 +59,15 @@ public class FileCacheKit {
             return 0;
         }
     }
+
     public File getCacheDir() {
         return cacheDir;
     }
-    public interface FileCacheListener {
-        public void onFinish(String obj);
-    }
 
-    private class FileCacheSaveThread extends Thread {
-        private String key;
-        private String value;
-        private String type;
-        private FileCacheHandler handler;
 
-        protected FileCacheSaveThread(String key, String value, String type, FileCacheHandler handler) {
-            this.key = key;
-            this.type = type;
-            this.value = value;
-            this.handler = handler;
-        }
-        public void put(String filename, String value, String type) {
-            FileKit.writeFile(cacheDir, filename + "." + type, value);}
-        @Override
-        public void run() {
-            put(key, value, type);
-            if (handler != null) {
-                Message msg = new Message();
-                msg.what = MESSAGE_FINISH;
-                msg.obj = "";
-                handler.sendMessage(msg);
-            }
-        }
-    }
 
-    private class FileCacheGetThread extends Thread {
-        private String key;
-        private FileCacheHandler handler;
 
-        protected FileCacheGetThread(String key, FileCacheHandler handler) {
-            this.key = key;
-            this.handler = handler;
-        }
 
-        @Override
-        public void run() {
-            if (handler != null) {
-                Message msg = new Message();
-                msg.what = MESSAGE_FINISH;
-                handler.sendMessage(msg);
-            }
-        }
-    }
 
-    private static class FileCacheHandler extends Handler {
-        private WeakReference<FileCacheListener> listener;
-
-        private FileCacheHandler(FileCacheListener listener) {
-            super(Looper.getMainLooper());
-            this.listener =  new WeakReference<>(listener);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_FINISH:
-                    if (listener != null) {
-                        listener.get().onFinish((String) msg.obj);
-                    }
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    }
 
 }

@@ -15,9 +15,8 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-/**
- * Created by ywwxhz on 2014/10/17.
- */
+
+
 public class FileKit {
 
     /**
@@ -29,10 +28,6 @@ public class FileKit {
      * @return
      */
 
-
-
-
-    
     public static String getTotalCacheSize(Context context){
         //context.getCacheDir()获取的是内存缓存的目录/data/data/wj.com.universalimageloader/cache
         long cacheSize = getFolderSize(context.getCacheDir());
@@ -79,7 +74,7 @@ public class FileKit {
     public static String getFormatSize(double size) {
         double kiloByte = size / 1024;
         if (kiloByte < 1) {
-//            return size + "Byte";
+//          return size + "Byte";
             return "0K";
         }
 

@@ -26,8 +26,7 @@ import java.math.BigDecimal;
 
 
 public class SettingFragment extends PreferenceFragment {
-
-
+    private static  String cache ="/data/data/org.zreo.cnbetareader/cache";
     private int themeid;
 
     @Override
@@ -68,7 +67,7 @@ public class SettingFragment extends PreferenceFragment {
         }};
     private String getFileSize() {
         long size = 0;
-        size += FileKit.getFolderSize("data/data/org.zreo.cnbetareader/cache");
+        size += FileKit.getFolderSize(cache);
         return Formatter.formatFileSize(getActivity(), size);
     }
 

@@ -35,13 +35,15 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
     private TextView itv_Tab2;
     private int currentIndex = 0;//当前标签页
     View view;
+    private List<Fragment>fragments;
     private Information_theme_Adapter iAdapter1;
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.information_theme,container,false);
         initView();//初始化
         initColor();
-        iAdapter1=new Information_theme_Adapter(views);
+
+        iAdapter1=new Information_theme_Adapter(getFragmentManager(),fragments);
         //找到viewpager控件
         viewpager = (ViewPager)view.findViewById(R.id.viewpager);
         viewpager.setCurrentItem(0);//默认页面
@@ -84,14 +86,17 @@ public class ArrayFragment extends Fragment implements View.OnClickListener{
         //设置监听事件
         itv_Tab1.setOnClickListener(this);
         itv_Tab2.setOnClickListener(this);
+        fragments=new ArrayList<Fragment>();
+        fragments.add(new Tab_Fragment1());
+        fragments.add(new Tab_Fragment2());
 
-        views = new ArrayList<View>();
+      //  views = new ArrayList<View>();
         LayoutInflater f = getActivity().getLayoutInflater();
-        view1 = f.inflate(R.layout.itv_tab1, null);
+       // view1 = f.inflate(R.layout.itv_tab1, null);
         view2 = f.inflate(R.layout.itv_tab2, null);
         //添加两个视图
-        views.add(view1);
-        views.add(view2);
+        //views.add(view1);
+        //views.add(view2);
         //给关注按钮添加事件
         ibtn_theme=(Button)view2.findViewById(R.id. ibtn_theme);
         ibtn_theme.setOnClickListener(this);

@@ -50,8 +50,8 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         cview=inflater.inflate(R.layout.fragment_collectnews_listview,container,false);
-        initCollectNewsList();//初始化收藏新闻列表
         initView();//初始化布局
+        initCollectNewsList();//初始化收藏新闻列表
         return cview;
     }
     /*

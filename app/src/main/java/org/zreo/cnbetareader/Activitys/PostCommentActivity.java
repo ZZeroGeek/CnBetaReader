@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import org.simple.eventbus.EventBus;
+
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CheckCode;
 import org.zreo.cnbetareader.Entitys.CnComment;

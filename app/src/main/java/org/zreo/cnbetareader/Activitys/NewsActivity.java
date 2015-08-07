@@ -110,7 +110,6 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
                 onBackPressed();
             }
         });
-        imageButton.getBackground().setAlpha(0);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -102,6 +102,7 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitle(title);   // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
         setSupportActionBar(mToolbar);  //将ToolBar设置为ActionBAr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //在ToolBar左边，即当前标题前添加图标
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

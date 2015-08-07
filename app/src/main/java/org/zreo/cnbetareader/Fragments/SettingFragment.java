@@ -30,6 +30,14 @@ import java.math.BigDecimal;
 
 
 public class SettingFragment extends PreferenceFragment {
+
+    /**
+     * 定义更改主题配色的接口
+     */
+    public interface SetColorListener{
+        void setColor(int index);
+    }
+
     private static  String cache ="/data/data/org.zreo.cnbetareader/cache";
     private int themeid;
     private Toolbar mToolbar;
@@ -57,19 +65,21 @@ public class SettingFragment extends PreferenceFragment {
                         .setSingleChoiceItems(R.array.theme_text, ThemeManger.getCurrentTheme(getActivity()), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                themeid = which;
-                            }
-                        })
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (getActivity() instanceof MainActivity) {
-                                    ((MainActivity) getActivity()).changeTheme = true;
-                                }
-                                ThemeManger.changeToTheme(getActivity(), themeid);
+                                SetColorListener listener = (SetColorListener) getActivity();
+                                listener.setColor(which);
+                                //themeid = which;
                             }
                         }).create().show();
-
+                       /* .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (getActivity() instanceof MainActivity) {
+                            ((MainActivity) getActivity()).changeTheme = true;
+                        }
+                        ThemeManger.changeToTheme(getActivity(), themeid);
+                    }
+                }).create().show();
+*/
 
                 return false;
             } else {

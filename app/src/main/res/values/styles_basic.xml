@@ -7,14 +7,12 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="colorPrimary">@color/toolbarColor</item>
-        <item name="colorPrimaryDark">@color/statusColor</item>
-        <item name="android:windowBackground">@color/background_light</item>
+
         <item name="actionModeBackground">?colorPrimary</item>
         <item name="android:preferenceCategoryStyle">@style/Preference.Category</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:textColor">@color/textColor</item>
+
         <item name="colorAccent">#3c69ce</item>
         </style>
 

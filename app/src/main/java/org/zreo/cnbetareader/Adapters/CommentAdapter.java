@@ -80,20 +80,21 @@ public class CommentAdapter extends BaseAdapter{
             holder.textView3 = (TextView)view.findViewById(R.id.against);
             holder.supportNumber = (TextView)view.findViewById(R.id.supportNumber);
             holder.againstNumber = (TextView)view.findViewById(R.id.againstNumber);
-            holder.responseText = (TextView)view.findViewById(R.id.response_text);
+            holder.layout =(LinearLayout)view.findViewById(R.id.layout);
                     View.OnClickListener listener = new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    v.setTag();
+                public void onClick(final View v) {
+                   // v.setTag();
                     PopupMenu popup = new PopupMenu(_context, v);
                     popup.getMenuInflater().inflate(R.menu.popup, popup.getMenu());
 
                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
+                                // v.setTag(item);
                             switch (item.getItemId()) {
                                 case R.id.action1:
-
+                                    v.setTag(item);
                                    // CnComment cmt = (CnComment)item.getTag();
                                     Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
                                     break;
@@ -111,9 +112,18 @@ public class CommentAdapter extends BaseAdapter{
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
                                             // TODO Auto-generated method stub
-                                            EditText etComment = (EditText)view.findViewById(R.id.etComment );
-                                            String etContent = etComment.getText().toString();
-                                            Toast.makeText(_context, etContent, Toast.LENGTH_SHORT).show();
+                                           EditText etComment = (EditText)view.findViewById(R.id.etComment );
+
+                                       //     String etContent = etComment.getText().toString();
+                                            for (int i = 0; i < 10; i++) {
+                                                String etContent = etComment.getText().toString();
+                                                TextView text = new TextView(_context);
+                                                text.setText("匿名用户"+ i +"\n"+etContent);
+                                                holder.layout.addView(text);
+                                                holder.layout.setVisibility(View.VISIBLE);
+                                            }
+
+                                            //Toast.makeText(_context, etContent, Toast.LENGTH_SHORT).show();
                                         }
                                     });
 
@@ -152,11 +162,10 @@ public class CommentAdapter extends BaseAdapter{
         holder.textView3.setText(commentItem.get(position).getAgainst());
         holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber()));
         holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber()));
-        holder.responseText.setText(commentItem.get(position).getResponseText());
+        holder.layout.setVisibility(View.GONE);
         return view;
     }
     public class ViewHolder{
-        public TextView responseText;
         public TextView supportNumber;
         public TextView againstNumber;
         public TextView FName;
@@ -166,6 +175,7 @@ public class CommentAdapter extends BaseAdapter{
         public ImageButton viewBtn;
         public TextView textView2;
         public TextView textView3;
+        public  LinearLayout layout;
     }
 
 }

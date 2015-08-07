@@ -12,14 +12,14 @@ public class CnComment {
     private int supportNumber;
     private int againstNumber;
     private long tid;
-    private String responseText;
+    private int layout;
 
-    public void setResponseText(String responseText) {
-        this.responseText = responseText;
+    public int getLayout() {
+        return layout;
     }
 
-    public String getResponseText() {
-        return responseText;
+    public void setLayout(int layout) {
+        this.layout = layout;
     }
 
     public int getSupportNumber() {
@@ -44,8 +44,7 @@ public class CnComment {
     }
 
     public CnComment(String FName, String userName, int imageId, String testComment, String support,
-                     String against,int commentMenu, long tid, int supportNumber,int againstNumber,
-                     String responseText ) {
+                     String against,int commentMenu, long tid, int supportNumber,int againstNumber ) {
         this.userName = userName;
         this.imageView1 = imageId;
         this.testComment = testComment;
@@ -56,7 +55,6 @@ public class CnComment {
         this.tid = tid;
         this.supportNumber = supportNumber;
         this.againstNumber = againstNumber;
-        this.responseText = responseText;
     }
 
     public void setFName(String FName) {

@@ -15,8 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.zreo.cnbetareader.Entitys.CnComment;
+import org.zreo.cnbetareader.Entitys.ResponseCommentEvent;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -84,6 +84,7 @@ public class CommentAdapter extends BaseAdapter{
                     View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.setTag();
                     PopupMenu popup = new PopupMenu(_context, v);
                     popup.getMenuInflater().inflate(R.menu.popup, popup.getMenu());
 
@@ -92,6 +93,7 @@ public class CommentAdapter extends BaseAdapter{
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.action1:
+
                                    // CnComment cmt = (CnComment)item.getTag();
                                     Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
                                     break;
@@ -141,11 +143,6 @@ public class CommentAdapter extends BaseAdapter{
             view = convertView;
             holder=(ViewHolder)view.getTag();
         }
-
-        //ImageView imageView=(ImageView)view.findViewById(R.id.imageView1);
-        //TextView textView = (TextView)view.findViewById(R.id.textView1);
-        //imageView.setImageResource(_images[position]);
-        //textView.setText(_texts[position]);
         holder.FName.setText(commentItem.get(position).getFName());
         holder.imageView.setImageResource(commentItem.get(position).getImageId());
         holder.textView2.setText(commentItem.get(position).getTestComment());
@@ -156,15 +153,6 @@ public class CommentAdapter extends BaseAdapter{
         holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber()));
         holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber()));
         holder.responseText.setText(commentItem.get(position).getResponseText());
-       /* holder.viewBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-              // Toast.makeText(_context, "你点击了ImageButton", Toast.LENGTH_SHORT) .show();
-
-            }
-        });*/
         return view;
     }
     public class ViewHolder{

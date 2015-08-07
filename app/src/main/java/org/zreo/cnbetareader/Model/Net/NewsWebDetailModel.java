@@ -153,7 +153,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
                 R.attr.colorPrimaryDark,R.attr.titleColor,android.R.attr.windowBackground,
                 R.attr.colorAccent
         });
-        int titleColor = array.getColor(2, mActivity.getResources().getColor(R.color.toolbarColor));
+        int titleColor = array.getColor(2, mActivity.getResources().getColor(R.color.blue));
         String colorString = Integer.toHexString(titleColor);
         String data = String.format(Locale.CHINA, webTemplate, colorString.substring(2, colorString.length()),
                 add,mNewsItem.getTitle(),mNewsItem.getFrom(),mNewsItem.getInputtime(),mNewsItem.getHometext(),mNewsItem.getContent(), true, true);

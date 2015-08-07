@@ -3,6 +3,7 @@ package org.zreo.cnbetareader.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,8 @@ public class CommentAdapter extends BaseAdapter{
     Context _context;
     private int resourceId;
     private List<CnComment> commentItem;
+    public static int I = 1;
+    public static int TAG = 0;
 
     public  CommentAdapter(Context mContext,int textViewResourcedId, List<CnComment> objects) {
         // TODO Auto-generated constructor stub
@@ -63,7 +66,7 @@ public class CommentAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         final View view;
         final ViewHolder holder;
@@ -84,22 +87,29 @@ public class CommentAdapter extends BaseAdapter{
                     View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                   // v.setTag();
                     PopupMenu popup = new PopupMenu(_context, v);
                     popup.getMenuInflater().inflate(R.menu.popup, popup.getMenu());
-
                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                                // v.setTag(item);
                             switch (item.getItemId()) {
                                 case R.id.action1:
-                                    v.setTag(item);
-                                   // CnComment cmt = (CnComment)item.getTag();
-                                    Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                    if (TAG == 0) {
+                                        holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber() + 1));
+                                        Toast.makeText(_context, "你选择了" + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                       // TAG = 1;
+                                    }else {
+                                        Toast.makeText(_context, "你已经表过态了", Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 case R.id.action2:
-                                    Toast.makeText(_context, "你点击了: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                    if (TAG == 0) {
+                                        holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber() + 1));
+                                        Toast.makeText(_context, "你选择了" + item.getTitle(), Toast.LENGTH_SHORT).show();
+                                       // TAG = 1;
+                                    }else {
+                                        Toast.makeText(_context, "你已经表过态了" , Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 case R.id.action3:
                                     AlertDialog.Builder builder = new AlertDialog.Builder(_context);
@@ -108,25 +118,24 @@ public class CommentAdapter extends BaseAdapter{
                                             // builder.setTitle();
                                     builder.setView(view);
                                     builder.setPositiveButton("发送", new DialogInterface.OnClickListener() {
-
+                                        //将评论动态的加载到LinearLayout
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
                                             // TODO Auto-generated method stub
                                            EditText etComment = (EditText)view.findViewById(R.id.etComment );
-
-                                       //     String etContent = etComment.getText().toString();
-                                            for (int i = 0; i < 10; i++) {
                                                 String etContent = etComment.getText().toString();
                                                 TextView text = new TextView(_context);
-                                                text.setText("匿名用户"+ i +"\n"+etContent);
-                                                holder.layout.addView(text);
-                                                holder.layout.setVisibility(View.VISIBLE);
-                                            }
-
-                                            //Toast.makeText(_context, etContent, Toast.LENGTH_SHORT).show();
+                                                text.setText("匿名用户                                 "+I++ +"\n"+etContent);
+                                            text.setTextColor(Color.BLACK);
+                                            // 加入分割线
+                                            final TextView line = new TextView(_context);
+                                            line.setHeight(1);
+                                            line.setBackgroundColor(Color.WHITE);
+                                            holder.layout.addView(text);
+                                            holder.layout.addView(line);
                                         }
                                     });
-
+                                   // holder.layout.setVisibility(View.VISIBLE);
                                     builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
                                         @Override
@@ -162,7 +171,7 @@ public class CommentAdapter extends BaseAdapter{
         holder.textView3.setText(commentItem.get(position).getAgainst());
         holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber()));
         holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber()));
-        holder.layout.setVisibility(View.GONE);
+       // holder.layout.setVisibility(View.GONE);
         return view;
     }
     public class ViewHolder{

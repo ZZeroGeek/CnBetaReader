@@ -79,7 +79,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
            // cnComments.setLayout("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
-            cnComments.setImageId(R.drawable.circle_image);
+            cnComments.setImageId(R.drawable.circle_btn);
             cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
@@ -212,7 +212,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
            // cnComments.setLayout("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
-            cnComments.setImageId(R.drawable.circle_image);
+            cnComments.setImageId(R.drawable.circle_btn);
             cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
@@ -265,7 +265,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                   //  cnComments.setLayout("");
                     cnComments.setSupportNumber(supportNum);
                     cnComments.setAgainstNumber(againstNum);
-                    cnComments.setImageId(R.drawable.circle_image);
+                    cnComments.setImageId(R.drawable.circle_btn);
                     cnComments.setUserName(userName);
                     cnComments.setTestComment(contentData);
                     cnComments.setCommentMenu(R.drawable.more_grey);

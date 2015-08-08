@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.zreo.cnbetareader.Adapters.Information_theme_Adapter;
 import org.zreo.cnbetareader.Model.CnInformation_Theme;
+import org.zreo.cnbetareader.Model.CollectNews;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -21,34 +24,35 @@ import java.util.List;
 public class Tab_Fragment1 extends Fragment {
     private View iview;
     private ListView theme_listview;
-    //private Information_theme_Adapter itAdapter;
     private List<CnInformation_Theme>CnInformation_ThemeList=new ArrayList <CnInformation_Theme>();
-    public Tab_Fragment1() {
-        // Required empty public constructor
-    }
+    private TextView type;
+    private TextView firstword1;
+    private TextView title1;
+    private ImageView image1;
+    private CollectNews  collectnews;
+    private List<CollectNews> CollectNewsList=new ArrayList<CollectNews>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        iview = inflater.inflate(R.layout.information_theme, container, false); //获取布局
+        iview = inflater.inflate(R.layout.itv_tab1, container, false); //获取布局
         theme_listview=(ListView)iview.findViewById(R.id.theme_listview);
-        iniTab_Fragment1List();//初始化
-        Information_theme_Adapter itAdapter=new Information_theme_Adapter(
-                getActivity(), R.layout.itv_tab1,CnInformation_ThemeList);
-        theme_listview.setAdapter(itAdapter);
+        type=(TextView)iview.findViewById(R.id.itv_type1);
+        firstword1= (TextView) iview.findViewById(R.id.firstword_text1);
+        title1= (TextView) iview.findViewById(R.id.itv_context1);
+        image1=(ImageView)iview.findViewById(R.id.image1);
+        initCollectNewsList();//初始化
         return iview;
     }
 
-private void iniTab_Fragment1List(){
-    String type="T";
-    String content = "That's just life,不能后退的时候";
-    String firstword ="T";
-    for(int i=0;i<20;i++){
-       CnInformation_Theme cnInformation_theme=new CnInformation_Theme();
-        cnInformation_theme.setContent(content);
-        cnInformation_theme.setFirstWord(firstword);
-        cnInformation_theme.setThemetype(type);
-        CnInformation_ThemeList.add(cnInformation_theme);
+    private void  initCollectNewsList(){
+        collectnews = new CollectNews();
+        String firstword="德";
+        String cnewscontent="德玛西亚！德玛西亚万岁··";
+        for(int i=0;i<15;i++){
+            collectnews.setNewscontent(cnewscontent);
+            collectnews.setNewsfirstWord(firstword);
+            CollectNewsList.add(collectnews);
+        }
     }
-}
 }

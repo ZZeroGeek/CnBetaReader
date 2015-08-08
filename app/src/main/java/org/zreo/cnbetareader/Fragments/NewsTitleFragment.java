@@ -1,14 +1,12 @@
 package org.zreo.cnbetareader.Fragments;
 
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -289,9 +287,10 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 toast.show();
             } else {
                 toastTextView.setText("没有更多内容了");
-                if(isLoad){   //当打开加载的新闻是最新的时，不需要提示
+                if(isLoad){   //当打开软件自动加载的新闻是最新的时，不需要提示
                     toast.show();
                 }
+                isLoad = true;
             }
 
 

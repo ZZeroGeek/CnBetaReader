@@ -17,7 +17,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.zreo.cnbetareader.Entitys.CnComment;
-import org.zreo.cnbetareader.Entitys.ResponseCommentEvent;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;

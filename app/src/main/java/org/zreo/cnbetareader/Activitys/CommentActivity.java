@@ -67,7 +67,6 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     }
 
     /**更改主题颜色*/
-    @SuppressLint("NewApi")
     public void setThemeColor(int index){
         switch (index){
             case 0:  //蓝色（默认）
@@ -266,7 +265,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     @Override
     public void onLoadMore() {
         loadMoreData();
-       // initCommentList();
+        // initCommentList();
         myListView.stopRefresh();
         myListView.stopLoadMore();
     }
@@ -283,9 +282,9 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     String contentData = data.getStringExtra("content");
                     String userName = "南方用户";
                     //String textComment = "100块都不给我";

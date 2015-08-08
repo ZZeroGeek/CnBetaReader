@@ -67,7 +67,6 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     }
 
     /**更改主题颜色*/
-    @SuppressLint("NewApi")
     public void setThemeColor(int index){
         switch (index){
             case 0:  //蓝色（默认）

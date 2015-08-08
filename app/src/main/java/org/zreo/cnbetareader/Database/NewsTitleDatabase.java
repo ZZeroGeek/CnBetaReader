@@ -53,7 +53,7 @@ public class NewsTitleDatabase {
             values.put("counter", newsEntity.getCounter());
             values.put("inputtime", newsEntity.getInputtime());
             values.put("thumb", newsEntity.getThumb());
-            db.insert("NewsEntity", null, values);
+            db.insert(DB_NAME, null, values);
         }
     }
 
@@ -63,7 +63,7 @@ public class NewsTitleDatabase {
     public List<NewsEntity> loadNewsEntity() {
         List<NewsEntity> list = new ArrayList<NewsEntity>();
         //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
-        Cursor cursor = db.query("NewsEntity", null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();
@@ -94,7 +94,7 @@ public class NewsTitleDatabase {
         });
         int sid;  //新闻id
         //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
-        Cursor cursor = db.query("NewsEntity", null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();

@@ -63,7 +63,16 @@ public class CollectNews_Adapter extends BaseAdapter {
 
         String title = CollectNewsItem.get(position).getTitle();
         holder.collectNewsTitle.setText(title);
-        holder.firstWord.setText(String.valueOf(title.charAt(0)));
+        if(title.charAt(0) == '['){
+            holder.firstWord.setText(String.valueOf(title.charAt(4)));
+        }else{
+            if(title.charAt(0) == '《'){
+                holder.firstWord.setText(String.valueOf(title.charAt(1)));
+            }else {
+                holder.firstWord.setText(String.valueOf(title.charAt(0)));
+            }
+
+        }
 
         return view;
     }

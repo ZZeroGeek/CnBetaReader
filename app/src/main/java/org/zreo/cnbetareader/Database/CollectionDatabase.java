@@ -26,7 +26,7 @@ public class CollectionDatabase {
 
     //将构造方法私有化
     private CollectionDatabase(Context context) {
-        CollectionOpenHelper dbHelper = new CollectionOpenHelper(
+        NewsTitleOpenHelper dbHelper = new NewsTitleOpenHelper(
                 context, DB_NAME, null, VERSION);
         db = dbHelper.getWritableDatabase();
     }
@@ -50,8 +50,13 @@ public class CollectionDatabase {
             values.put("counter", newsEntity.getCounter());
             values.put("inputtime", newsEntity.getInputtime());
             values.put("thumb", newsEntity.getThumb());
-            db.insert("Collection", null, values);
+            db.insert(DB_NAME, null, values);
         }
+    }
+
+    //删除收藏
+    public void deleteCollection(NewsEntity newsEntity) {
+        db.delete(DB_NAME, "sid = ?", new String[]{String.valueOf(newsEntity.getSid())});
     }
 
 
@@ -59,7 +64,7 @@ public class CollectionDatabase {
     //从数据库读取收藏信息，返回List
     public List<NewsEntity> loadCollection() {
         List<NewsEntity> list = new ArrayList<NewsEntity>();
-        Cursor cursor = db.query("Collection", null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();
@@ -89,7 +94,7 @@ public class CollectionDatabase {
             }
         });
         int sid;  //新闻id
-        Cursor cursor = db.query("Collection", null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();

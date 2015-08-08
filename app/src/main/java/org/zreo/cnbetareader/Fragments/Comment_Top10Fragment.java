@@ -133,4 +133,3 @@ public class Comment_Top10Fragment extends Fragment implements SwipeRefreshLayou
 //        protected void onError() {
 //        }
     };
-}

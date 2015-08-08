@@ -163,7 +163,7 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
     public void addData(){
         totalNumber = cnComment_hotList.size();
         addNumber = (int)(Math.random() * 10 + 1); //产生从1 - 10的随机数
-        String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！0000000000000000000000000000000000000000000000000000000000000000000000000";
+        String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！就是你会我那，信不信我吧你发吧。干掉。呵呵你是就是这样子的。没有办发和你在意跑的都快打开！";
         String comment = "城里人真会玩";
         String firstWord ="有";
         for(int i = 1; i < 20; i++){
@@ -182,7 +182,7 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
     public void addData1(){
         totalNumber = cnComment_hotList.size();
         addNumber = (int)(Math.random() * 10+ 1); //产生从1 - 10的随机数
-        String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！0000000000000000000000000000000000000000000000000000000000000000000000000";
+        String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！jiosudjisufai hods和速度000000000000恢复拉萨的那份洛克时0000000000000代拉开距离就是的离00000000000开房间爱死了快递费就分开了激发了卡拉科技阿萨德可立即阿萨德啊落实到";
         String comment = "城里人真会玩";
         String firstWord ="有";
         for(int i = 1; i < 20; i++){

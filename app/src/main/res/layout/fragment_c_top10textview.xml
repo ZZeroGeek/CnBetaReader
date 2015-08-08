@@ -23,7 +23,7 @@
 
             <Button
                 android:text="1"
-                android:background="@color/mainColor"
+                android:background="@color/blue1"
                 android:layout_height="35dp"
                 android:layout_width="35dp"
                 android:id="@+id/ranking"/>

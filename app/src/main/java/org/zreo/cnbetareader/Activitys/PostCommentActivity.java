@@ -1,6 +1,9 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +31,7 @@ public class PostCommentActivity extends AppCompatActivity {
     EditText editCode;
     public Button send;
     private Toolbar mToolbar;
+    SharedPreferences pref;
 
     public PostCommentActivity() {
     }
@@ -85,5 +89,41 @@ public class PostCommentActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        //读取设置文件的值
+        pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
+        setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
+    }
+
+    /**更改主题颜色*/
+    @SuppressLint("NewApi")
+    public void setThemeColor(int index){
+        switch (index){
+            case 0:  //蓝色（默认）
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
+                break;
+            case 1:  //棕色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
+                break;
+            case 2:  //橙色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
+                break;
+            case 3:  //紫色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
+                break;
+            case 4:  //绿色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.green));
+                break;
+            default:  //默认
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
+                break;
+        }
+
     }
 }

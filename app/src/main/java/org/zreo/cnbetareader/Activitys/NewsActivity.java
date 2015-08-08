@@ -1,8 +1,11 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,6 +42,8 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
     private String[] textsize1 = new String[]{"大", "中", "小"};
     private NewsWebDetailModel newsWebDetailModel;
     private NewsEntity newsEntity;
+
+
 private  NewsEntity entity;
     /*
      *一个页面里放入了一个webview组件，并将其组件铺满屏幕，全屏幕除了下面的导航栏其余 都是这个webview，
@@ -102,6 +107,7 @@ private  NewsEntity entity;
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitle(title);   // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
         setSupportActionBar(mToolbar);  //将ToolBar设置为ActionBAr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //在ToolBar左边，即当前标题前添加图标
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -110,7 +116,10 @@ private  NewsEntity entity;
                 onBackPressed();
             }
         });
-        imageButton.getBackground().setAlpha(0);
+
+        SharedPreferences pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
+        setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +150,7 @@ private  NewsEntity entity;
 //                    if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {  //表示按返回键时的操作
 //
 //
-//                        webView.goBack();   //后退
+//                         webView.goBack();   //后退
 //
 //                        //webview.goForward();//前进
 //                        return true;    //已处理
@@ -150,6 +159,38 @@ private  NewsEntity entity;
 //                return false;
 //            }
 //        });
+    }
+
+    /**更改主题颜色*/
+    @SuppressLint("NewApi")
+    public void setThemeColor(int index){
+        switch (index){
+            case 0:  //蓝色（默认）
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
+                break;
+            case 1:  //棕色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
+                break;
+            case 2:  //橙色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
+                break;
+            case 3:  //紫色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
+                break;
+            case 4:  //绿色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.green));
+                break;
+            default:  //默认
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
+                break;
+        }
+
     }
 
     protected void onCreate(Bundle savedInstanceState) {

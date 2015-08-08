@@ -1,6 +1,9 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,22 +15,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.ResponseHandlerInterface;
-
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CnComment;
-import org.zreo.cnbetareader.Entitys.CommentItemEntity;
-import org.zreo.cnbetareader.Entitys.CommentListEntity;
-import org.zreo.cnbetareader.Entitys.NewsEntity;
-import org.zreo.cnbetareader.Entitys.ResponseEntity;
-import org.zreo.cnbetareader.Model.Net.HttpDateModel;
-import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Views.XListView;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -43,7 +35,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     private Handler handler = new Handler();
 
     private List<CnComment> cnCommentList = new ArrayList<CnComment>();
-    //    private QuickReturnListView mListView;
+//    private QuickReturnListView mListView;
     private ImageView mQuickReturnButton;
     private int mQuickReturnHeight;
     CommentAdapter myAdapter;
@@ -54,12 +46,12 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     private int mState = STATE_ONSCREEN;
     private int mScrollY;
     private int mMinRawY = 0;
-    private Toolbar mToolbar;
-    private NewsEntity newsEntity;
+     private Toolbar mToolbar;
+    SharedPreferences pref;
+
     private TranslateAnimation anim;
     private XListView myListView;
     private ImageView mQuickReturnView; // 下拉快速显示item功能
-
     public CommentActivity() {
     }
 
@@ -67,12 +59,43 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comment_listview);
-        Bundle bundle=new Bundle();
-        bundle=getIntent().getExtras();
-        newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
         initView();
         initCommentList();
-        BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
+        //读取设置文件的值
+        pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
+        setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
+    }
+
+    /**更改主题颜色*/
+    @SuppressLint("NewApi")
+    public void setThemeColor(int index){
+        switch (index){
+            case 0:  //蓝色（默认）
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
+                break;
+            case 1:  //棕色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
+                break;
+            case 2:  //橙色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
+                break;
+            case 3:  //紫色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
+                break;
+            case 4:  //绿色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.green));
+                break;
+            default:  //默认
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
+                break;
+        }
+
     }
 
     private void loadMoreData() {
@@ -88,11 +111,11 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
             CnComment cnComments = new CnComment();
             cnComments.setFName(FName[0]);
-            cnComments.setResponseText("");
+           // cnComments.setLayout("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
-            cnComments.setImageId(R.drawable.circle_image);
-            cnComments.setUserName(i + userName);
+            cnComments.setImageId(R.drawable.circle_btn);
+            cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
             cnComments.setSupport(sText);
@@ -106,7 +129,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
      * 初始化布局
      */
     private void initView() {
-        myListView = (XListView) findViewById(R.id.xListView);
+        myListView = (XListView)findViewById(R.id.xListView);
         myListView.setPullRefreshEnable(false);
         myListView.setPullLoadEnable(true);
         myAdapter = new CommentAdapter(this, R.layout.comment_textview, cnCommentList);
@@ -221,11 +244,11 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
             CnComment cnComments = new CnComment();
             cnComments.setFName(FName[0]);
-            cnComments.setResponseText("");
+           // cnComments.setLayout("");
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
-            cnComments.setImageId(R.drawable.circle_image);
-            cnComments.setUserName(i + userName);
+            cnComments.setImageId(R.drawable.circle_btn);
+            cnComments.setUserName(i+userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
             cnComments.setSupport(sText);
@@ -237,29 +260,8 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
     @Override
     public void onRefresh() {
-        BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
+
     }
-
-    private ResponseHandlerInterface responseHandlerInterface = new HttpDateModel<CommentListEntity>(new TypeToken<ResponseEntity<CommentListEntity>>() {
-    }) {
-
-        @Override
-        protected void onSuccess(CommentListEntity result) {
-            ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
-            HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
-        }
-
-        @Override
-        protected void onError() {
-
-        }
-
-        @Override
-        protected void onFailure() {
-
-        }
-
-    };
 
     @Override
     public void onLoadMore() {
@@ -269,9 +271,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         myListView.stopLoadMore();
     }
 
-    /**
-     * 悬浮按钮点击响应
-     *
+    /**悬浮按钮点击响应
      * @param v
      */
     @Override
@@ -297,10 +297,10 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                     ArrayList<CnComment> resultList = new ArrayList<CnComment>();
                     CnComment cnComments = new CnComment();
                     cnComments.setFName(FName[0]);
-                    cnComments.setResponseText("");
+                  //  cnComments.setLayout("");
                     cnComments.setSupportNumber(supportNum);
                     cnComments.setAgainstNumber(againstNum);
-                    cnComments.setImageId(R.drawable.circle_image);
+                    cnComments.setImageId(R.drawable.circle_btn);
                     cnComments.setUserName(userName);
                     cnComments.setTestComment(contentData);
                     cnComments.setCommentMenu(R.drawable.more_grey);

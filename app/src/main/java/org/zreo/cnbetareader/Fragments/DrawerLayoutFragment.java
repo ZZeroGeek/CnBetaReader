@@ -1,16 +1,22 @@
 package org.zreo.cnbetareader.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import org.zreo.cnbetareader.Activitys.MainActivity;
 import org.zreo.cnbetareader.R;
 /**
  * Created by guang on 2015/7/23.

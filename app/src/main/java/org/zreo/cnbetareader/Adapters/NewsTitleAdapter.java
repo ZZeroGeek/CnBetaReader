@@ -1,7 +1,9 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Utils.MyImageLoader;
+import org.zreo.cnbetareader.Utils.NetTools;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ public class NewsTitleAdapter extends BaseAdapter{
     private MyImageLoader myImageLoader;
     private ImageLoader imageLoader;  //图片加载器对象
     private DisplayImageOptions options;  ////显示图片的配置
+    SharedPreferences pref;
 
     /**构造函数*/
    public NewsTitleAdapter(Context context, int textViewResourcedId, List<NewsEntity> objects) {
@@ -48,6 +52,8 @@ public class NewsTitleAdapter extends BaseAdapter{
         myImageLoader = new MyImageLoader(mContext);
         imageLoader = myImageLoader.getImageLoader();
         options = myImageLoader.getDisplayImageOptions();
+        //读取设置文件的值
+        pref = mContext.getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
 
     }
 
@@ -76,7 +82,7 @@ public class NewsTitleAdapter extends BaseAdapter{
             viewHolder.newsTitle = (TextView) view.findViewById(R.id.news_title);
             viewHolder.newsContent = (TextView) view.findViewById(R.id.news_summary);
             viewHolder.publishTime = (TextView) view.findViewById(R.id.news_publish_time);
-            viewHolder.titleImage = (ImageView) view.findViewById(R.id.news_picture);
+            viewHolder.titleImage = (ImageView) view.findViewById(R.id.news_image);
             viewHolder.commentNumber = (TextView) view.findViewById(R.id.news_comment_number);
             viewHolder.readerNumber = (TextView) view.findViewById(R.id.news_reader_number);
             view.setTag(viewHolder);
@@ -87,12 +93,23 @@ public class NewsTitleAdapter extends BaseAdapter{
         }
         viewHolder.newsTitle.setText(listItem.get(position).getTitle());
         //格式化输出新闻简介
-        String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
-                                                            .replace("</p>", "").replace("</strong>", "");
-        viewHolder.newsContent.setText(homeText);
+        //String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
+        //                                                    .replace("</p>", "").replace("</strong>", "");
+        String homeText = listItem.get(position).getHometext().replace("<strong>", "").replace("</strong>", "");
+        viewHolder.newsContent.setText(Html.fromHtml(homeText));
         viewHolder.publishTime.setText(listItem.get(position).getInputtime());
         //viewHolder.imageUrl = listItem.get(position).getThumb();  //获取图片地址
-        imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
+
+        if(NetTools.isWifiConnected()){   //判断是否在Wifi环境下，如果是就加载图片
+            imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
+        }else {     // 在移动网络下
+            if(pref.getBoolean("informationList", true)){   // 读取是否加载列表图片的值，如果为真，就加载图片
+                imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
+            }else {    //如果设置不加载图片就显示默认图片
+                viewHolder.titleImage.setImageResource(R.mipmap.news_title_default_image);
+            }
+        }
+
         viewHolder.commentNumber.setText(String.valueOf(listItem.get(position).getComments()));
         viewHolder.readerNumber.setText(String.valueOf(listItem.get(position).getCounter()));
         return view;

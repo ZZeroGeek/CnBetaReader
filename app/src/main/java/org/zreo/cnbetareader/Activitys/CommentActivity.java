@@ -1,6 +1,5 @@
 package org.zreo.cnbetareader.Activitys;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,16 +9,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import org.simple.eventbus.EventBus;
+
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.ResponseHandlerInterface;
+
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CnComment;
+import org.zreo.cnbetareader.Entitys.CommentItemEntity;
+import org.zreo.cnbetareader.Entitys.CommentListEntity;
+import org.zreo.cnbetareader.Entitys.NewsEntity;
+import org.zreo.cnbetareader.Entitys.ResponseEntity;
+import org.zreo.cnbetareader.Model.Net.HttpDateModel;
+import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Views.XListView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -35,7 +43,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     private Handler handler = new Handler();
 
     private List<CnComment> cnCommentList = new ArrayList<CnComment>();
-//    private QuickReturnListView mListView;
+    //    private QuickReturnListView mListView;
     private ImageView mQuickReturnButton;
     private int mQuickReturnHeight;
     CommentAdapter myAdapter;
@@ -46,11 +54,12 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     private int mState = STATE_ONSCREEN;
     private int mScrollY;
     private int mMinRawY = 0;
-     private Toolbar mToolbar;
-
+    private Toolbar mToolbar;
+    private NewsEntity newsEntity;
     private TranslateAnimation anim;
     private XListView myListView;
     private ImageView mQuickReturnView; // 下拉快速显示item功能
+
     public CommentActivity() {
     }
 
@@ -58,8 +67,12 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comment_listview);
+        Bundle bundle=new Bundle();
+        bundle=getIntent().getExtras();
+        newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
         initView();
         initCommentList();
+        BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
     }
 
     private void loadMoreData() {
@@ -79,7 +92,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
             cnComments.setImageId(R.drawable.circle_image);
-            cnComments.setUserName(i+userName);
+            cnComments.setUserName(i + userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
             cnComments.setSupport(sText);
@@ -93,7 +106,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
      * 初始化布局
      */
     private void initView() {
-        myListView = (XListView)findViewById(R.id.xListView);
+        myListView = (XListView) findViewById(R.id.xListView);
         myListView.setPullRefreshEnable(false);
         myListView.setPullLoadEnable(true);
         myAdapter = new CommentAdapter(this, R.layout.comment_textview, cnCommentList);
@@ -212,7 +225,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
             cnComments.setSupportNumber(supportNum);
             cnComments.setAgainstNumber(againstNum);
             cnComments.setImageId(R.drawable.circle_image);
-            cnComments.setUserName(i+userName);
+            cnComments.setUserName(i + userName);
             cnComments.setTestComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
             cnComments.setSupport(sText);
@@ -224,18 +237,41 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
     @Override
     public void onRefresh() {
-
+        BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
     }
+
+    private ResponseHandlerInterface responseHandlerInterface = new HttpDateModel<CommentListEntity>(new TypeToken<ResponseEntity<CommentListEntity>>() {
+    }) {
+
+        @Override
+        protected void onSuccess(CommentListEntity result) {
+            ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
+            HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
+        }
+
+        @Override
+        protected void onError() {
+
+        }
+
+        @Override
+        protected void onFailure() {
+
+        }
+
+    };
 
     @Override
     public void onLoadMore() {
         loadMoreData();
-       // initCommentList();
+        // initCommentList();
         myListView.stopRefresh();
         myListView.stopLoadMore();
     }
 
-    /**悬浮按钮点击响应
+    /**
+     * 悬浮按钮点击响应
+     *
      * @param v
      */
     @Override
@@ -247,9 +283,9 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     String contentData = data.getStringExtra("content");
                     String userName = "南方用户";
                     //String textComment = "100块都不给我";

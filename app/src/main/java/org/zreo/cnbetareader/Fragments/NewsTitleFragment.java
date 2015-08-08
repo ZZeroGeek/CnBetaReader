@@ -31,7 +31,6 @@ import com.loopj.android.http.ResponseHandlerInterface;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.zreo.cnbetareader.Activitys.NewsActivity;
@@ -39,7 +38,7 @@ import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
-import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
+import org.zreo.cnbetareader.Model.Net.HttpDateModel;
 import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Database.NewsTitleDatabase;
@@ -130,7 +129,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         }).start();
     }
 
-    private ResponseHandlerInterface initResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface initResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
@@ -237,7 +236,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     private int addNumber = 0; //每次刷新或加载增加的数据
 
     /**刷新时更新数据*/
-    private ResponseHandlerInterface refreshResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface refreshResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
@@ -320,7 +319,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     }
 
     /**自动加载更新数据*/
-    private ResponseHandlerInterface autoLoadResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface autoLoadResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
@@ -444,7 +443,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     }
 
     /**离线下载保存数据*/
-    private ResponseHandlerInterface offlineDownloadResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface offlineDownloadResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {

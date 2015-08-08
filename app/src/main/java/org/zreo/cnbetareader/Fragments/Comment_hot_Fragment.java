@@ -23,7 +23,7 @@ import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
 import org.zreo.cnbetareader.Model.CnComment_hot;
-import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
+import org.zreo.cnbetareader.Model.Net.HttpDateModel;
 import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
@@ -119,7 +119,7 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
 
         BaseHttpClient.getInsence().getNewsListByPage("all","1",response);
     }
-    private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+    private ResponseHandlerInterface response=new HttpDateModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
 

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,15 +16,12 @@ import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.ResponseHandlerInterface;
 
-import org.zreo.cnbetareader.Activitys.MainActivity;
 import org.zreo.cnbetareader.Adapters.CollectNews_Adapter;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
-import org.zreo.cnbetareader.Model.CnComment_hot;
 import org.zreo.cnbetareader.Model.CollectNews;
-import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
-import org.zreo.cnbetareader.Net.BaseHttpClient;
+import org.zreo.cnbetareader.Model.Net.HttpDateModel;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -111,7 +107,7 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
         cnsAdapter.notifyDataSetChanged();
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
     }
-    private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+    private ResponseHandlerInterface response=new HttpDateModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {}
         @Override

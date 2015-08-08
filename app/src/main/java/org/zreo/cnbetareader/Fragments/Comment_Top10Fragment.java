@@ -19,7 +19,7 @@ import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
 import org.zreo.cnbetareader.Model.CnCommentTop10;
-import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
+import org.zreo.cnbetareader.Model.Net.HttpDateModel;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -102,7 +102,7 @@ public class Comment_Top10Fragment extends Fragment implements SwipeRefreshLayou
         mAdapter.notifyDataSetChanged();
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
     }
-    private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+    private ResponseHandlerInterface response=new HttpDateModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
         }

@@ -39,7 +39,7 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
     private String[] textsize1 = new String[]{"大", "中", "小"};
     private NewsWebDetailModel newsWebDetailModel;
     private NewsEntity newsEntity;
-
+private  NewsEntity entity;
     /*
      *一个页面里放入了一个webview组件，并将其组件铺满屏幕，全屏幕除了下面的导航栏其余 都是这个webview，
      * 后来我想在webview中触发滑动手势的onfling方法，在webview还没加载完网页内容之前正常，可是 webview加载完网页之后，就无法触发方法了，
@@ -114,7 +114,11 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*只有当加载完成页面后才能进行点击跳转，不然无法获取数据*/
                 Intent intent5 = new Intent(NewsActivity.this, CommentActivity.class);
+                Bundle NewsItem=new Bundle();
+                NewsItem.putSerializable("NewsItem",entity);
+                intent5.putExtras(NewsItem);
                 startActivity(intent5);
             }
         });
@@ -152,7 +156,7 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        NewsEntity entity=(NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
+         entity = (NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
         init();
         newsWebDetailModel = new NewsWebDetailModel(new BaseWebHttpModel(this));
         newsWebDetailModel.setActivity(this);

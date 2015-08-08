@@ -13,9 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -192,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         setTabSelection(index);
         setToolBarTitle(index);
         if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击后关闭后滑菜单
+            mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击后关闭右滑菜单
         }
     }
 
@@ -200,7 +197,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     /**实现再按一次后退键退出应用程序*/
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if((System.currentTimeMillis() - exitTime) > 2000){
+            if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+                mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击返回键后关闭右滑菜单
+            }else if((System.currentTimeMillis() - exitTime) > 2000){
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {

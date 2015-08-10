@@ -167,27 +167,21 @@ private  NewsEntity entity;
         switch (index){
             case 0:  //蓝色（默认）
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
-                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
                 break;
             case 1:  //棕色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
                 break;
             case 2:  //橙色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
                 break;
             case 3:  //紫色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
                 break;
             case 4:  //绿色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.green));
                 break;
             default:  //默认
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
                 break;
         }
 

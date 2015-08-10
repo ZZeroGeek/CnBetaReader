@@ -9,15 +9,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
+
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.machinarius.preferencefragment.PreferenceFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Utils.FileKit;
 
@@ -41,7 +41,7 @@ public class SettingFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pre_setting);
-        Preference   preference = findPreference(getString(R.string.clean_cache_key));
+        Preference preference = findPreference(getString(R.string.clean_cache_key));
         preference.setSummary(getFileSize());
         Preference theme = findPreference("theme");
         theme.setOnPreferenceClickListener(onPreferenceClickListener);

@@ -1,6 +1,7 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Model.CollectNews;
 import org.zreo.cnbetareader.R;
+import org.zreo.cnbetareader.Utils.CircleImageView;
 
 import java.util.List;
 
@@ -52,8 +54,9 @@ public class CollectNews_Adapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             view = inflater.inflate(resourceId, null);
             holder = new ViewHolder();
-            holder.firstWord =(TextView)view.findViewById(R.id.first_word);
-            holder.collectNewsTitle =(TextView)view.findViewById(R.id.collect_news_title);
+            holder.firstWord = (TextView) view.findViewById(R.id.first_word);
+            holder.collectNewsTitle = (TextView) view.findViewById(R.id.collect_news_title);
+            holder.circleImage = (CircleImageView) view.findViewById(R.id.circle_image);
             view.setTag(holder);
 
         }else {
@@ -73,6 +76,7 @@ public class CollectNews_Adapter extends BaseAdapter {
             }
 
         }
+        //holder.circleImage.setImageResource(Color.RED);
 
         return view;
     }
@@ -81,6 +85,7 @@ public class CollectNews_Adapter extends BaseAdapter {
 
         public TextView firstWord;
         public TextView collectNewsTitle ;
+        public CircleImageView circleImage;
 
     }
 }

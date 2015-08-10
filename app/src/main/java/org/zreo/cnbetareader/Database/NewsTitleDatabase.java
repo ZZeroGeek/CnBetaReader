@@ -53,6 +53,13 @@ public class NewsTitleDatabase {
             values.put("counter", newsEntity.getCounter());
             values.put("inputtime", newsEntity.getInputtime());
             values.put("thumb", newsEntity.getThumb());
+
+            values.put("SN", newsEntity.getSN());
+            values.put("largeImage", newsEntity.getLargeImage());
+            values.put("froms", newsEntity.getFrom());
+            values.put("content", newsEntity.getContent());
+            values.put("summary", newsEntity.getSummary());
+
             db.insert(DB_NAME, null, values);
         }
     }
@@ -74,6 +81,11 @@ public class NewsTitleDatabase {
                 newsEntity.setThumb(cursor.getString(cursor.getColumnIndex("thumb")));
                 newsEntity.setComments(cursor.getInt(cursor.getColumnIndex("comments")));
                 newsEntity.setCounter(cursor.getInt(cursor.getColumnIndex("counter")));
+                newsEntity.setSN(cursor.getString(cursor.getColumnIndex("SN")));
+                newsEntity.setLargeImage(cursor.getString(cursor.getColumnIndex("largeImage")));
+                newsEntity.setFrom(cursor.getString(cursor.getColumnIndex("froms")));
+                newsEntity.setContent(cursor.getString(cursor.getColumnIndex("content")));
+                newsEntity.setSummary(cursor.getString(cursor.getColumnIndex("summary")));
                 list.add(newsEntity);
             } while (cursor.moveToNext());
         }
@@ -106,6 +118,11 @@ public class NewsTitleDatabase {
                 newsEntity.setThumb(cursor.getString(cursor.getColumnIndex("thumb")));
                 newsEntity.setComments(cursor.getInt(cursor.getColumnIndex("comments")));
                 newsEntity.setCounter(cursor.getInt(cursor.getColumnIndex("counter")));
+                newsEntity.setSN(cursor.getString(cursor.getColumnIndex("SN")));
+                newsEntity.setLargeImage(cursor.getString(cursor.getColumnIndex("largeImage")));
+                newsEntity.setFrom(cursor.getString(cursor.getColumnIndex("froms")));
+                newsEntity.setContent(cursor.getString(cursor.getColumnIndex("content")));
+                newsEntity.setSummary(cursor.getString(cursor.getColumnIndex("summary")));
                 map.put(sid, newsEntity);
             } while (cursor.moveToNext());
         }

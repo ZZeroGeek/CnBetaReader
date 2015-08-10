@@ -44,12 +44,22 @@ public class CollectionDatabase {
         if (newsEntity != null) {
             ContentValues values = new ContentValues();
             values.put("sid", newsEntity.getSid());
+            values.put("catid", newsEntity.getCatid());
+            values.put("topic", newsEntity.getTopic());
+            values.put("aid", newsEntity.getAid());
+            values.put("user_id", newsEntity.getUser_id());
             values.put("title", newsEntity.getTitle());
             values.put("hometext", newsEntity.getHometext());
             values.put("comments", newsEntity.getComments());
             values.put("counter", newsEntity.getCounter());
             values.put("inputtime", newsEntity.getInputtime());
             values.put("thumb", newsEntity.getThumb());
+
+            values.put("SN", newsEntity.getSN());
+            values.put("largeImage", newsEntity.getLargeImage());
+            values.put("froms", newsEntity.getFrom());
+            values.put("content", newsEntity.getContent());
+            values.put("summary", newsEntity.getSummary());
             db.insert(DB_NAME, null, values);
         }
     }
@@ -75,6 +85,11 @@ public class CollectionDatabase {
                 newsEntity.setThumb(cursor.getString(cursor.getColumnIndex("thumb")));
                 newsEntity.setComments(cursor.getInt(cursor.getColumnIndex("comments")));
                 newsEntity.setCounter(cursor.getInt(cursor.getColumnIndex("counter")));
+                newsEntity.setSN(cursor.getString(cursor.getColumnIndex("SN")));
+                newsEntity.setLargeImage(cursor.getString(cursor.getColumnIndex("largeImage")));
+                newsEntity.setFrom(cursor.getString(cursor.getColumnIndex("froms")));
+                newsEntity.setContent(cursor.getString(cursor.getColumnIndex("content")));
+                newsEntity.setSummary(cursor.getString(cursor.getColumnIndex("summary")));
                 list.add(newsEntity);
             } while (cursor.moveToNext());
         }
@@ -106,6 +121,11 @@ public class CollectionDatabase {
                 newsEntity.setThumb(cursor.getString(cursor.getColumnIndex("thumb")));
                 newsEntity.setComments(cursor.getInt(cursor.getColumnIndex("comments")));
                 newsEntity.setCounter(cursor.getInt(cursor.getColumnIndex("counter")));
+                newsEntity.setSN(cursor.getString(cursor.getColumnIndex("SN")));
+                newsEntity.setLargeImage(cursor.getString(cursor.getColumnIndex("largeImage")));
+                newsEntity.setFrom(cursor.getString(cursor.getColumnIndex("froms")));
+                newsEntity.setContent(cursor.getString(cursor.getColumnIndex("content")));
+                newsEntity.setSummary(cursor.getString(cursor.getColumnIndex("summary")));
                 map.put(sid, newsEntity);
             } while (cursor.moveToNext());
         }

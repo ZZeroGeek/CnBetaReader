@@ -17,9 +17,10 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center">
-            <ImageView
-                android:id="@+id/image"
-                android:src="@drawable/circle_btn"
+
+            <org.zreo.cnbetareader.Utils.CircleImageView
+                android:id="@+id/circle_image"
+                android:src="@android:color/holo_green_light"
                 android:layout_height="50dp"
                 android:layout_width="50dp"
                 android:layout_gravity="center_vertical"
@@ -34,8 +35,8 @@
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="德"
-                android:textColor="@color/white"
                 android:textSize="25dp"
+                android:textColor="@color/white"
                 />
         </FrameLayout>
 

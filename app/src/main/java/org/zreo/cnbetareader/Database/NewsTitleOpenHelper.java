@@ -17,6 +17,13 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "topic integer, "
             + "aid text, "
             + "user_id text, "  /*用户ID*/
+
+            + "SN text, "
+            + "largeImage text, "
+            + "froms text, "
+            + "content text, "
+            + "summary text, "
+
             + "title text, "    /*标题*/
             + "hometext text, "  /*简介*/
             + "comments text, "  /*评论数*/
@@ -32,6 +39,13 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "topic integer, "
             + "aid text, "
             + "user_id text, "  /*用户ID*/
+
+            + "SN text, "
+            + "largeImage text, "
+            + "froms text, "
+            + "content text, "
+            + "summary text, "
+
             + "title text, "    /*标题*/
             + "hometext text, "  /*简介*/
             + "comments text, "  /*评论数*/

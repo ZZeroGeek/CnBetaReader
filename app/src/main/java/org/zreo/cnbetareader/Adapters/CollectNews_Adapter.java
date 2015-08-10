@@ -1,19 +1,15 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import org.zreo.cnbetareader.Entitys.NewsEntity;
-import org.zreo.cnbetareader.Model.CollectNews;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Utils.CircleImageView;
 

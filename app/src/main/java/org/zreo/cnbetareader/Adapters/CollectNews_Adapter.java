@@ -1,7 +1,8 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,7 @@ import android.widget.TextView;
 
 
 import org.zreo.cnbetareader.Entitys.NewsEntity;
-import org.zreo.cnbetareader.Model.CollectNews;
 import org.zreo.cnbetareader.R;
-import org.zreo.cnbetareader.Utils.CircleImageView;
-
 import java.util.List;
 
 /**
@@ -56,7 +54,6 @@ public class CollectNews_Adapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.firstWord = (TextView) view.findViewById(R.id.first_word);
             holder.collectNewsTitle = (TextView) view.findViewById(R.id.collect_news_title);
-            holder.circleImage = (CircleImageView) view.findViewById(R.id.circle_image);
             view.setTag(holder);
 
         }else {
@@ -76,17 +73,33 @@ public class CollectNews_Adapter extends BaseAdapter {
             }
 
         }
-        //holder.circleImage.setImageResource(Color.RED);
+
+        GradientDrawable grad = (GradientDrawable) holder.firstWord.getBackground();
+        //myGrad.setColor(Color.RED);
+        setImageColor(grad, position);
 
         return view;
     }
+
+    public void setImageColor(GradientDrawable grad, int index){
+
+        int blue = Resources.getSystem().getColor(android.R.color.holo_blue_light);
+        int gray = Resources.getSystem().getColor(android.R.color.darker_gray);
+        int greenDark = Resources.getSystem().getColor(android.R.color.holo_green_dark);
+        int greenLight = Resources.getSystem().getColor(android.R.color.holo_green_light);
+        int purple = Resources.getSystem().getColor(android.R.color.holo_purple);
+        int orange = Resources.getSystem().getColor(android.R.color.holo_orange_light);
+        int mainColor = mContext.getResources().getColor(R.color.mainColor);
+        int [] colorList = {blue, gray, purple, greenDark, orange, greenLight, mainColor};  //7种颜色
+        grad.setColor(colorList[Math.abs(CollectNewsItem.size() - index) % 7]);
+
+    }
+
 
     public class ViewHolder{
 
         public TextView firstWord;
         public TextView collectNewsTitle ;
-        public CircleImageView circleImage;
-
     }
 }
 

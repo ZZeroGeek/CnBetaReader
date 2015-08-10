@@ -43,6 +43,13 @@
     android:title="@string/clean_cache_title" />
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/general_category">
+
+        <Preference
+            android:key="theme"
+            android:title="@string/theme"/>
+
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/prompt_title">
         <Preference
             android:title="@string/text_1_title"
@@ -56,13 +63,6 @@
             android:layout="@layout/preference_category_holo"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/general_category">
 
-        <Preference
-            android:key="theme"
-
-            android:title="@string/theme"/>
-
-    </PreferenceCategory>
 
 </PreferenceScreen>

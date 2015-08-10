@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CnBetaReader</string>
+    <string name="app_name">cnBetaReader</string>
     <string name="main_Activity_name">最新资讯</string>
 
     <string name="action_settings">Settings</string>

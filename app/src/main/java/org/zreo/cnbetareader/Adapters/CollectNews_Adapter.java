@@ -1,11 +1,14 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -56,7 +59,6 @@ public class CollectNews_Adapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.firstWord = (TextView) view.findViewById(R.id.first_word);
             holder.collectNewsTitle = (TextView) view.findViewById(R.id.collect_news_title);
-            holder.circleImage = (CircleImageView) view.findViewById(R.id.circle_image);
             view.setTag(holder);
 
         }else {
@@ -76,17 +78,30 @@ public class CollectNews_Adapter extends BaseAdapter {
             }
 
         }
-        //holder.circleImage.setImageResource(Color.RED);
+
+        GradientDrawable myGrad = (GradientDrawable) holder.firstWord.getBackground();
+        //myGrad.setColor(Color.RED);
+        myGrad.setColor(mContext.getResources().getColor(R.color.mainColor));
 
         return view;
+    }
+
+    public void setImageColor(){
+
+        int blue = android.R.color.holo_blue_light;
+        int gray = android.R.color.darker_gray;
+        int greenDark = android.R.color.holo_green_dark;
+        int greenLight = android.R.color.holo_green_light;
+        int purple = android.R.color.holo_purple;
+        int orange = android.R.color.holo_orange_light;
+        int a = android.R.color.holo_blue_dark;
+
     }
 
     public class ViewHolder{
 
         public TextView firstWord;
         public TextView collectNewsTitle ;
-        public CircleImageView circleImage;
-
     }
 }
 

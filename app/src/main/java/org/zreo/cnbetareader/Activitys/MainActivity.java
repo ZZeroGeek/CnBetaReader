@@ -1,13 +1,13 @@
 package org.zreo.cnbetareader.Activitys;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         initView();  //初始化右滑菜单布局和Toolbar
         setTabSelection(1);  //显示默认标签页
 

@@ -14,32 +14,33 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by guang on 2015/8/1.
+ * Created by guang on 2015/8/8.
  */
-public class NewsTitleDatabase {
+public class CollectionDatabase {
 
-    public static final String DB_NAME = "NewsEntity";  //数据库名
+
+    public static final String DB_NAME = "Collection";  //数据库名
     public static final int VERSION = 1;   //数据库版本
-    private static NewsTitleDatabase newsTitleDatabase;
+    private static CollectionDatabase collectionDatabase;
     private SQLiteDatabase db;
 
     //将构造方法私有化
-    private NewsTitleDatabase(Context context) {
+    private CollectionDatabase(Context context) {
         NewsTitleOpenHelper dbHelper = new NewsTitleOpenHelper(
                 context, DB_NAME, null, VERSION);
         db = dbHelper.getWritableDatabase();
     }
 
-    //获取NewsTitleDatabase的实例
-    public synchronized static NewsTitleDatabase getInstance(Context context) {
-        if (newsTitleDatabase == null) {
-            newsTitleDatabase = new NewsTitleDatabase(context);
+    //获取CollectionDatabase的实例
+    public synchronized static CollectionDatabase getInstance(Context context) {
+        if (collectionDatabase == null) {
+            collectionDatabase = new CollectionDatabase(context);
         }
-       return newsTitleDatabase;
+        return collectionDatabase;
     }
 
-    //将NewsEntity实例存储到数据库
-    public void saveNewsEntity(NewsEntity newsEntity) {
+    //将NewsEntity实例存储到收藏数据库
+    public void saveCollection(NewsEntity newsEntity) {
         if (newsEntity != null) {
             ContentValues values = new ContentValues();
             values.put("sid", newsEntity.getSid());
@@ -59,18 +60,21 @@ public class NewsTitleDatabase {
             values.put("froms", newsEntity.getFrom());
             values.put("content", newsEntity.getContent());
             values.put("summary", newsEntity.getSummary());
-
             db.insert(DB_NAME, null, values);
         }
     }
 
+    //删除收藏
+    public void deleteCollection(NewsEntity newsEntity) {
+        db.delete(DB_NAME, "sid = ?", new String[]{String.valueOf(newsEntity.getSid())});
+    }
 
 
-    //从数据库读取新闻标题信息，返回List
-    public List<NewsEntity> loadNewsEntity() {
+
+    //从数据库读取收藏信息，返回List
+    public List<NewsEntity> loadCollection() {
         List<NewsEntity> list = new ArrayList<NewsEntity>();
-        //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();
@@ -95,18 +99,17 @@ public class NewsTitleDatabase {
         return list;
     }
 
-    //从数据库读取新闻标题信息，返回Map
-    public Map<Integer,NewsEntity> loadMapNewsEntity() {
+    //从数据库读取收藏信息，返回Map
+    public Map<Integer, NewsEntity> loadMapCollection() {
 
-        Map<Integer,NewsEntity> map = new TreeMap<Integer,NewsEntity>(new Comparator<Integer>() {  //将获取到的新闻列表排序
+        Map<Integer, NewsEntity> map = new TreeMap<Integer, NewsEntity>(new Comparator<Integer>() {  //将获取到的新闻列表排序
             @Override
             public int compare(Integer lhs, Integer rhs) {
                 return rhs.compareTo(lhs);   // 降序排序, 默认为升序
             }
         });
         int sid;  //新闻id
-        //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();

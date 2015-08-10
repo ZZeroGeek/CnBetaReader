@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,9 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -192,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         setTabSelection(index);
         setToolBarTitle(index);
         if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击后关闭后滑菜单
+            mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击后关闭右滑菜单
         }
     }
 
@@ -200,7 +198,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     /**实现再按一次后退键退出应用程序*/
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if((System.currentTimeMillis() - exitTime) > 2000){
+            if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+                mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击返回键后关闭右滑菜单
+            }else if((System.currentTimeMillis() - exitTime) > 2000){
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
@@ -211,39 +211,45 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         return super.onKeyDown(keyCode, event);
     }
 
+    public void setStatusColor(int color){
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(color); //状态栏颜色
+        }
+    }
+
     /**更改主题颜色*/
     @SuppressLint("NewApi")
     public void setThemeColor(int index){
         switch (index){
             case 0:  //蓝色（默认）
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
-                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
                 cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                setStatusColor(getResources().getColor(R.color.mainColor));
                 break;
             case 1:  //棕色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
                 cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.brown));
+                setStatusColor(getResources().getColor(R.color.brown));
                 break;
             case 2:  //橙色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
                 cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.orange));
+                setStatusColor(getResources().getColor(R.color.orange));
                 break;
             case 3:  //紫色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
                 cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.purple));
+                setStatusColor(getResources().getColor(R.color.purple));
                 break;
             case 4:  //绿色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.green));
                 cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.green));
+                setStatusColor(getResources().getColor(R.color.green));
                 break;
             default:  //默认
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
-                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
                 cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                setStatusColor(getResources().getColor(R.color.mainColor));
                 break;
         }
 

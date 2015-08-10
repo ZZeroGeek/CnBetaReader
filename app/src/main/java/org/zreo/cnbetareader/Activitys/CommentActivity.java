@@ -1,7 +1,9 @@
 package org.zreo.cnbetareader.Activitys;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,14 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Entitys.CnComment;
-import org.zreo.cnbetareader.Entitys.ResponseCommentEvent;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Views.XListView;
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     private int mScrollY;
     private int mMinRawY = 0;
      private Toolbar mToolbar;
+    SharedPreferences pref;
 
     private TranslateAnimation anim;
     private XListView myListView;
@@ -61,6 +61,40 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         setContentView(R.layout.comment_listview);
         initView();
         initCommentList();
+        //读取设置文件的值
+        pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
+        setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
+    }
+
+    /**更改主题颜色*/
+    public void setThemeColor(int index){
+        switch (index){
+            case 0:  //蓝色（默认）
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor)); //状态栏颜色
+                break;
+            case 1:  //棕色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.brown));
+                break;
+            case 2:  //橙色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.orange));
+                break;
+            case 3:  //紫色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.purple));
+                break;
+            case 4:  //绿色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.green));
+                break;
+            default:  //默认
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.mainColor));
+                break;
+        }
+
     }
 
     private void loadMoreData() {
@@ -231,7 +265,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     @Override
     public void onLoadMore() {
         loadMoreData();
-       // initCommentList();
+        // initCommentList();
         myListView.stopRefresh();
         myListView.stopLoadMore();
     }
@@ -248,9 +282,9 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     String contentData = data.getStringExtra("content");
                     String userName = "南方用户";
                     //String textComment = "100块都不给我";

@@ -9,15 +9,15 @@ import org.zreo.cnbetareader.Entitys.ResponseEntity;
  * Email:zqhkey@163.com
  * 对各种状况进行处理，返回数据到界面
  */
-public abstract class NewsListHttpModel<T> extends GsonHttpModel<ResponseEntity<T>> {
+public abstract class HttpDateModel<T> extends GsonHttpModel<ResponseEntity<T>> {
 
-    public NewsListHttpModel(TypeToken<ResponseEntity<T>> typeToken) {
+    public HttpDateModel(TypeToken<ResponseEntity<T>> typeToken) {
         super(typeToken);
     }
 
 
     @Override
-    protected void onSuccess(int sattusCode, ResponseEntity<T> model) {
+    protected final void onSuccess(int sattusCode, ResponseEntity<T> model) {
         if (model.getState().equals("success")) {
             T result = model.getResult();
             onSuccess(result);
@@ -28,12 +28,12 @@ public abstract class NewsListHttpModel<T> extends GsonHttpModel<ResponseEntity<
     }
 
     @Override
-    protected void onError(int sttusCode, String responseString, Throwable throwable) {
+    protected final void onError(int sttusCode, String responseString, Throwable throwable) {
         onError();
     }
 
     @Override
-    protected void onFailure(int sttusCode, String responseString, Throwable throwable) {
+    protected final void onFailure(int sttusCode, String responseString, Throwable throwable) {
         onFailure();
     }
 

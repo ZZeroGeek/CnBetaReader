@@ -1,6 +1,7 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
+import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Model.CollectNews;
 import org.zreo.cnbetareader.R;
+import org.zreo.cnbetareader.Utils.CircleImageView;
 
 import java.util.List;
 
@@ -17,15 +20,15 @@ import java.util.List;
  * Created by Admin on 2015/8/1.
  */
 public class CollectNews_Adapter extends BaseAdapter {
-    Context newscontext;
+    Context mContext;
     private int resourceId;
-    private List<CollectNews> CollectNewsItem;
+    private List<NewsEntity> CollectNewsItem;
 
-    public CollectNews_Adapter(Context mContext,int newsResourceId,List<CollectNews>objects){
+    public CollectNews_Adapter(Context context,int newsResourceId,List<NewsEntity>objects){
         super();
-        newscontext=mContext;
-        resourceId=newsResourceId;
-        CollectNewsItem=objects;
+        mContext = context;
+        resourceId = newsResourceId;
+        CollectNewsItem = objects;
     }
     @Override
     public int getCount() {
@@ -46,29 +49,44 @@ public class CollectNews_Adapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
         final ViewHolder holder;
-        if (convertView==null){
-            LayoutInflater inflater =LayoutInflater.from(newscontext);
-            view = inflater.inflate(resourceId,null);
+        if (convertView == null){
+
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            view = inflater.inflate(resourceId, null);
             holder = new ViewHolder();
-            holder.firstword_text3 =(TextView)view.findViewById(R.id.firstword_text3);
-            holder.newscontent =(TextView)view.findViewById(R.id.itv_news);
-            holder. newstypes =(TextView)view.findViewById(R.id.itv_type);
+            holder.firstWord = (TextView) view.findViewById(R.id.first_word);
+            holder.collectNewsTitle = (TextView) view.findViewById(R.id.collect_news_title);
+            holder.circleImage = (CircleImageView) view.findViewById(R.id.circle_image);
             view.setTag(holder);
+
         }else {
-            view=convertView;
-            holder=(ViewHolder)view.getTag();
+            view = convertView;
+            holder = (ViewHolder)view.getTag();
         }
-        holder.firstword_text3.setText(CollectNewsItem.get(position).getNewsfirstWord());
-        holder.newscontent.setText(CollectNewsItem.get(position).getNewscontent());
+
+        String title = CollectNewsItem.get(position).getTitle();
+        holder.collectNewsTitle.setText(title);
+        if(title.charAt(0) == '['){
+            holder.firstWord.setText(String.valueOf(title.charAt(4)));
+        }else{
+            if(title.charAt(0) == '《'){
+                holder.firstWord.setText(String.valueOf(title.charAt(1)));
+            }else {
+                holder.firstWord.setText(String.valueOf(title.charAt(0)));
+            }
+
+        }
+        //holder.circleImage.setImageResource(Color.RED);
+
         return view;
     }
 
     public class ViewHolder{
 
-        public TextView firstword_text3;
-        public TextView newscontent ;
-        public TextView  newstypes;
+        public TextView firstWord;
+        public TextView collectNewsTitle ;
+        public CircleImageView circleImage;
 
     }
-    }
+}
 

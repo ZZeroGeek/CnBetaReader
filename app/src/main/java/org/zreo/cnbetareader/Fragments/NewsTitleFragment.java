@@ -1,20 +1,22 @@
 package org.zreo.cnbetareader.Fragments;
 
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,11 +40,12 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
+import org.zreo.cnbetareader.Database.CollectionDatabase;
 import org.zreo.cnbetareader.Database.NewsTitleDatabase;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
-import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
+import org.zreo.cnbetareader.Model.Net.HttpDateModel;
 import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Utils.MyImageLoader;
@@ -144,7 +147,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         }).start();
     }
 
-    private ResponseHandlerInterface initResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface initResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
@@ -224,6 +227,49 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             }
         });
 
+        /**长按弹出收藏对话框*/
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final NewsEntity entity = listItems.get(position);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                final CollectionDatabase collectionDatabase = CollectionDatabase.getInstance(getActivity());  //初始化数据库实例
+
+                Map<Integer, NewsEntity> tempMap =  collectionDatabase.loadMapCollection();  //从数据库读取之前保存的数据
+                final boolean isExist = tempMap.containsKey(entity.getSid());  //判断数据库是否已收藏选中的资讯
+
+                if(!isExist){  //如果收藏数据库中不存在这个键值id的话
+                    alert.setTitle("收藏选中的资讯");
+                }else{
+                    alert.setTitle("删除收藏");
+                }
+
+                alert.setCancelable(true);  //为真时可以通过返回键取消
+
+                alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(!isExist){
+                            collectionDatabase.saveCollection(entity);  //如果数据库中不存在这个键值id的话，则添加到数据库
+                            Toast.makeText(getActivity(), "收藏成功", Toast.LENGTH_SHORT).show();
+                        }else {
+                            collectionDatabase.deleteCollection(entity);
+                            Toast.makeText(getActivity(), "已删除收藏", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                alert.setNegativeButton("取消", null);
+                alert.show();   //显示对话框
+                return true;
+
+            }
+        });
+
+
+
     }
 
     private long exitTime = 0;
@@ -253,7 +299,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     private int addNumber = 0; //每次刷新或加载增加的数据
 
     /**刷新时更新数据*/
-    private ResponseHandlerInterface refreshResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface refreshResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
@@ -266,7 +312,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             List<NewsEntity> list = result.getList();  //网络请求返回的数据
             lastNumber = listItems.size();   //更新数据前的新闻数
 
-            /*for(int i = 1; i < 10; i++){
+           /* for(int i = 1; i < 10; i++){
                 Log.e("NewsEntity", listItems.get(i).toString());
             }
             Log.e("NewsListEntity", result.toString());*/
@@ -289,9 +335,10 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 toast.show();
             } else {
                 toastTextView.setText("没有更多内容了");
-                if(isLoad){   //当打开加载的新闻是最新的时，不需要提示
+                if(isLoad){   //当打开软件自动加载的新闻是最新的时，不需要提示
                     toast.show();
                 }
+                isLoad = true;
             }
 
 
@@ -353,7 +400,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     }
 
     /**自动加载更新数据*/
-    private ResponseHandlerInterface autoLoadResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface autoLoadResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
@@ -478,7 +525,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     }
 
     /**离线下载保存数据*/
-    private ResponseHandlerInterface offlineDownloadResponse = new NewsListHttpModel<NewsListEntity>
+    private ResponseHandlerInterface offlineDownloadResponse = new HttpDateModel<NewsListEntity>
             (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {

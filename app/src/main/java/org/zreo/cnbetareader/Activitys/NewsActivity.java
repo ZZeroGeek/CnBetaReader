@@ -1,8 +1,11 @@
 package org.zreo.cnbetareader.Activitys;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +43,8 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
     private NewsWebDetailModel newsWebDetailModel;
     private NewsEntity newsEntity;
 
+
+private  NewsEntity entity;
     /*
      *一个页面里放入了一个webview组件，并将其组件铺满屏幕，全屏幕除了下面的导航栏其余 都是这个webview，
      * 后来我想在webview中触发滑动手势的onfling方法，在webview还没加载完网页内容之前正常，可是 webview加载完网页之后，就无法触发方法了，
@@ -111,10 +116,18 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
                 onBackPressed();
             }
         });
+
+        SharedPreferences pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
+        setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*只有当加载完成页面后才能进行点击跳转，不然无法获取数据*/
                 Intent intent5 = new Intent(NewsActivity.this, CommentActivity.class);
+                Bundle NewsItem=new Bundle();
+                NewsItem.putSerializable("NewsItem",entity);
+                intent5.putExtras(NewsItem);
                 startActivity(intent5);
             }
         });
@@ -137,7 +150,7 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
 //                    if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {  //表示按返回键时的操作
 //
 //
-//                        webView.goBack();   //后退
+//                         webView.goBack();   //后退
 //
 //                        //webview.goForward();//前进
 //                        return true;    //已处理
@@ -148,11 +161,37 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
 //        });
     }
 
+    /**更改主题颜色*/
+    @SuppressLint("NewApi")
+    public void setThemeColor(int index){
+        switch (index){
+            case 0:  //蓝色（默认）
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                break;
+            case 1:  //棕色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                break;
+            case 2:  //橙色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                break;
+            case 3:  //紫色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                break;
+            case 4:  //绿色
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                break;
+            default:  //默认
+                mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                break;
+        }
+
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        NewsEntity entity=(NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
+         entity = (NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
         init();
         newsWebDetailModel = new NewsWebDetailModel(new BaseWebHttpModel(this));
         newsWebDetailModel.setActivity(this);

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="blue1">#296fb7</color>
     <color name="lightblue">#239ae3</color><!--浅蓝-->
-    <color name="yellow">#eae687</color><!--黄色-->
+    <color name="yellow">#E9E8B2</color><!--黄色-->
     <color name="gray">#dddbdb</color><!--灰色-->
     <color name="mainColor">#296fb7</color><!--App状态栏颜色 -->
     <color name="white">#ffffff</color><!--白色 -->

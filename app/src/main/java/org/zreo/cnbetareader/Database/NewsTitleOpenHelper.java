@@ -17,6 +17,35 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "topic integer, "
             + "aid text, "
             + "user_id text, "  /*用户ID*/
+
+            + "SN text, "
+            + "largeImage text, "
+            + "froms text, "
+            + "content text, "
+            + "summary text, "
+
+            + "title text, "    /*标题*/
+            + "hometext text, "  /*简介*/
+            + "comments text, "  /*评论数*/
+            + "counter text, "   /*查看数*/
+            + "inputtime text, "  /*发布时间*/
+            + "thumb text )";   /*图片地址*/
+
+    //收藏新闻据库表建表语句
+    public static final String CREATE_COLLECTION = "create table Collection ("
+            + "id integer primary key autoincrement, "
+            + "sid integer, "   /*帖子id*/
+            + "catid integer, "
+            + "topic integer, "
+            + "aid text, "
+            + "user_id text, "  /*用户ID*/
+
+            + "SN text, "
+            + "largeImage text, "
+            + "froms text, "
+            + "content text, "
+            + "summary text, "
+
             + "title text, "    /*标题*/
             + "hometext text, "  /*简介*/
             + "comments text, "  /*评论数*/
@@ -31,6 +60,7 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_NEWS_TITLE);
+        db.execSQL(CREATE_COLLECTION);
 
     }
 

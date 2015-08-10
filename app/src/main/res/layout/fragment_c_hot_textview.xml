@@ -47,6 +47,8 @@
             </FrameLayout>
 
             <TextView
+                android:textSize="16sp"
+                android:textColor="#0D181F"
                 android:layout_alignParentTop="true"
                 android:background="@color/yellow"
                 android:layout_height="wrap_content"
@@ -63,7 +65,7 @@
         </LinearLayout>
 
         <TextView
-            android:textColor="@color/black"
+
             android:id="@+id/comment_text"
             android:ellipsize="end"
             android:maxLines="2"

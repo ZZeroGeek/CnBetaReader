@@ -2,29 +2,29 @@ package org.zreo.cnbetareader.Fragments;
 
 
 
+import android.app.ActionBar;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.ResponseHandlerInterface;
-
-import org.zreo.cnbetareader.Activitys.MainActivity;
+import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.CollectNews_Adapter;
+import org.zreo.cnbetareader.Database.CollectionDatabase;
+import org.zreo.cnbetareader.Database.NewsTitleDatabase;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
-import org.zreo.cnbetareader.Entitys.NewsListEntity;
-import org.zreo.cnbetareader.Entitys.ResponseEntity;
-import org.zreo.cnbetareader.Model.CnComment_hot;
 import org.zreo.cnbetareader.Model.CollectNews;
-import org.zreo.cnbetareader.Model.Net.NewsListHttpModel;
 import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
@@ -32,113 +32,126 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 收藏
  */
-public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener ,AbsListView.OnScrollListener{
+public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    View cview;
+    View view;
     private ListView collectnew_listview;
-    private List<CollectNews> CollectNewsList=new ArrayList<CollectNews>();
+    private List<NewsEntity> CollectNewsList; //= new ArrayList<NewsEntity>();
     CollectNews_Adapter cnsAdapter;
 
     private View loadMoreView;     //加载更多布局
     private TextView loadMoreText;    //加载提示文本
-    CollectNews collectnews;
     SwipeRefreshLayout swipeLayout;  //下拉刷新控件
+    TextView hintText;
+
+    private CollectionDatabase collectionDatabase;   //数据库
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        cview=inflater.inflate(R.layout.fragment_collectnews_listview,container,false);
-        initView();//初始化布局
-        initCollectNewsList();//初始化收藏新闻列表
-        return cview;
+        view = inflater.inflate(R.layout.fragment_collectnews_listview, container, false);
+
+        collectionDatabase = CollectionDatabase.getInstance(getActivity());  //初始化数据库实例
+
+        initCollectNewsList();  //初始化收藏列表
+
+        return view;
     }
-    /*
-     *初始化布局
+
+    /**
+     *初始化收藏列表
      */
    private void  initCollectNewsList(){
-           collectnews = new CollectNews();
-           String firstword="德";
-           String cnewscontent="德玛西亚！德玛西亚万岁··";
-       for(int i=0;i<15;i++){
-           collectnews.setNewscontent(cnewscontent);
-           collectnews.setNewsfirstWord(firstword);
-           CollectNewsList.add(collectnews);
+
+       CollectNewsList = collectionDatabase.loadCollection();//从数据库读取收藏列表
+       initView();
+       if (CollectNewsList.size() == 0) {      //如果数据库没数据
+           hintText.setVisibility(View.VISIBLE);
        }
 
    }
+    /**
+     *初始化布局
+     */
     private void initView(){
-        /*显示collectnews的ListView*/
-        collectnew_listview=(ListView)cview.findViewById(R.id.collectnews_listview);
-        /*为ListView创建自定义适配器*/
-        cnsAdapter=new CollectNews_Adapter(getActivity(),R.layout.collect_news,CollectNewsList);
-        collectnew_listview.setVerticalScrollBarEnabled(false);//隐藏ListView滑动进度条
+        collectnew_listview = (ListView) view.findViewById(R.id.collectnews_listview);
+        cnsAdapter = new CollectNews_Adapter(getActivity(), R.layout.collect_news, CollectNewsList);
         loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
         loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
-        loadMoreText.setText("--The End--");
+        loadMoreText.setBackgroundColor(getResources().getColor(R.color.gray));
+        loadMoreText.setText("-- The End --");
         collectnew_listview.addFooterView(loadMoreView);   //设置列表底部视图
-        collectnew_listview.setOnScrollListener(this);     //添加滑动监听
-        collectnew_listview.setAdapter(cnsAdapter);  //为ListView绑定Adapter
+        collectnew_listview.setAdapter(cnsAdapter);   //为ListView绑定Adapter
+        hintText = (TextView) view.findViewById(R.id.hint_text);   //当没有收藏时提示的文本
 
-       swipeLayout = (SwipeRefreshLayout) cview.findViewById(R.id. collectnews_list);
-       swipeLayout.setOnRefreshListener(this);
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.collectnews_list);
+        swipeLayout.setOnRefreshListener(this);
         //设置刷新时动画的颜色，可以设置4个
         swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        collectnew_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                NewsEntity entity = CollectNewsList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("NewsItem", entity);
+
+                Intent intent = new Intent(getActivity(), NewsActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        /**长按弹出取消收藏对话框*/
+        collectnew_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final NewsEntity entity = CollectNewsList.get(position);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                alert.setTitle("删除收藏");
+                alert.setCancelable(true);  //为真时可以通过返回键取消
+                alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        collectionDatabase.deleteCollection(entity);
+                        CollectNewsList.clear();
+                        CollectNewsList.addAll(collectionDatabase.loadCollection());
+                        cnsAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "已删除收藏", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alert.setNegativeButton("取消", null);
+                alert.show();   //显示对话框
+                return true;
+            }
+        });
+
     }
 
-    private int visibleLastIndex = 0;   //最后的可视项索引
-    private int visibleItemCount;       // 当前窗口可见项总数
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        int itemsLastIndex =CollectNewsList.size() - 1;    //数据集最后一项的索引
-        int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
-        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
 
-        }
-    }
-    @Override
-       public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        this.visibleItemCount = visibleItemCount;
-        visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
-    }
     @Override
        public void onRefresh() {
-       // addData();
+
+        CollectNewsList.clear();
+        CollectNewsList.addAll(collectionDatabase.loadCollection());
+        if (CollectNewsList.size() > 0) {      //如果数据库没数据
+            hintText.setVisibility(View.GONE);
+            collectnew_listview.setVisibility(View.VISIBLE);
+        } else {
+            hintText.setVisibility(View.VISIBLE);
+            collectnew_listview.setVisibility(View.GONE);
+        }
         cnsAdapter.notifyDataSetChanged();
+
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
     }
-    private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
-        @Override
-        protected void onFailure() {}
-        @Override
-        protected void onSuccess(NewsListEntity result) {
-            List<NewsEntity> list = result.getList();
-            Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
-            swipeLayout.setRefreshing(false);
-        }
 
-        @Override
-        protected void onError() {}
-    };
-//  private int totalNumber = 0;  //总列表数
-//    private int addNumber;  //每次新增的资讯数量
-//    public void addData() {
-//        totalNumber = CollectNewsList.size();
-//        addNumber = (int) (Math.random() * 10 + 1); //产生从1 - 10的随机数
-//        String  newscontent=null;
-//        String newsfirstWord ="A";
-//        for (int i = 1; i < 20; i++) {
-//
-//            collectnews = new CollectNews();
-//            collectnews.setNewscontent("android大家还哦啊阿斯顿和覅额" );
-//            collectnews.setNewsfirstWord(newsfirstWord);
-//            CollectNewsList.add( collectnews);
-//        }
-   // }
 
 }
 

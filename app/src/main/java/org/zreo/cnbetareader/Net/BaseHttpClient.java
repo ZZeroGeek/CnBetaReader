@@ -23,7 +23,7 @@ public class BaseHttpClient {
     private static BaseHttpClient client;
     private AsyncHttpClient asyncHttpClient;
     private SyncHttpClient syncHttpClient;
-
+    public static final String CONTENT_TYPE = "application/x-www-form-urlencoded; charset=UTF-8";
 
     public static BaseHttpClient getInsence( ) {
         if (client == null) {
@@ -61,6 +61,13 @@ public class BaseHttpClient {
         Log.e(AppConfig.APP_NET_DEBUG, "Request_" + "params" + params.toString() + "_" + "URL" + AppConfig.NEWS_LIST_URL);
         asyncHttpClient.get(null, AppConfig.NEWS_LIST_URL, ClientHeader(), params, responsehandler);
     }
+
+    public void getCommentBySnAndSid(String sn, String sid, ResponseHandlerInterface handlerInterface) {
+        RequestParams params = new RequestParams();
+        params.add("op", "1," + sid + "," + sn);
+        asyncHttpClient.post(null, AppConfig.COMMENT_URL, ClientHeader(), params, CONTENT_TYPE, handlerInterface);
+    }
+
 
     public void getNewsDetialBySid(int sid, ResponseHandlerInterface responseHandlerInterface) {
         String Url = String.format(Locale.CANADA, AppConfig.ARTICLE_URL, sid);

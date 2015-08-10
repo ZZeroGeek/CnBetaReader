@@ -117,19 +117,19 @@ public class Comment_Top10Fragment extends Fragment implements SwipeRefreshLayou
         mAdapter.notifyDataSetChanged();
         swipeLayout.setRefreshing(false);   //加载完数据后，隐藏刷新进度条
     }
-  /* private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
-        @Override
-        protected void onFailure() {
-        }
-
-        @Override
-        protected void onSuccess(NewsListEntity result) {
-            List<NewsEntity> list = result.getList();
-            Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
-            swipeLayout.setRefreshing(false);
-        }
-
-        @Override
-        protected void onError() {
-        }*/
+//    private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+//        @Override
+//        protected void onFailure() {
+//        }
+//
+//        @Override
+//        protected void onSuccess(NewsListEntity result) {
+//            List<NewsEntity> list = result.getList();
+//            Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
+//            swipeLayout.setRefreshing(false);
+//        }
+//
+//        @Override
+//        protected void onError() {
+//        }
     };

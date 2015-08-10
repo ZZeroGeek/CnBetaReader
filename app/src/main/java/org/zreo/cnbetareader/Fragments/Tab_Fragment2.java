@@ -1,8 +1,7 @@
 package org.zreo.cnbetareader.Fragments;
 
-
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,19 +40,8 @@ public class Tab_Fragment2 extends Fragment {
         firstword2=(TextView)view.findViewById(R.id.firstword_text2);
         image2=(ImageView)view.findViewById(R.id.image2);
         btn=(Button)view.findViewById(R.id.ibtn_theme);
-        initCollectNewsList();
         return view;
     }
-    //
-    private void  initCollectNewsList(){
-        collectnews = new CollectNews();
-        String firstword="德";
-        String cnewscontent="德玛西亚！德玛西亚万岁··";
-        for(int i=0;i<15;i++){
-            collectnews.setNewscontent(cnewscontent);
-            collectnews.setNewsfirstWord(firstword);
-            CollectNewsList.add(collectnews);
-        }
-    }
+
 
 }

@@ -53,6 +53,21 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "inputtime text, "  /*发布时间*/
             + "thumb text )";   /*图片地址*/
 
+    //创建新闻评论表
+    public static final String CREATE_COMMENT_TABLE = "create table CommentItemEntity ("
+            + "id integer primary key autoincrement, "
+            + "sid integer, "   /*帖子id*/
+            + "pid integer, "
+            + "tid integer, "
+            + "icon text, "
+            + "date text,"
+            + "host_name text, "  /*用户名的第一个字*/
+            + "name text, "    /*用户名*/
+            + "score integer, "  /*支持数*/
+            + "reason integer, "  /*反对数*/
+            + "comment text, "   /*评论*/
+            + "refContent text )";
+
     public NewsTitleOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -61,7 +76,7 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_NEWS_TITLE);
         db.execSQL(CREATE_COLLECTION);
-
+        db.execSQL(CREATE_COMMENT_TABLE);
     }
 
     @Override

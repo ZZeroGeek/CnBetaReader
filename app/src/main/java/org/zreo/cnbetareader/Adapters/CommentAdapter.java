@@ -17,6 +17,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.zreo.cnbetareader.Entitys.CnComment;
+import org.zreo.cnbetareader.Entitys.CommentItemEntity;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
@@ -25,24 +26,24 @@ import java.util.List;
 public class CommentAdapter extends BaseAdapter{
     Context _context;
     private int resourceId;
-    private List<CnComment> commentItem;
+    private List<CommentItemEntity> commentItem;
     public static int I = 1;
     public static int TAG = 0;
 
-    public  CommentAdapter(Context mContext,int textViewResourcedId, List<CnComment> objects) {
+    public  CommentAdapter(Context mContext,int textViewResourcedId, List<CommentItemEntity> objects) {
         // TODO Auto-generated constructor stub
         _context=mContext;
         resourceId = textViewResourcedId;
         commentItem=objects;
     }
-    public void addList(ArrayList<CnComment> list) {
+    public void addList(ArrayList<CommentItemEntity> list) {
         if (list != null) {
             commentItem.addAll(list);
         } else {
-            commentItem = new ArrayList<CnComment>();
+            commentItem = new ArrayList<CommentItemEntity>();
         }
     }
-    public void AddData(ArrayList<CnComment> list) {
+    public void AddData(ArrayList<CommentItemEntity> list) {
         this.addList(list);
         this.notifyDataSetChanged();
     }
@@ -94,7 +95,7 @@ public class CommentAdapter extends BaseAdapter{
                             switch (item.getItemId()) {
                                 case R.id.action1:
                                     if (TAG == 0) {
-                                        holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber() + 1));
+                                        holder.supportNumber.setText(String.valueOf(commentItem.get(position).getScore() + 1));
                                         Toast.makeText(_context, "你选择了" + item.getTitle(), Toast.LENGTH_SHORT).show();
                                        // TAG = 1;
                                     }else {
@@ -103,7 +104,7 @@ public class CommentAdapter extends BaseAdapter{
                                     break;
                                 case R.id.action2:
                                     if (TAG == 0) {
-                                        holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber() + 1));
+                                        holder.againstNumber.setText(String.valueOf(commentItem.get(position).getReason() + 1));
                                         Toast.makeText(_context, "你选择了" + item.getTitle(), Toast.LENGTH_SHORT).show();
                                        // TAG = 1;
                                     }else {
@@ -161,15 +162,15 @@ public class CommentAdapter extends BaseAdapter{
             view = convertView;
             holder=(ViewHolder)view.getTag();
         }
-        holder.FName.setText(commentItem.get(position).getFName());
-        holder.imageView.setImageResource(commentItem.get(position).getImageId());
-        holder.textView2.setText(commentItem.get(position).getTestComment());
-        holder.textView.setText(commentItem.get(position).getUserName());
+        holder.FName.setText(commentItem.get(position).getHost_name());
+        holder.imageView.setImageResource(commentItem.get(position).getIcon());
+        holder.textView2.setText(commentItem.get(position).getComment());
+        holder.textView.setText(commentItem.get(position).getName());
         holder.textView1.setText(commentItem.get(position).getSupport());
         holder.viewBtn.setImageResource(commentItem.get(position).getCommentMenu());
         holder.textView3.setText(commentItem.get(position).getAgainst());
-        holder.supportNumber.setText(String.valueOf(commentItem.get(position).getSupportNumber()));
-        holder.againstNumber.setText(String.valueOf(commentItem.get(position).getAgainstNumber()));
+        holder.supportNumber.setText(String.valueOf(commentItem.get(position).getScore()));
+        holder.againstNumber.setText(String.valueOf(commentItem.get(position).getReason()));
        // holder.layout.setVisibility(View.GONE);
         return view;
     }

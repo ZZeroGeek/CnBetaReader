@@ -7,7 +7,7 @@ import java.util.HashMap;
  * Created by zqh on 2015/8/8  15:58.
  * Email:zqhkey@163.com
  */
-public class CommentListEntity {
+public class  CommentListEntity {
     private ArrayList<CommentItemEntity> hotlist = new ArrayList<CommentItemEntity>();
     private ArrayList<CommentItemEntity> cmntlist = new ArrayList<CommentItemEntity>();
     private HashMap<String, CommentItemEntity> cmntstore = new HashMap<String, CommentItemEntity>();

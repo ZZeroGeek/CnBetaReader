@@ -1,6 +1,7 @@
 package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,6 @@ import android.widget.TextView;
 
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.R;
-import org.zreo.cnbetareader.Utils.CircleImageView;
-
 import java.util.List;
 
 /**
@@ -75,24 +74,27 @@ public class CollectNews_Adapter extends BaseAdapter {
 
         }
 
-        GradientDrawable myGrad = (GradientDrawable) holder.firstWord.getBackground();
+        GradientDrawable grad = (GradientDrawable) holder.firstWord.getBackground();
         //myGrad.setColor(Color.RED);
-        myGrad.setColor(mContext.getResources().getColor(R.color.mainColor));
+        setImageColor(grad, position);
 
         return view;
     }
 
-    public void setImageColor(){
+    public void setImageColor(GradientDrawable grad, int index){
 
-        int blue = android.R.color.holo_blue_light;
-        int gray = android.R.color.darker_gray;
-        int greenDark = android.R.color.holo_green_dark;
-        int greenLight = android.R.color.holo_green_light;
-        int purple = android.R.color.holo_purple;
-        int orange = android.R.color.holo_orange_light;
-        int a = android.R.color.holo_blue_dark;
+        int blue = Resources.getSystem().getColor(android.R.color.holo_blue_light);
+        int gray = Resources.getSystem().getColor(android.R.color.darker_gray);
+        int greenDark = Resources.getSystem().getColor(android.R.color.holo_green_dark);
+        int greenLight = Resources.getSystem().getColor(android.R.color.holo_green_light);
+        int purple = Resources.getSystem().getColor(android.R.color.holo_purple);
+        int orange = Resources.getSystem().getColor(android.R.color.holo_orange_light);
+        int mainColor = mContext.getResources().getColor(R.color.mainColor);
+        int [] colorList = {blue, gray, purple, greenDark, orange, greenLight, mainColor};  //7种颜色
+        grad.setColor(colorList[Math.abs(CollectNewsItem.size() - index) % 7]);
 
     }
+
 
     public class ViewHolder{
 

@@ -16,10 +16,28 @@ public class CommentItemEntity {
     private String comment;
     private String host_name;
     private String refContent;
+    private String FName;
     private String support;
     private String against;
     private int layout;
     private int commentMenu;
+    private int imageView1;
+
+    public void setImageView1(int imageView1) {
+        this.imageView1 = imageView1;
+    }
+
+    public int getImageView1() {
+        return imageView1;
+    }
+
+    public void setFName(String FName) {
+        this.FName = FName;
+    }
+
+    public String getFName() {
+        return FName;
+    }
 
     public void setCommentMenu(int commentMenu) {
         this.commentMenu = commentMenu;

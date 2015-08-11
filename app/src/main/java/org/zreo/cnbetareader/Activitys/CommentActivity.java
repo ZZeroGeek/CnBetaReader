@@ -1,8 +1,10 @@
 package org.zreo.cnbetareader.Activitys;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -64,63 +66,49 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
       //  commentDatabase = CommentDatabase.getInstance(CommentActivity.this);  //初始化数据库实例
         initView();
+        //initCommentList();
         BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
-       // initCommentList();
+
         //读取设置文件的值
         pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
         setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
     }
-    /**
-     * 更改主题颜色
-     */
-    public void setThemeColor(int index) {
-        switch (index) {
+
+    public void setStatusColor(int color){
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(color); //状态栏颜色
+        }
+    }
+    /**更改主题颜色*/
+    @SuppressLint("NewApi")
+    public void setThemeColor(int index){
+        switch (index){
             case 0:  //蓝色（默认）
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                setStatusColor(getResources().getColor(R.color.mainColor));
                 break;
             case 1:  //棕色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                setStatusColor(getResources().getColor(R.color.brown));
                 break;
             case 2:  //橙色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                setStatusColor(getResources().getColor(R.color.orange));
                 break;
             case 3:  //紫色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                setStatusColor(getResources().getColor(R.color.purple));
                 break;
             case 4:  //绿色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                setStatusColor(getResources().getColor(R.color.green));
                 break;
             default:  //默认
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                setStatusColor(getResources().getColor(R.color.mainColor));
                 break;
         }
-    }
-    private void loadMoreData() {
-        String[] FName = {"东"};
-        String userName = "东方用户";
-        String textComment = "200块都不给我";
-        String sText = "支持:";
-        String aText = "反对:";
-        int supportNum = 10;
-        int againstNum = 50;
-        ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
-        for (int i = 0; i < 10; i++) {
 
-            CommentItemEntity cnComments = new CommentItemEntity();
-            cnComments.setHost_name(FName[0]);
-            //cnComments.setResponseText("");
-            // cnComments.setLayout("");
-            cnComments.setScore(supportNum);
-            cnComments.setReason(againstNum);
-           // cnComments.setIcon(R.drawable.circle_btn);
-            cnComments.setName(i + userName);
-            cnComments.setComment(textComment);
-            cnComments.setCommentMenu(R.drawable.more_grey);
-            cnComments.setSupport(sText);
-            cnComments.setAgainst(aText);
-            resultList.add(cnComments);
-        }
-        myAdapter.AddData(resultList);
     }
     /**
      * 初始化布局
@@ -153,29 +141,23 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
      * 初始化评论列表
      */
     private void initCommentList() {
-//        String FName = commentListEntity.getCmntlist();
-//        String userName = commentItemEntity.getName();
-//        String textComment = commentItemEntity.getComment();
-//        String sText = "支持:";
-//        String aText = "反对:";
-//        int supportNum = commentItemEntity.getScore();
-//        int againstNum = commentItemEntity.getReason();
-//        ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
-//        for (int i = 0; i < 10; i++) {
-//
-//            CommentItemEntity cnComments = new CommentItemEntity();
-//            cnComments.setHost_name(FName);
-//            cnComments.setScore(supportNum);
-//            cnComments.setReason(againstNum);
-//            cnComments.setIcon(R.drawable.circle_btn);
-//            cnComments.setName(userName);
-//            cnComments.setComment(textComment);
-//            cnComments.setCommentMenu(R.drawable.more_grey);
-//            cnComments.setSupport(sText);
-//            cnComments.setAgainst(aText);
-//            resultList.add(cnComments);
-//        }
-//        myAdapter.AddData(resultList);
+
+        String sText = "支持:";
+        String aText = "反对:";;
+        //ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
+        for (int i = 0; i < 10; i++) {
+            CommentItemEntity cnComments = new CommentItemEntity();
+            cnComments.setScore(1);
+            cnComments.setReason(0);
+            cnComments.setName("fffffff");
+            cnComments.setComment("fffffffffffff");
+            cnComments.setCommentMenu(R.drawable.more_grey);
+            cnComments.setSupport(sText);
+            cnComments.setAgainst(aText);
+            //resultList.add(cnComments);
+            cnCommentList.add(cnComments);
+        }
+       //myAdapter.AddData(resultList);
     }
 
     @Override
@@ -183,39 +165,13 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
            }
 
-       private ResponseHandlerInterface responseHandlerInterface = new HttpDateModel<CommentListEntity>(new TypeToken<ResponseEntity<CommentListEntity>>() {
+       private ResponseHandlerInterface responseHandlerInterface = new HttpDateModel<CommentListEntity>(new TypeToken<ResponseEntity<CommentListEntity>>(){
           }) {
 
               @Override
                protected void onSuccess(CommentListEntity result) {
-<<<<<<< HEAD
-                       ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
-//                         String sText = "支持:";
-//                         String aText = "反对:";
-//                  for (int i = 0 ; i < cmntlist.size(); i++){
-//                      //  map.put(cmntlist.get(i).getSid(), cmntlist.get(i));
-//                      CommentItemEntity cnComments = new CommentItemEntity();
-////                      cnComments.setHost_name(cmntlist.get(i).getHost_name());
-////                      cnComments.setScore(cmntlist.get(i).getScore());
-////                      cnComments.setReason(cmntlist.get(i).getReason());
-////                      cnComments.setIcon(cmntlist.get(i).getIcon());
-////                      cnComments.setName(cmntlist.get(i).getName());
-////                      cnComments.setComment(cmntlist.get(i).getComment());
-////                      cnComments.setCommentMenu(R.drawable.more_grey);
-//                      cnComments.setSupport(sText);
-//                      cnComments.setAgainst(aText);
-//                      cmntlist.add(cnComments);
-//                  }
-//                  myAdapter.AddData(cmntlist);
-                      Toast.makeText(CommentActivity.this,cmntlist.size()+"", Toast.LENGTH_LONG).show();
-                 // System.out.println("cmntlist:"+cmntlist);
-                       HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
-
-
-=======
-//                       ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
                   ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
-                  HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
+                   HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
                   for (CommentItemEntity item : cmntlist) {
                       StringBuilder sb = new StringBuilder();
                       item.copy(cmntstore.get(item.getTid()));
@@ -247,36 +203,26 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                       }
                       item.setRefContent(sb.toString());
                   }
-//                           String FName = cmntlist.get(0).getHost_name();
-//                           String userName = cmntlist.getName();
-//                           String textComment = cmntlist.getComment();
-//                           String sText = "支持:";
-//                           String aText = "反对:";
-//                           int supportNum = cmntlist.get();
-//                           int againstNum = cmntlist.getReason();
-                      Toast.makeText(CommentActivity.this,cmntlist.size()+"", Toast.LENGTH_LONG).show();
-                          //System.out.println("cmntlist"+cmntlist.size());
-//                           for (int i = 0 ; i < cmntlist.size(); i++){
-//                             //  map.put(cmntlist.get(i).getSid(), cmntlist.get(i));
-//                               CommentItemEntity cnComments = new CommentItemEntity();
-//                               cnComments.setHost_name(FName);
-//                               cnComments.setScore(supportNum);
-//                               cnComments.setReason(againstNum);
-//                               cnComments.setIcon(R.drawable.circle_btn);
-//                               cnComments.setName(userName);
-//                               cnComments.setComment(textComment);
-//                               cnComments.setCommentMenu(R.drawable.more_grey);
-//                               cnComments.setSupport(sText);
-//                               cnComments.setAgainst(aText);
-//                               cmntlist.add(cnComments);
-//                           }
-//                           myAdapter.AddData(cmntlist);
-//                       HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
-                          // System.out.println("cmntstore"+cmntstore.size());
->>>>>>> 745b6100e293e9936717be0a6aa4bbff55b1f834
-                           Toast.makeText(CommentActivity.this,cmntstore.size()+"", Toast.LENGTH_LONG).show();
+                         String sText = "支持:";
+                         String aText = "反对:";
+                 for (int i = 0 ; i < cmntlist.size(); i++){
+                      //  map.put(cmntlist.get(i).getSid(), cmntlist.get(i));
+                      CommentItemEntity cnComments = new CommentItemEntity();
+                      cnComments.setImageView1(R.id.imageView1);
+                      cnComments.setFName("匿");
+                      cnComments.setScore(cmntlist.get(i).getScore());
+                      cnComments.setReason(cmntlist.get(i).getReason());
+                      cnComments.setName(cmntlist.get(i).getName());
+                      cnComments.setComment(cmntlist.get(i).getComment());
+                      cnComments.setCommentMenu(R.drawable.more_grey);
+                      cnComments.setSupport(sText);
+                      cnComments.setAgainst(aText);
+                      //cmntlist.add(cnComments);
+                     cnCommentList.add(cnComments);
                   }
-
+                  myAdapter.notifyDataSetChanged();
+                  //myAdapter.AddData(cmntlist);
+                 }
                        @Override
                protected void onError() {
                            Toast.makeText(CommentActivity.this,"error", Toast.LENGTH_LONG).show();
@@ -289,6 +235,34 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                            }
 
                     };
+
+    private void loadMoreData() {
+        String[] FName = {"东"};
+        String userName = "东方用户";
+        String textComment = "200块都不给我";
+        String sText = "支持:";
+        String aText = "反对:";
+        int supportNum = 10;
+        int againstNum = 50;
+        ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
+        for (int i = 0; i < 10; i++) {
+
+            CommentItemEntity cnComments = new CommentItemEntity();
+            cnComments.setFName(FName[0]);
+            //cnComments.setResponseText("");
+            // cnComments.setLayout("");
+            cnComments.setScore(supportNum);
+            cnComments.setReason(againstNum);
+            // cnComments.setIcon(R.drawable.circle_btn);
+            cnComments.setName(i + userName);
+            cnComments.setComment(textComment);
+            cnComments.setCommentMenu(R.drawable.more_grey);
+            cnComments.setSupport(sText);
+            cnComments.setAgainst(aText);
+            resultList.add(cnComments);
+        }
+        myAdapter.AddData(resultList);
+    }
     @Override
     public void onLoadMore() {
          loadMoreData();
@@ -306,7 +280,6 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         Intent intent = new Intent(CommentActivity.this, PostCommentActivity.class);
         startActivityForResult(intent, 1);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

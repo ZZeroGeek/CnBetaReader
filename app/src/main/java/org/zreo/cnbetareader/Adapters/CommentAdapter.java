@@ -162,8 +162,7 @@ public class CommentAdapter extends BaseAdapter{
             view = convertView;
             holder=(ViewHolder)view.getTag();
         }
-        holder.FName.setText(commentItem.get(position).getHost_name());
-       // holder.imageView.setImageResource(commentItem.get(position).getIcon());
+        holder.FName.setText(commentItem.get(position).getFName());
         holder.textView2.setText(commentItem.get(position).getComment());
         holder.textView.setText(commentItem.get(position).getName());
         holder.textView1.setText(commentItem.get(position).getSupport());

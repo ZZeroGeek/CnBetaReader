@@ -22,7 +22,7 @@ public class CollectNews_Adapter extends BaseAdapter {
     private int resourceId;
     private List<NewsEntity> CollectNewsItem;
 
-    public CollectNews_Adapter(Context context,int newsResourceId,List<NewsEntity>objects){
+    public CollectNews_Adapter(Context context, int newsResourceId, List<NewsEntity>objects){
         super();
         mContext = context;
         resourceId = newsResourceId;
@@ -61,26 +61,40 @@ public class CollectNews_Adapter extends BaseAdapter {
             holder = (ViewHolder)view.getTag();
         }
 
-        String title = CollectNewsItem.get(position).getTitle();
+        String title = CollectNewsItem.get(position).getTitle().replace("</span>", "")
+                                        .replace("<span style=\"color:#c00000;\">", "");
         holder.collectNewsTitle.setText(title);
-        if(title.charAt(0) == '['){
-            holder.firstWord.setText(String.valueOf(title.charAt(4)));
-        }else{
-            if(title.charAt(0) == '《'){
-                holder.firstWord.setText(String.valueOf(title.charAt(1)));
-            }else {
-                holder.firstWord.setText(String.valueOf(title.charAt(0)));
-            }
+        formatFirstWord(title, holder.firstWord);
 
-        }
 
         GradientDrawable grad = (GradientDrawable) holder.firstWord.getBackground();
-        //myGrad.setColor(Color.RED);
-        setImageColor(grad, position);
+        setImageColor(grad, position);  //myGrad.setColor(Color.RED);
 
         return view;
     }
 
+    /**格式化显示的第一字安符*/
+    public void formatFirstWord(String title, TextView tv){
+
+        if(title.charAt(0) == '《' | title.charAt(0) == '“'){
+            tv.setText(String.valueOf(title.charAt(1)));
+        }else if(title.charAt(2) == ']'){   //[*]
+            tv.setText(String.valueOf(title.charAt(3)));
+        }else if(title.charAt(3) == ']'){  //[**]
+            tv.setText(String.valueOf(title.charAt(4)));
+        }else if(title.charAt(4) == ']'){   //[***]
+            tv.setText(String.valueOf(title.charAt(5)));
+        }else if(title.charAt(5) == ']'){   //[****]
+            tv.setText(String.valueOf(title.charAt(6)));
+        }else if(title.charAt(6) == ']'){   //[*****]
+            tv.setText(String.valueOf(title.charAt(7)));
+        }else {
+            tv.setText(String.valueOf(title.charAt(0)));
+        }
+
+    }
+
+    /**设置圆形图标背景的图片*/
     public void setImageColor(GradientDrawable grad, int index){
 
         int blue = Resources.getSystem().getColor(android.R.color.holo_blue_light);
@@ -95,9 +109,7 @@ public class CollectNews_Adapter extends BaseAdapter {
 
     }
 
-
     public class ViewHolder{
-
         public TextView firstWord;
         public TextView collectNewsTitle ;
     }

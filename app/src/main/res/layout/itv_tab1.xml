@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="类型为："
         android:textSize="18sp"
-        android:textColor="@color/green"
+        android:textColor="@color/blue"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"/>
 

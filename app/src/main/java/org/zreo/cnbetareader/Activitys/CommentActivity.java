@@ -1,10 +1,12 @@
 package org.zreo.cnbetareader.Activitys;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -67,6 +69,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
     }
 
     /**更改主题颜色*/
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setThemeColor(int index){
         switch (index){
             case 0:  //蓝色（默认）

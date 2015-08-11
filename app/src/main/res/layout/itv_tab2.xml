@@ -3,21 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/tv_type2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="类型为："
-        android:textSize="18sp"
-        android:textColor="@color/green"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"/>
-
     <RelativeLayout
         android:background="@color/gray"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp">
 
         <RelativeLayout
             android:background="@color/white"
@@ -25,7 +16,6 @@
             android:layout_width="match_parent"
             android:padding="5dp"
             android:layout_margin="10dp" android:id="@+id/relativeLayout">
-
 
             <RelativeLayout
                 android:orientation="horizontal"
@@ -64,16 +54,14 @@
                         android:id="@+id/firstword_text2"
                         android:layout_height="50dp"
                         android:layout_width="50dp"
-                        android:text="德"
+                        android:text="A"
                         android:textColor="@color/white"
                         android:textSize="25dp"
                         android:layout_gravity="left|center"
                         android:layout_marginTop="11dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="24dp"
                         />
-
                 </FrameLayout>
-
                 <Button
                     android:id="@+id/ibtn_theme"
                     android:layout_height="40dp"

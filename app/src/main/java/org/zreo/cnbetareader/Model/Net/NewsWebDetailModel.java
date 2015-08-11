@@ -1,6 +1,8 @@
 package org.zreo.cnbetareader.Model.Net;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
@@ -19,6 +21,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -40,6 +43,8 @@ import java.util.Locale;
  */
 public class NewsWebDetailModel extends WebDetailModel<String, BaseWebHttpModel> {
 
+    private ImageButton button;
+    private ProgressDialog dialog;
     private WebView mWebView;
     private NewsEntity mEntity;
     private boolean hascontent;
@@ -84,7 +89,10 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
     }
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
-    public void InitView(WebView view, NewsEntity entity) {
+    public void InitView(WebView view, NewsEntity entity,Context context,ImageButton imageButton) {
+        dialog=new ProgressDialog(context);
+        dialog.setMessage("页面加载中,请稍候...");
+        button=imageButton;
         mWebView = view;
         mEntity = entity;
         this.myHandler = new Handler();
@@ -128,7 +136,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
             new AsyncTask<String, String, Boolean>() {
                 @Override
                 protected Boolean doInBackground(String... strings) {
-                    hascontent = BaseWebHttpModel.handleResponceString(mEntity, strings[0],false);
+                    hascontent = BaseWebHttpModel.handleResponceString(mEntity, strings[0], false);
                     return hascontent;
                 }
 
@@ -150,7 +158,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
     private void LoadWebData(NewsEntity mNewsItem) {
         String add=light;
         TypedArray array = mActivity.obtainStyledAttributes(new int[]{R.attr.colorPrimary,
-                R.attr.colorPrimaryDark,R.attr.titleColor,android.R.attr.windowBackground,
+                R.attr.colorPrimaryDark, R.attr.titleColor,android.R.attr.windowBackground,
                 R.attr.colorAccent
         });
         int titleColor = array.getColor(2, mActivity.getResources().getColor(R.color.blue));
@@ -177,6 +185,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             finish = false;
             super.onPageStarted(view, url, favicon);
+            dialog.show();
         }
 
         @Override
@@ -194,6 +203,8 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
             System.out.println("MyWebViewClient.onPageFinished");
             super.onPageFinished(view, url);
             finish = true;
+            dialog.dismiss();
+            button.setVisibility(View.VISIBLE);
         }
 
         @Override

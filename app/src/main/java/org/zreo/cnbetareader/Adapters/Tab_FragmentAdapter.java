@@ -1,5 +1,7 @@
 package org.zreo.cnbetareader.Adapters;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +76,23 @@ public class Tab_FragmentAdapter extends BaseAdapter {
         viewHolder.newTitle.setText(title);
         viewHolder.newFirstword.setText(newFirstword);
         //viewHolder.newType.setText(newType);
+        GradientDrawable grad = (GradientDrawable) viewHolder.newFirstword.getBackground();
+        //myGrad.setColor(Color.RED);
+        setImageColor(grad, position);
         return view;
+    }
+    public void setImageColor(GradientDrawable grad, int index){
+
+        int blue = Resources.getSystem().getColor(android.R.color.holo_blue_light);
+        int gray = Resources.getSystem().getColor(android.R.color.darker_gray);
+        int greenDark = Resources.getSystem().getColor(android.R.color.holo_green_dark);
+        int greenLight = Resources.getSystem().getColor(android.R.color.holo_green_light);
+        int purple = Resources.getSystem().getColor(android.R.color.holo_purple);
+        int orange = Resources.getSystem().getColor(android.R.color.holo_orange_light);
+        int mainColor = mContext.getResources().getColor(R.color.mainColor);
+        int [] colorList = {blue, gray, purple, greenDark, orange, greenLight, mainColor};  //7种颜色
+        grad.setColor(colorList[Math.abs(CollectNewsItem.size() - index) % 7]);
+
     }
 public class ViewHolder{
     public TextView newType;

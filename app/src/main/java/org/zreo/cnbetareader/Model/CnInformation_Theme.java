@@ -11,7 +11,6 @@ public class CnInformation_Theme {
     private String firstWord;
     private String content;
     private String themetype;
-    private int imageView;
     private List<CnInformation_Theme> CnInformation_Themelist;
     public CnInformation_Theme(){}
     public CnInformation_Theme(String firstWord, String content, String themetype)

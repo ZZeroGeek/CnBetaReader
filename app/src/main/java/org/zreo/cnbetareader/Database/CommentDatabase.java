@@ -69,7 +69,7 @@ public class CommentDatabase {
             do {
                 CommentItemEntity commentItemEntity = new CommentItemEntity();
                 commentItemEntity.setSid(cursor.getInt(cursor.getColumnIndex("sid")));
-                commentItemEntity.setIcon(cursor.getInt(cursor.getColumnIndex("icon")));
+                commentItemEntity.setIcon(cursor.getString(cursor.getColumnIndex("icon")));
                 commentItemEntity.setHost_name(cursor.getString(cursor.getColumnIndex("host_name")));
                 commentItemEntity.setName(cursor.getString(cursor.getColumnIndex("name")));
                 commentItemEntity.setScore(cursor.getInt(cursor.getColumnIndex("score")));
@@ -94,7 +94,7 @@ public class CommentDatabase {
             }
         });
         int sid;  //新闻id
-        int icon;
+        String icon;
         String host_name;
         String name;
         int score;
@@ -107,7 +107,7 @@ public class CommentDatabase {
                 CommentItemEntity commentItemEntity = new CommentItemEntity();
                 sid = cursor.getInt(cursor.getColumnIndex("sid"));
                 commentItemEntity.setSid(sid);
-                icon = cursor.getInt(cursor.getColumnIndex("icon"));
+                icon = cursor.getString(cursor.getColumnIndex("icon"));
                 commentItemEntity.setIcon(icon);
                 host_name = cursor.getString(cursor.getColumnIndex("host_name"));
                 commentItemEntity.setHost_name(host_name);

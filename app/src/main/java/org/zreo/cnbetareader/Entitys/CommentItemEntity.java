@@ -10,7 +10,7 @@ public class CommentItemEntity {
     private String pid;
     private int sid;
     private int reason;
-    private int icon;
+    private String icon;
     private String date;
     private String name;
     private String comment;
@@ -93,11 +93,11 @@ public class CommentItemEntity {
         this.reason = reason;
     }
 
-    public int getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 

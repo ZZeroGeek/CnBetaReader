@@ -110,7 +110,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
             // cnComments.setLayout("");
             cnComments.setScore(supportNum);
             cnComments.setReason(againstNum);
-            cnComments.setIcon(R.drawable.circle_btn);
+           // cnComments.setIcon(R.drawable.circle_btn);
             cnComments.setName(i + userName);
             cnComments.setComment(textComment);
             cnComments.setCommentMenu(R.drawable.more_grey);
@@ -187,32 +187,28 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
               @Override
                protected void onSuccess(CommentListEntity result) {
                        ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
-//                           String FName = cmntlist.get(0).getHost_name();
-//                           String userName = cmntlist.getName();
-//                           String textComment = cmntlist.getComment();
-//                           String sText = "支持:";
-//                           String aText = "反对:";
-//                           int supportNum = cmntlist.get();
-//                           int againstNum = cmntlist.getReason();
+//                         String sText = "支持:";
+//                         String aText = "反对:";
+//                  for (int i = 0 ; i < cmntlist.size(); i++){
+//                      //  map.put(cmntlist.get(i).getSid(), cmntlist.get(i));
+//                      CommentItemEntity cnComments = new CommentItemEntity();
+////                      cnComments.setHost_name(cmntlist.get(i).getHost_name());
+////                      cnComments.setScore(cmntlist.get(i).getScore());
+////                      cnComments.setReason(cmntlist.get(i).getReason());
+////                      cnComments.setIcon(cmntlist.get(i).getIcon());
+////                      cnComments.setName(cmntlist.get(i).getName());
+////                      cnComments.setComment(cmntlist.get(i).getComment());
+////                      cnComments.setCommentMenu(R.drawable.more_grey);
+//                      cnComments.setSupport(sText);
+//                      cnComments.setAgainst(aText);
+//                      cmntlist.add(cnComments);
+//                  }
+//                  myAdapter.AddData(cmntlist);
                       Toast.makeText(CommentActivity.this,cmntlist.size()+"", Toast.LENGTH_LONG).show();
-                          //System.out.println("cmntlist"+cmntlist.size());
-//                           for (int i = 0 ; i < cmntlist.size(); i++){
-//                             //  map.put(cmntlist.get(i).getSid(), cmntlist.get(i));
-//                               CommentItemEntity cnComments = new CommentItemEntity();
-//                               cnComments.setHost_name(FName);
-//                               cnComments.setScore(supportNum);
-//                               cnComments.setReason(againstNum);
-//                               cnComments.setIcon(R.drawable.circle_btn);
-//                               cnComments.setName(userName);
-//                               cnComments.setComment(textComment);
-//                               cnComments.setCommentMenu(R.drawable.more_grey);
-//                               cnComments.setSupport(sText);
-//                               cnComments.setAgainst(aText);
-//                               cmntlist.add(cnComments);
-//                           }
-//                           myAdapter.AddData(cmntlist);
+                 // System.out.println("cmntlist:"+cmntlist);
                        HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
-                          // System.out.println("cmntstore"+cmntstore.size());
+
+
                            Toast.makeText(CommentActivity.this,cmntstore.size()+"", Toast.LENGTH_LONG).show();
                   }
 
@@ -267,7 +263,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                     //  cnComments.setLayout("");
                     cnComments.setScore(supportNum);
                     cnComments.setReason(againstNum);
-                    cnComments.setIcon(R.drawable.circle_btn);
+                   // cnComments.setIcon(R.drawable.circle_btn);
                     cnComments.setName(userName);
                     cnComments.setComment(contentData);
                     cnComments.setCommentMenu(R.drawable.more_grey);

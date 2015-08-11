@@ -9,11 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.ResponseHandlerInterface;
+
 import org.zreo.cnbetareader.Adapters.CommentAdapter;
 import org.zreo.cnbetareader.Database.CommentDatabase;
-import org.zreo.cnbetareader.Entitys.CnComment;
 import org.zreo.cnbetareader.Entitys.CommentItemEntity;
 import org.zreo.cnbetareader.Entitys.CommentListEntity;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
@@ -22,6 +23,7 @@ import org.zreo.cnbetareader.Model.Net.HttpDateModel;
 import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Views.XListView;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -186,7 +188,40 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
               @Override
                protected void onSuccess(CommentListEntity result) {
-                       ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
+//                       ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
+                  ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
+                  HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
+                  for (CommentItemEntity item : cmntlist) {
+                      StringBuilder sb = new StringBuilder();
+                      item.copy(cmntstore.get(item.getTid()));
+                      CommentItemEntity parent = cmntstore.get(item.getPid());
+                      while (parent != null) {
+                          sb.append("//@");
+                          sb.append(parent.getName());
+                          sb.append(": [");
+                          sb.append(parent.getHost_name());
+                          sb.append("] ");
+                          sb.append(parent.getComment());
+                          parent = cmntstore.get(parent.getPid());
+                      }
+                      item.setRefContent(sb.toString());
+                  }
+                  ArrayList<CommentItemEntity> hotcmntlist = result.getHotlist();
+                  for (CommentItemEntity item : hotcmntlist) {
+                      StringBuilder sb = new StringBuilder();
+                      item.copy(cmntstore.get(item.getTid()));
+                      CommentItemEntity parent = cmntstore.get(item.getPid());
+                      while (parent != null) {
+                          sb.append("//@");
+                          sb.append(parent.getName());
+                          sb.append(": [");
+                          sb.append(parent.getHost_name());
+                          sb.append("] ");
+                          sb.append(parent.getComment());
+                          parent = cmntstore.get(parent.getPid());
+                      }
+                      item.setRefContent(sb.toString());
+                  }
 //                           String FName = cmntlist.get(0).getHost_name();
 //                           String userName = cmntlist.getName();
 //                           String textComment = cmntlist.getComment();
@@ -211,7 +246,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 //                               cmntlist.add(cnComments);
 //                           }
 //                           myAdapter.AddData(cmntlist);
-                       HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
+//                       HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
                           // System.out.println("cmntstore"+cmntstore.size());
                            Toast.makeText(CommentActivity.this,cmntstore.size()+"", Toast.LENGTH_LONG).show();
                   }

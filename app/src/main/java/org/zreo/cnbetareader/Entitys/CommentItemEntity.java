@@ -10,12 +10,48 @@ public class CommentItemEntity {
     private String pid;
     private int sid;
     private int reason;
-    private String icon;
+    private int icon;
     private String date;
     private String name;
     private String comment;
     private String host_name;
     private String refContent;
+    private String support;
+    private String against;
+    private int layout;
+    private int commentMenu;
+
+    public void setCommentMenu(int commentMenu) {
+        this.commentMenu = commentMenu;
+    }
+
+    public int getCommentMenu() {
+        return commentMenu;
+    }
+
+    public void setSupport(String support) {
+        this.support = support;
+    }
+
+    public void setAgainst(String against) {
+        this.against = against;
+    }
+
+    public void setLayout(int layout) {
+        this.layout = layout;
+    }
+
+    public String getSupport() {
+        return support;
+    }
+
+    public String getAgainst() {
+        return against;
+    }
+
+    public int getLayout() {
+        return layout;
+    }
 
     public int getScore() {
         return score;
@@ -57,11 +93,11 @@ public class CommentItemEntity {
         this.reason = reason;
     }
 
-    public String getIcon() {
+    public int getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(int icon) {
         this.icon = icon;
     }
 

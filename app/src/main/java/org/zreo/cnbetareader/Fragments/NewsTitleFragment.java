@@ -42,6 +42,7 @@ import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
 import org.zreo.cnbetareader.Database.CollectionDatabase;
 import org.zreo.cnbetareader.Database.NewsTitleDatabase;
+import org.zreo.cnbetareader.Database.NewsTitleOpenHelper;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
@@ -644,16 +645,6 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                     lv.removeFooterView(loadMoreView);  //移除底部自动加载布局
                     mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
                     Toast.makeText(getActivity(), "缓存已清除", Toast.LENGTH_SHORT).show();
-
-                    /*LinearLayout mLinearLayout = new LinearLayout(getActivity());
-
-                    LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-
-                    mLinearLayout.setLayoutParams(mLayoutParams);
-                    TextView mTextView = new TextView(getActivity());
-                    mTextView.setText("当前资讯列表为空，请重新刷新加载最新的资讯");
-                    mLinearLayout.addView(mTextView, mLayoutParams);*/
                 }
                 super.handleMessage(msg);
             }
@@ -663,9 +654,10 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             @Override
             public void run() {
                 page = 0;  //清除缓存将加载的页码清0
+                getActivity().deleteDatabase("sharesdk");  //删除数据库
                 ImageLoader.getInstance().clearMemoryCache();  // 清除新闻标题图片本地缓存内存缓存
                 ImageLoader.getInstance().clearDiskCache();  // 清除新闻标题图片本地缓存
-                getActivity().deleteDatabase("NewsEntity");  //删除数据库
+
 
                 listItems.clear();  //清空新闻列表
                 map.clear();

@@ -28,31 +28,30 @@ public class Tab_Fragment1 extends Fragment {
     private CnInformation_Theme  cnInformation_theme;
     private View loadMoreView;     //加载更多布局
     private TextView loadMoreText;    //加载提示文本
+    TextView hintText;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_theme_listview, container, false); //获取布局
         theme_listview=(ListView)view.findViewById(R.id.theme_listview);
-        fragment1_adapter=new Fragment1_Adapter(getActivity(),R.layout.itv_tab1,CnInformation_ThemeList);
-        theme_listview.setAdapter(fragment1_adapter);
-        theme_listview.addFooterView(loadMoreView);
         initCollectNewsList();//初始化
         return view;
     }
     private void  initCollectNewsList(){
-        String[] type=new String[]{"A","B","C","D","F","G","V",};
-        String[] title=new String[]{"ADsee","AMD","AloAng","Adobe","ADC","ABC","AE"};
-        String firstWord="A";
-        for(int i=0;i<7;i++){
-            cnInformation_theme=new CnInformation_Theme();
-            cnInformation_theme.setThemetype(type[0]);
-            cnInformation_theme.setContent(title[i]);
-            cnInformation_theme.setFirstWord(firstWord);
-            CnInformation_ThemeList.add(cnInformation_theme);
+        initView();
+        if (CnInformation_ThemeList.size() == 0) {      //如果数据库没数据
+            hintText.setVisibility(View.VISIBLE);  //显示没有关注主题的提示
+            theme_listview.setVisibility(View.GONE);  //隐藏ListView
         }
+        }
+    private void initView(){
         loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
+        fragment1_adapter=new Fragment1_Adapter(getActivity(),R.layout.itv_tab1,CnInformation_ThemeList);
         loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
         loadMoreText.setBackgroundColor(getResources().getColor(R.color.gray));
         loadMoreText.setText("-- The End --");
-        }
+        theme_listview.addFooterView(loadMoreView);
+        theme_listview.setAdapter(fragment1_adapter);
+        hintText = (TextView) view.findViewById(R.id.hint_text);   //当没有关注时提示的文本
+    }
 }

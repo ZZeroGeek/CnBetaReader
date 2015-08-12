@@ -10,16 +10,34 @@ public class CommentItemEntity {
     private String pid;
     private int sid;
     private int reason;
-    private int icon;
+    private String icon;
     private String date;
     private String name;
     private String comment;
     private String host_name;
     private String refContent;
+    private String FName;
     private String support;
     private String against;
     private int layout;
     private int commentMenu;
+    private int imageView1;
+
+    public void setImageView1(int imageView1) {
+        this.imageView1 = imageView1;
+    }
+
+    public int getImageView1() {
+        return imageView1;
+    }
+
+    public void setFName(String FName) {
+        this.FName = FName;
+    }
+
+    public String getFName() {
+        return FName;
+    }
 
     public void setCommentMenu(int commentMenu) {
         this.commentMenu = commentMenu;
@@ -93,11 +111,11 @@ public class CommentItemEntity {
         this.reason = reason;
     }
 
-    public int getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 

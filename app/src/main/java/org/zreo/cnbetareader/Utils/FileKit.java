@@ -108,7 +108,13 @@ public class FileKit {
             deleteDir(context.getExternalCacheDir());
         }
     }
-
+    public static void deleteFiles(File directory) {
+        if (directory != null && directory.exists() && directory.isDirectory()) {
+            for (File item : directory.listFiles()) {
+                item.delete();
+            }
+        }
+    }
     public static void deleteDir(File dir) {
         File to = new File(dir.getAbsolutePath() + System.currentTimeMillis());
         dir.renameTo(to);

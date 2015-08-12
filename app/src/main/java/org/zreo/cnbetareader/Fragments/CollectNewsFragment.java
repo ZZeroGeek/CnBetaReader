@@ -5,6 +5,8 @@ package org.zreo.cnbetareader.Fragments;
 import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,7 +31,10 @@ import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 收藏
@@ -53,7 +58,6 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_collectnews_listview, container, false);
         collectionDatabase = CollectionDatabase.getInstance(getActivity());  //初始化数据库实例
-
         initCollectNewsList();  //初始化收藏列表
 
         return view;
@@ -67,7 +71,8 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
        CollectNewsList = collectionDatabase.loadCollection();//从数据库读取收藏列表
        initView();
        if (CollectNewsList.size() == 0) {      //如果数据库没数据
-           hintText.setVisibility(View.VISIBLE);
+           hintText.setVisibility(View.VISIBLE);  //显示没有收藏新闻的提示
+           collectnew_listview.setVisibility(View.GONE);  //隐藏ListView
        }
 
    }
@@ -81,10 +86,10 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
         loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
         loadMoreText.setBackgroundColor(getResources().getColor(R.color.gray));
         loadMoreText.setText("-- The End --");
+        loadMoreText.setTextColor(Color.DKGRAY);
         collectnew_listview.addFooterView(loadMoreView);   //设置列表底部视图
         collectnew_listview.setAdapter(cnsAdapter);   //为ListView绑定Adapter
         hintText = (TextView) view.findViewById(R.id.hint_text);   //当没有收藏时提示的文本
-
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.collectnews_list);
         swipeLayout.setOnRefreshListener(this);
         //设置刷新时动画的颜色，可以设置4个
@@ -119,10 +124,16 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         collectionDatabase.deleteCollection(entity);
+
                         CollectNewsList.clear();
                         CollectNewsList.addAll(collectionDatabase.loadCollection());
                         cnsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "已删除收藏", Toast.LENGTH_SHORT).show();
+
+                        if(CollectNewsList.size() == 0) {    //当收藏列表为空时
+                            hintText.setVisibility(View.VISIBLE);  //显示没有收藏新闻的提示
+                            collectnew_listview.setVisibility(View.GONE);  //隐藏ListView
+                        }
                     }
                 });
                 alert.setNegativeButton("取消", null);
@@ -133,6 +144,23 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
 
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        List<NewsEntity> temp = collectionDatabase.loadCollection();
+        if(temp.size() > CollectNewsList.size()){  //如果收藏列表增加
+            CollectNewsList.clear();
+            CollectNewsList.addAll(temp);
+
+            hintText.setVisibility(View.GONE);   //隐藏没有收藏新闻的提示
+            collectnew_listview.setVisibility(View.VISIBLE);    //显示ListView
+
+        }else if(temp.size() == 0) {    //当收藏列表为空时
+            hintText.setVisibility(View.VISIBLE);  //显示没有收藏新闻的提示
+            collectnew_listview.setVisibility(View.GONE);  //隐藏ListView
+        }
+        cnsAdapter.notifyDataSetChanged();
+    }
 
     @Override
        public void onRefresh() {

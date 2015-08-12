@@ -1,7 +1,10 @@
 package org.zreo.cnbetareader.Model.Net;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -19,6 +22,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -40,11 +44,15 @@ import java.util.Locale;
  */
 public class NewsWebDetailModel extends WebDetailModel<String, BaseWebHttpModel> {
 
+    private ImageButton button;
+    private ProgressDialog dialog;
     private WebView mWebView;
     private NewsEntity mEntity;
     private boolean hascontent;
     private VideoWebChromeClient client = new VideoWebChromeClient();
     private Handler myHandler;
+    SharedPreferences pref;
+
 //    private VideoWebChromeClient client = new VideoWebChromeClient();
 private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"/>" +
         "<link  rel=\"stylesheet\" href=\"file:///android_asset/style.css\" type=\"text/css\"/><style>.title{color: #%s;}%s</style></head>" +
@@ -84,7 +92,11 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
     }
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
-    public void InitView(WebView view, NewsEntity entity) {
+    public void InitView(WebView view, NewsEntity entity,Context context,ImageButton imageButton) {
+        pref = getActivity().getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
+        dialog=new ProgressDialog(context);
+        dialog.setMessage("页面加载中,请稍候...");
+        button=imageButton;
         mWebView = view;
         mEntity = entity;
         this.myHandler = new Handler();
@@ -94,7 +106,11 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
         settings.setPluginState(WebSettings.PluginState.ON_DEMAND);//播放或者Flash相关
         settings.setJavaScriptEnabled(true);//设置支持JavaScript脚本
         settings.setDomStorageEnabled(true);//设置是否启用了DOM storage API。
-        settings.setLoadsImagesAutomatically(true); //支持自动加载图片
+        if(pref.getBoolean("informationDetail", true)){//读取设置里的软件是否自动加载图片
+            settings.setLoadsImagesAutomatically(true); //支持自动加载图片
+        }else{
+            settings.setLoadsImagesAutomatically(false);//不自动加载图片
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);//webview 远程调试
         }
@@ -128,7 +144,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
             new AsyncTask<String, String, Boolean>() {
                 @Override
                 protected Boolean doInBackground(String... strings) {
-                    hascontent = BaseWebHttpModel.handleResponceString(mEntity, strings[0],false);
+                    hascontent = BaseWebHttpModel.handleResponceString(mEntity, strings[0], false);
                     return hascontent;
                 }
 
@@ -150,7 +166,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
     private void LoadWebData(NewsEntity mNewsItem) {
         String add=light;
         TypedArray array = mActivity.obtainStyledAttributes(new int[]{R.attr.colorPrimary,
-                R.attr.colorPrimaryDark,R.attr.titleColor,android.R.attr.windowBackground,
+                R.attr.colorPrimaryDark, R.attr.titleColor,android.R.attr.windowBackground,
                 R.attr.colorAccent
         });
         int titleColor = array.getColor(2, mActivity.getResources().getColor(R.color.blue));
@@ -177,6 +193,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             finish = false;
             super.onPageStarted(view, url, favicon);
+            dialog.show();
         }
 
         @Override
@@ -194,6 +211,8 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
             System.out.println("MyWebViewClient.onPageFinished");
             super.onPageFinished(view, url);
             finish = true;
+            dialog.dismiss();
+            button.setVisibility(View.VISIBLE);
         }
 
         @Override

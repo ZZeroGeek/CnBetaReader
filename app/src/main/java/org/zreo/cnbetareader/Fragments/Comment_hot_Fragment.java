@@ -17,17 +17,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.ResponseHandlerInterface;
+
 import org.zreo.cnbetareader.Adapters.Comment_hot_Adapter;
+import org.zreo.cnbetareader.AppConfig;
+import org.zreo.cnbetareader.Entitys.HotCommentItemEntity;
+import org.zreo.cnbetareader.Entitys.ResponseEntity;
 import org.zreo.cnbetareader.Model.CnComment_hot;
+import org.zreo.cnbetareader.Model.Net.HttpDateModel;
+import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 /**
  * Created by guo on 2015/7/29.
  */
-public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScrollListener, SwipeRefreshLayout.OnRefreshListener{
+public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
     Toast toast;
     TextView toastTextView;
 
@@ -44,22 +53,55 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_c_hot_listview, container, false);
+        view = inflater.inflate(R.layout.fragment_c_hot_listview, container, false);
 
         initComment_hotList(); //初始化新闻列表
         initView();  //初始化布局
         customToast();
-        return  view;
+        BaseHttpClient.getInsence().getNewsListByPage("jhcomment", "1", response);
+        return view;
     }
 
+    private ResponseHandlerInterface response = new HttpDateModel<List<HotCommentItemEntity>>(new TypeToken<ResponseEntity<List<HotCommentItemEntity>>>() {
+    }) {
+        @Override
+        protected void onSuccess(List<HotCommentItemEntity> result) {
+            /**
+             * 补充实体类中的信息
+             */
+            for (HotCommentItemEntity item:result){
+                Matcher hotMatcher = AppConfig.HOT_COMMENT_PATTERN.matcher(item.getDescription());
+                if (hotMatcher.find()) {
+                    item.setFrom(hotMatcher.group(1));
+                    item.setDescription(hotMatcher.group(2));
+                    item.setSid(Integer.parseInt(hotMatcher.group(3)));
+                    item.setNewstitle(hotMatcher.group(4));
+                }
+            }
+            /**
+             * 添加到ListView
+             */
+        }
+
+        @Override
+        protected void onError() {
+
+        }
+
+        @Override
+        protected void onFailure() {
+
+        }
+    };
+
     /**
-     *  初始化布局
+     * 初始化布局
      */
     private void initView() {
         /**显示hot的ListView*/
         hot_listView = (ListView) view.findViewById(R.id.hot_listView);
         /**为ListView创建自定义适配器*/
-        mAdapter = new Comment_hot_Adapter(getActivity(), R.layout.fragment_c_hot_textview,cnComment_hotList);
+        mAdapter = new Comment_hot_Adapter(getActivity(), R.layout.fragment_c_hot_textview, cnComment_hotList);
         hot_listView.setVerticalScrollBarEnabled(false);//隐藏ListView滑动进度条
         loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
         hot_listView.addFooterView(loadMoreView);   //设置列表底部视图
@@ -76,11 +118,10 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
         hot_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // to do something
+                // to do something
             }
         });
     }
-
 
 
     @Override
@@ -123,30 +164,31 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
         //BaseHttpClient.getInsence().getNewsListByPage("all", "1", response);
     }
     // private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
-       // @Override
-       // protected void onFailure() {
+    // @Override
+    // protected void onFailure() {
 
-       // }
+    // }
 
-       // @Override
-       // protected void onSuccess(NewsListEntity result) {
-        //    List<NewsEntity> list = result.getList();
-         //   Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
-        //    swipeLayout.setRefreshing(false);
-      //  }
+    // @Override
+    // protected void onSuccess(NewsListEntity result) {
+    //    List<NewsEntity> list = result.getList();
+    //   Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
+    //    swipeLayout.setRefreshing(false);
+    //  }
 
-      //  @Override
-       // protected void onError() {
+    //  @Override
+    // protected void onError() {
 //
-   //     }
-   // };
+    //     }
+    // };
+
     /**
      * 自定义Toast，用于数据更新的提示
      */
     private void customToast() {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);  //获取屏幕分辨率
-        ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels, dm.heightPixels/15);
+        ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(dm.widthPixels, dm.heightPixels / 15);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View toastView = inflater.inflate(R.layout.toast, null);  // 取得xml里定义的view
         toastTextView = (TextView) toastView.findViewById(R.id.toast_text); // 取得xml里定义的TextView
@@ -161,16 +203,16 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
     private int totalNumber = 0;  //总列表数
     private int addNumber;  //每次新增的资讯数量
 
-    public void addData(){
+    public void addData() {
         totalNumber = cnComment_hotList.size();
-        addNumber = (int)(Math.random() * 10 + 1); //产生从1 - 10的随机数
+        addNumber = (int) (Math.random() * 10 + 1); //产生从1 - 10的随机数
         String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！就是你会我那，信不信我吧你发吧。干掉。呵呵你是就是这样子的。没有办发和你在意跑的都快打开！";
         String comment = "城里人真会玩";
-        String firstWord ="有";
-        for(int i = 1; i < 20; i++){
+        String firstWord = "有";
+        for (int i = 1; i < 20; i++) {
 
             CnComment_hot cnComment_hots = new CnComment_hot();
-            cnComment_hots.setComment("匿名网友 评论于 "+comment);
+            cnComment_hots.setComment("匿名网友 评论于 " + comment);
             cnComment_hots.setContent(content);
             cnComment_hots.setFirstWord(firstWord);
             cnComment_hotList.add(cnComment_hots);
@@ -178,37 +220,38 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
 
 
         totalNumber = totalNumber + addNumber;
-        addNumber =cnComment_hotList.size()-totalNumber ;
+        addNumber = cnComment_hotList.size() - totalNumber;
     }
-    public void addData1(){
+
+    public void addData1() {
         totalNumber = cnComment_hotList.size();
-        addNumber = (int)(Math.random() * 10+ 1); //产生从1 - 10的随机数
+        addNumber = (int) (Math.random() * 10 + 1); //产生从1 - 10的随机数
         String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！jiosudjisufai hods和速度000000000000恢复拉萨的那份洛克时0000000000000代拉开距离就是的离00000000000开房间爱死了快递费就分开了激发了卡拉科技阿萨德可立即阿萨德啊落实到";
         String comment = "城里人真会玩";
-        String firstWord ="有";
-        for(int i = 1; i < 20; i++){
+        String firstWord = "有";
+        for (int i = 1; i < 20; i++) {
 
             CnComment_hot cnComment_hots = new CnComment_hot();
-            cnComment_hots.setComment("匿名网友 评论于 "+comment);
+            cnComment_hots.setComment("匿名网友 评论于 " + comment);
             cnComment_hots.setContent(content);
             cnComment_hots.setFirstWord(firstWord);
-            cnComment_hotList.add(0,cnComment_hots);
+            cnComment_hotList.add(0, cnComment_hots);
         }
 
 
         totalNumber = totalNumber + addNumber;
-        addNumber =cnComment_hotList.size()-totalNumber ;
+        addNumber = cnComment_hotList.size() - totalNumber;
     }
 
 
-    private void initComment_hotList(){
+    private void initComment_hotList() {
         String content = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！";
         String comment = "城里人真会玩";
-        String firstWord ="有";
-        for(int i = 1; i < 20; i++){
+        String firstWord = "有";
+        for (int i = 1; i < 20; i++) {
 
             CnComment_hot cnComment_hots = new CnComment_hot();
-            cnComment_hots.setComment("匿名网友 评论于 "+comment);
+            cnComment_hots.setComment("匿名网友 评论于 " + comment);
             cnComment_hots.setContent(content);
             cnComment_hots.setFirstWord(firstWord);
             cnComment_hotList.add(cnComment_hots);

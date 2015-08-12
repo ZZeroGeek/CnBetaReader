@@ -68,7 +68,6 @@ public class BaseHttpClient {
         asyncHttpClient.post(null, AppConfig.COMMENT_URL, ClientHeader(), params, CONTENT_TYPE, handlerInterface);
     }
 
-
     public void getNewsDetialBySid(int sid, ResponseHandlerInterface responseHandlerInterface) {
         String Url = String.format(Locale.CANADA, AppConfig.ARTICLE_URL, sid);
         asyncHttpClient.get(Url, responseHandlerInterface);

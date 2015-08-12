@@ -16,5 +16,6 @@ public  static final String APP_NET_DEBUG="APP_NET_DEBUG";
     public static final String COMMENT_VIEW = BASE_URL + "/comment";
     public static final Pattern STANDRA_PATTERN = Pattern.compile("cnBeta\\.COM_中文业界资讯站");
     public static final Pattern SN_PATTERN = Pattern.compile("SN:\"(.{5})\"");
+    public static final Pattern HOT_COMMENT_PATTERN = Pattern.compile("来自<strong>(.*)</strong>的(.*)对新闻:<a href=\"/articles/(.*).htm\" target=\"_blank\">(.*)</a>的评论");
     public static final String SECOND_VIEW = BASE_URL + "/captcha.htm";
 }

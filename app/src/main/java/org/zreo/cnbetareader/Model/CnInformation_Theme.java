@@ -1,5 +1,7 @@
 package org.zreo.cnbetareader.Model;
 
+import android.widget.ImageView;
+
 import java.util.List;
 
 /**
@@ -11,12 +13,12 @@ public class CnInformation_Theme {
     private String themetype;
     private List<CnInformation_Theme> CnInformation_Themelist;
     public CnInformation_Theme(){}
-
     public CnInformation_Theme(String firstWord, String content, String themetype)
     {
         this.firstWord=firstWord;
         this.content=content;
         this.themetype=themetype;
+
     }
 
     public void setContent(String content) {
@@ -42,4 +44,5 @@ public class CnInformation_Theme {
     public void setThemetype(String themetype) {
         this.themetype = themetype;
     }
+
 }

@@ -91,12 +91,14 @@ public class NewsTitleAdapter extends BaseAdapter{
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();  //重新获取viewHolder
         }
-        viewHolder.newsTitle.setText(listItem.get(position).getTitle());
+        viewHolder.newsTitle.setText(listItem.get(position).getTitle().replace("</span>", "")
+                                            .replace("<span style=\"color:#c00000;\">", ""));
         //格式化输出新闻简介
-        //String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
-        //                                                    .replace("</p>", "").replace("</strong>", "");
+        /*String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
+                                                            .replace("</p>", "").replace("</strong>", "")*/
         String homeText = listItem.get(position).getHometext().replace("<strong>", "").replace("</strong>", "");
         viewHolder.newsContent.setText(Html.fromHtml(homeText));
+
         viewHolder.publishTime.setText(listItem.get(position).getInputtime());
         //viewHolder.imageUrl = listItem.get(position).getThumb();  //获取图片地址
 

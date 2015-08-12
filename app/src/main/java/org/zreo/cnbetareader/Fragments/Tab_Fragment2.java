@@ -24,6 +24,8 @@ public class Tab_Fragment2 extends Fragment {
     private CnInformation_Theme  cnInformation_theme;
     List<CnInformation_Theme> list = new ArrayList<CnInformation_Theme>();
     Tab_FragmentAdapter tab_fragmentAdapter;
+    private View loadMoreView;     //加载更多布局
+    private TextView loadMoreText;    //加载提示文本
     TextView newType;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +34,7 @@ public class Tab_Fragment2 extends Fragment {
         jiaData();
         theme_mayattention_listview= (ListView) view.findViewById(R.id.theme_mayattention_listview);
         newType= (TextView) view.findViewById(R.id.tv_type2);
+        theme_mayattention_listview.addFooterView(loadMoreView);
         tab_fragmentAdapter=new Tab_FragmentAdapter(getActivity(),R.layout.itv_tab2,list);
         theme_mayattention_listview.setAdapter(tab_fragmentAdapter);
         String newtype=cnInformation_theme.getThemetype();
@@ -40,15 +43,21 @@ public class Tab_Fragment2 extends Fragment {
     }
 
 public void jiaData(){
-    String type="A";
-    String title="ADsee";
+    String[] type=new String[]{"A","B","C","D","F","G","V",};
+    String[] title=new String[]{"ADsee","AMD","AloAng","Adobe","ADC","ABC","AE"};
     String firstWord="A";
-    for(int i=0;i<15;i++){
+    for(int i=0;i<7;i++){
         cnInformation_theme=new CnInformation_Theme();
-        cnInformation_theme.setThemetype(type);
-        cnInformation_theme.setContent(title);
+        cnInformation_theme.setThemetype(type[0]);
+        cnInformation_theme.setContent(title[i]);
         cnInformation_theme.setFirstWord(firstWord);
         list.add(cnInformation_theme);
     }
+    loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
+    loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
+    loadMoreText.setBackgroundColor(getResources().getColor(R.color.gray));
+    loadMoreText.setText("-- The End --");
+
+
 }
 }

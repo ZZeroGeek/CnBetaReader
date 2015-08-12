@@ -18,7 +18,6 @@ public class CnInformation_Theme {
         this.firstWord=firstWord;
         this.content=content;
         this.themetype=themetype;
-
     }
 
     public void setContent(String content) {

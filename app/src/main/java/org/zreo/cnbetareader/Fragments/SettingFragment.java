@@ -32,8 +32,9 @@ public class SettingFragment extends PreferenceFragment {
     public interface SetColorListener{
         void setColor(int index);
     }
+    String path = "/data/data/org.zreo.cnbetareader/cache";
     File file=new File("/data/data/org.zreo.cnbetareader/cache");
-    private static  String cache ="/data/data/org.zreo.cnbetareader/cache";
+  //  private static  String cache ="/data/data/org.zreo.cnbetareader/cache";
     private int themeid;
     private Toolbar mToolbar;
     private Handler clearHandler;
@@ -95,8 +96,8 @@ public class SettingFragment extends PreferenceFragment {
             public void run() {
                 ImageLoader.getInstance().clearMemoryCache();  // 清除新闻标题图片本地缓存内存缓存
                 ImageLoader.getInstance().clearDiskCache();  // 清除新闻标题图片本地缓存
-                getActivity().deleteDatabase("NewsEntity");  //删除数据库
-                FileKit.deleteDir(file);//删除cache文件夹
+               // getActivity().deleteDatabase("NewsEntity");  //删除数据库
+                FileKit.deleteFiles(file);//删除cache文件夹
                 Message message = clearHandler.obtainMessage();
                 message.what = 0x101;
                 clearHandler.sendMessage(message);   //告诉主线程执行任务
@@ -108,7 +109,7 @@ public class SettingFragment extends PreferenceFragment {
 
       private String getFileSize() {
         long size = 0;
-        size += FileKit.getFolderSize(file);
+        size += FileKit.getFolderSize(path);
         return Formatter.formatFileSize(getActivity(), size);
     }
 

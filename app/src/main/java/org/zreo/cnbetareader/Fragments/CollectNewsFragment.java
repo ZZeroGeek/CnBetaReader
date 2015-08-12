@@ -53,7 +53,6 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_collectnews_listview, container, false);
         collectionDatabase = CollectionDatabase.getInstance(getActivity());  //初始化数据库实例
-
         initCollectNewsList();  //初始化收藏列表
 
         return view;
@@ -84,7 +83,6 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
         collectnew_listview.addFooterView(loadMoreView);   //设置列表底部视图
         collectnew_listview.setAdapter(cnsAdapter);   //为ListView绑定Adapter
         hintText = (TextView) view.findViewById(R.id.hint_text);   //当没有收藏时提示的文本
-
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.collectnews_list);
         swipeLayout.setOnRefreshListener(this);
         //设置刷新时动画的颜色，可以设置4个

@@ -172,7 +172,7 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
 
                 NewsEntity entity = new NewsEntity();
                 entity.setSid(cnComment_hotList.get(position).getSid());
-                entity.setTitle(cnComment_hotList.get(position).getTitle());
+                entity.setTitle(cnComment_hotList.get(position).getNewstitle());
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("NewsItem", entity);

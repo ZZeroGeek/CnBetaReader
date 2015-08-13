@@ -140,7 +140,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             BaseHttpClient.getInsence().getNewsListByPage("all", "1", refreshResponse);
         }
 
-        new Thread(new Runnable() {
+        new Thread( new Runnable() {
             @Override
             public void run() {
                 map = newsTitleDatabase.loadMapNewsEntity();  //从数据库读取新闻列表 map跟listItems同步
@@ -173,14 +173,14 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
             //开启子线程将数据保存到数据库
             new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0 ; i < listItems.size(); i++){
-                        newsTitleDatabase.saveNewsEntity(listItems.get(i));  //将数据保存到数据库
-                    }
-                }
-            }).start();
+            @Override
+            public void run() {
+                for (int i = 0 ; i < listItems.size(); i++){
+                    newsTitleDatabase.saveNewsEntity(listItems.get(i));  //将数据保存到数据库
+            }
         }
+        }).start();
+    }
 
         @Override
         protected void onError() {

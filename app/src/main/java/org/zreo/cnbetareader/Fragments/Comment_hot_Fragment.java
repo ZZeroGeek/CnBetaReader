@@ -2,7 +2,6 @@ package org.zreo.cnbetareader.Fragments;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
@@ -29,7 +28,9 @@ import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 /**
@@ -54,15 +55,19 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_c_hot_listview, container, false);
 
-        initComment_hotList(); //初始化新闻列表
-        initView();  //初始化布局
         customToast();
-        BaseHttpClient.getInsence().getNewsListByPage("jhcomment", "1", response);
+
+        BaseHttpClient.getInsence().getNewsListByPage("jhcomment", "1", initResponse);
+
+        if(cnComment_hotList.size() > 0){
+            initView();  //初始化布局
+        }
+
         return view;
     }
 
-    private ResponseHandlerInterface response = new HttpDateModel<List<HotCommentItemEntity>>(new TypeToken<ResponseEntity<List<HotCommentItemEntity>>>() {
-    }) {
+    private ResponseHandlerInterface initResponse = new HttpDateModel<List<HotCommentItemEntity>>
+                            (new TypeToken<ResponseEntity<List<HotCommentItemEntity>>>() {}) {
         @Override
         protected void onSuccess(List<HotCommentItemEntity> result) {
             /**
@@ -77,18 +82,31 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
                     item.setNewstitle(hotMatcher.group(4));
                 }
             }
-            /**
-             * 添加到ListView
-             */
+
+            Map<Integer, HotCommentItemEntity> tempMap = new HashMap<Integer, HotCommentItemEntity>();
+
+
+            for(int i = 0; i < result.size(); i++){
+                tempMap.put(result.get(i).getSid(), result.get(i));
+            }
+            cnComment_hotList = new ArrayList<HotCommentItemEntity>(tempMap.values());
+            if(cnComment_hotList.size() > 0){
+                initView();  //初始化布局
+            }
+
         }
 
         @Override
         protected void onError() {
+            toastTextView.setText("刷新错误");
+            toast.show();
 
         }
 
         @Override
         protected void onFailure() {
+            toastTextView.setText("刷新失败，请检查网络");
+            toast.show();
 
         }
     };
@@ -128,24 +146,12 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
         int itemsLastIndex = cnComment_hotList.size() - 1;    //数据集最后一项的索引
         int lastIndex = itemsLastIndex + 1;             //加上底部的loadMoreView项
         if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && visibleLastIndex == lastIndex) {
-            //如果是自动加载,可以在这里放置异步加载数据的代码
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
 
-                    mAdapter.notifyDataSetChanged(); //数据集变化后,通知adapter
-                    ((TextView) loadMoreView.findViewById(R.id.load_more)).setText("加载中...");
-                    toastTextView.setText("新增" + addNumber + "条资讯");
-                    toast.show();
-                }
-            }, 2000); //模拟加载自动加载太快，所以模拟加载延时执行
-
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    ((TextView) loadMoreView.findViewById(R.id.load_more)).setText("加载更多");
-                }
-            }, 1800); //模拟加载自动加载太快，所以模拟加载延时执行
         }
     }
+
+    private int totalNumber = 0;  //总列表数
+    private int addNumber;  //每次新增的资讯数量
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -160,26 +166,8 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
         toast.show();
         mAdapter.notifyDataSetChanged();
         swipeLayout.setRefreshing(false);
-        //BaseHttpClient.getInsence().getNewsListByPage("all", "1", response);
     }
-    // private ResponseHandlerInterface response=new NewsListHttpModel<NewsListEntity>(new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
-    // @Override
-    // protected void onFailure() {
 
-    // }
-
-    // @Override
-    // protected void onSuccess(NewsListEntity result) {
-    //    List<NewsEntity> list = result.getList();
-    //   Toast.makeText(getActivity(), list.size() + "", Toast.LENGTH_LONG).show();
-    //    swipeLayout.setRefreshing(false);
-    //  }
-
-    //  @Override
-    // protected void onError() {
-//
-    //     }
-    // };
 
     /**
      * 自定义Toast，用于数据更新的提示
@@ -199,12 +187,10 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
         //toast.show();
     }
 
-    private int totalNumber = 0;  //总列表数
-    private int addNumber;  //每次新增的资讯数量
 
 
 
-    private void initComment_hotList() {
+    /*public void initComment_hotList() {
         String title = "有些人会说没有什么是这城里人不会的。就是比你会，信不信由你！";
         String newstitle = "城里人真会玩";
         String description ="nJohn";
@@ -214,11 +200,11 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
             HotCommentItemEntity hotCommentItemEntitys = new HotCommentItemEntity();
             hotCommentItemEntitys.setNewstitle("评论于  " + newstitle);
             hotCommentItemEntitys.setTitle(title);
-            hotCommentItemEntitys.setDescription(description +" ");
+            hotCommentItemEntitys.setDescription(description + " ");
            // cnComment_hots.setFirstWord(firstWord);
             cnComment_hotList.add(hotCommentItemEntitys);
         }
-    }
+    }*/
 }
 
 

@@ -67,6 +67,14 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "reason integer, "  /*反对数*/
             + "comment text, "   /*评论*/
             + "refContent text )";
+    //创建热门评论表
+    public static final String CREATE_HOTCOMMENT = "create table HotCommentEntity ("
+            + "id integer primary key autoincrement, "
+            + "sid integer, "   /*帖子id*/
+            + "title text, "    /*评论内容*/
+            + "description text, "  /*用户ID*/
+            + "from text, "  /*用户地址*/
+            + "newstitle text, " ;  /*新闻标题*/
 
     public NewsTitleOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -77,6 +85,7 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_NEWS_TITLE);
         db.execSQL(CREATE_COLLECTION);
         db.execSQL(CREATE_COMMENT_TABLE);
+        db.execSQL(CREATE_HOTCOMMENT);
     }
 
     @Override

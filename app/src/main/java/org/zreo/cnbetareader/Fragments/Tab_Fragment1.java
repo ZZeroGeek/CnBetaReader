@@ -4,14 +4,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.zreo.cnbetareader.Adapters.Fragment1_Adapter;
-import org.zreo.cnbetareader.Adapters.Information_theme_Adapter;
 import org.zreo.cnbetareader.Model.CnInformation_Theme;
-import org.zreo.cnbetareader.Model.CollectNews;
 import org.zreo.cnbetareader.R;
 
 import java.util.ArrayList;

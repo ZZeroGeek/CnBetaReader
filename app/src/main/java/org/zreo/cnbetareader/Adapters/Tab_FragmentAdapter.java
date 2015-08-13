@@ -61,6 +61,7 @@ public class Tab_FragmentAdapter extends BaseAdapter {
             viewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Toast.makeText(mContext,"关注新闻成功！",Toast.LENGTH_SHORT).show();
                 }
             });

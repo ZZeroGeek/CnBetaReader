@@ -148,7 +148,7 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         List<NewsEntity> temp = collectionDatabase.loadCollection();
-        if(temp.size() > CollectNewsList.size()){  //如果收藏列表增加
+        if(temp.size() != CollectNewsList.size()){  //如果收藏列表改变
             CollectNewsList.clear();
             CollectNewsList.addAll(temp);
 

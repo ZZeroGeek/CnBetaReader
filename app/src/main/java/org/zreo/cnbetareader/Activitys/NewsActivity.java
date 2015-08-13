@@ -8,8 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -23,16 +24,19 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.zreo.cnbetareader.Database.CollectionDatabase;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Model.Net.BaseWebHttpModel;
 import org.zreo.cnbetareader.Model.Net.NewsWebDetailModel;
 import org.zreo.cnbetareader.R;
 
+import java.util.Map;
+
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 
-public class NewsActivity extends ActionBarActivity implements OnGestureListener{
+public class NewsActivity extends AppCompatActivity implements OnGestureListener{
     private Toolbar mToolbar;
     ImageButton imageButton;
     WebView webView;
@@ -41,10 +45,11 @@ public class NewsActivity extends ActionBarActivity implements OnGestureListener
     GestureDetector gestureDetector;
     private String[] textsize1 = new String[]{"大", "中", "小"};
     private NewsWebDetailModel newsWebDetailModel;
-    private NewsEntity newsEntity;
+    private NewsEntity mentity;
+    private boolean isExist;
+    CollectionDatabase collectionDatabase;
 
 
-private  NewsEntity entity;
     /*
      *一个页面里放入了一个webview组件，并将其组件铺满屏幕，全屏幕除了下面的导航栏其余 都是这个webview，
      * 后来我想在webview中触发滑动手势的onfling方法，在webview还没加载完网页内容之前正常，可是 webview加载完网页之后，就无法触发方法了，
@@ -92,6 +97,8 @@ private  NewsEntity entity;
     }
 
     public void init(){
+
+
         ShareSDK.initSDK(this);
         gestureDetector=new GestureDetector(this);
         buttonOnclick=new ButtonOnclick(1);
@@ -99,12 +106,10 @@ private  NewsEntity entity;
         webSettings = webView.getSettings();
         imageButton = (ImageButton) findViewById(R.id.imageBtn);
 
-        Bundle bundle=new Bundle();
-        bundle=getIntent().getExtras();
-        newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
-        String title=newsEntity.getTitle();
+
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
+        String title=mentity.getTitle();
         mToolbar.setTitle(title);   // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
         mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
@@ -126,7 +131,7 @@ private  NewsEntity entity;
                 /*只有当加载完成页面后才能进行点击跳转，不然无法获取数据*/
                 Intent intent5 = new Intent(NewsActivity.this, CommentActivity.class);
                 Bundle NewsItem=new Bundle();
-                NewsItem.putSerializable("NewsItem",entity);
+                NewsItem.putSerializable("NewsItem",mentity);
                 intent5.putExtras(NewsItem);
                 startActivity(intent5);
             }
@@ -161,61 +166,101 @@ private  NewsEntity entity;
 //        });
     }
 
+    public void setStatusColor(int color){
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(color); //状态栏颜色
+        }
+    }
     /**更改主题颜色*/
     @SuppressLint("NewApi")
     public void setThemeColor(int index){
         switch (index){
             case 0:  //蓝色（默认）
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
+                setStatusColor(getResources().getColor(R.color.mainColor));
                 break;
             case 1:  //棕色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
+                setStatusColor(getResources().getColor(R.color.brown));
                 break;
             case 2:  //橙色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.orange));
+                setStatusColor(getResources().getColor(R.color.orange));
                 break;
             case 3:  //紫色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.purple));
+                setStatusColor(getResources().getColor(R.color.purple));
                 break;
             case 4:  //绿色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                setStatusColor(getResources().getColor(R.color.green));
                 break;
             default:  //默认
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));
+                setStatusColor(getResources().getColor(R.color.mainColor));
                 break;
         }
 
     }
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-         entity = (NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
+        mentity = (NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
         init();
         newsWebDetailModel = new NewsWebDetailModel(new BaseWebHttpModel(this));
         newsWebDetailModel.setActivity(this);
-        newsWebDetailModel.InitView(webView, entity);
+        newsWebDetailModel.InitView(webView, mentity, this, imageButton);
         newsWebDetailModel.LoadData(true);
+
+
     }
 
+    Menu menu1;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_news, menu);
+        menu1 = menu;
+        collectionDatabase = CollectionDatabase.getInstance(this);  //初始化数据库实例
+        Map<Integer, NewsEntity> tempMap =  collectionDatabase.loadMapCollection();  //从数据库读取之前保存的数据
+        isExist = tempMap.containsKey(mentity.getSid());  //判断数据库是否已收藏选中的资讯
+        if(!isExist){
+            menu1.findItem(R.id.qxsc).setVisible(false);
+            menu1.findItem(R.id.sc).setVisible(true);
+            //如果收藏数据库中不存在这个键值id的话
+            // alert.setTitle("收藏选中的资讯");
+        }else{
+            menu1.findItem(R.id.qxsc).setVisible(true);
+            menu1.findItem(R.id.sc).setVisible(false);
+            // alert.setTitle("删除收藏");
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int sid=newsEntity.getSid();
+
+        int sid=mentity.getSid();
         switch (item.getItemId()) {
             case R.id.refresh:
                 Toast.makeText(getApplicationContext(), "刷新中", Toast.LENGTH_SHORT).show();
                 webView.loadUrl("http://m.cnbeta.com/view_"+sid+".htm");
                 return true;
-            case R.id.qxsc:
-                Toast.makeText(getApplicationContext(), "已取消收藏", Toast.LENGTH_SHORT).show();
+          case R.id.qxsc:
+                   collectionDatabase.deleteCollection(mentity);
+                   Toast.makeText(NewsActivity.this, "已删除收藏", Toast.LENGTH_SHORT).show();
+              menu1.findItem(R.id.qxsc).setVisible(false);
+              menu1.findItem(R.id.sc).setVisible(true);
+                //Toast.makeText(getApplicationContext(), "已取消收藏", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.sc:
+                    collectionDatabase.saveCollection(mentity);  //如果数据库中不存在这个键值id的话，则添加到数据库
+                    Toast.makeText(NewsActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                menu1.findItem(R.id.qxsc).setVisible(true);
+                menu1.findItem(R.id.sc).setVisible(false);
                 return true;
             case R.id.font:
                 buttonOnclick.setDefault(buttonOnclick);

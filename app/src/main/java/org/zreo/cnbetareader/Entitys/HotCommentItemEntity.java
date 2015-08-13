@@ -50,4 +50,6 @@ public class HotCommentItemEntity {
     public void setNewstitle(String newstitle) {
         this.newstitle = newstitle;
     }
+
+
 }

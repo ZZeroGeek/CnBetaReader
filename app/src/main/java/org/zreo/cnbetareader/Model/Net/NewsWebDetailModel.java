@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -50,6 +51,8 @@ public class NewsWebDetailModel extends WebDetailModel<String, BaseWebHttpModel>
     private boolean hascontent;
     private VideoWebChromeClient client = new VideoWebChromeClient();
     private Handler myHandler;
+    SharedPreferences pref;
+
 //    private VideoWebChromeClient client = new VideoWebChromeClient();
 private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"/>" +
         "<link  rel=\"stylesheet\" href=\"file:///android_asset/style.css\" type=\"text/css\"/><style>.title{color: #%s;}%s</style></head>" +
@@ -90,6 +93,7 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
 
     @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     public void InitView(WebView view, NewsEntity entity,Context context,ImageButton imageButton) {
+        pref = getActivity().getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
         dialog=new ProgressDialog(context);
         dialog.setMessage("页面加载中,请稍候...");
         button=imageButton;
@@ -102,7 +106,11 @@ private String webTemplate = "<!DOCTYPE html><html><head><title></title><meta na
         settings.setPluginState(WebSettings.PluginState.ON_DEMAND);//播放或者Flash相关
         settings.setJavaScriptEnabled(true);//设置支持JavaScript脚本
         settings.setDomStorageEnabled(true);//设置是否启用了DOM storage API。
-        settings.setLoadsImagesAutomatically(true); //支持自动加载图片
+        if(pref.getBoolean("informationDetail", true)){//读取设置里的软件是否自动加载图片
+            settings.setLoadsImagesAutomatically(true); //支持自动加载图片
+        }else{
+            settings.setLoadsImagesAutomatically(false);//不自动加载图片
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);//webview 远程调试
         }

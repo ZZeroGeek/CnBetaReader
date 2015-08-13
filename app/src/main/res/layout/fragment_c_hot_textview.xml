@@ -50,10 +50,10 @@
                 android:textSize="16sp"
                 android:textColor="#0D181F"
                 android:layout_alignParentTop="true"
-                android:background="@color/yellow"
+
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/content_text"
+                android:id="@+id/hot_comment_title"
                 android:layout_alignBottom="@+id/Feame"
                 android:layout_alignTop="@+id/Feame"
                 android:ellipsize="end"
@@ -63,16 +63,27 @@
                 android:text="上大大师傅了门djfkldjf地方就考虑到口死定放假了三等奖飞洛實打實大大大大杉矶的福建省地方叫对方将冯绍峰"/>
 
         </LinearLayout>
-
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="匿名用户 "/>
         <TextView
 
-            android:id="@+id/comment_text"
+            android:id="@+id/hot_comment_news_title"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="匿名网友 评论于 kah的速度0000000000000000000000"
+            android:text="评论于 kah的速度aliesndjjdkkdfjkdl"
             android:layout_marginTop="5dp"/>
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

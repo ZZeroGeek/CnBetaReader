@@ -31,7 +31,6 @@ public class CommentAdapter extends BaseAdapter{
     public static int TAG = 0;
 
     public  CommentAdapter(Context mContext,int textViewResourcedId, List<CommentItemEntity> objects) {
-        // TODO Auto-generated constructor stub
         _context=mContext;
         resourceId = textViewResourcedId;
         commentItem=objects;
@@ -49,25 +48,21 @@ public class CommentAdapter extends BaseAdapter{
     }
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return commentItem.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         final View view;
         final ViewHolder holder;
         if(convertView==null){
@@ -83,6 +78,7 @@ public class CommentAdapter extends BaseAdapter{
             holder.textView3 = (TextView)view.findViewById(R.id.against);
             holder.supportNumber = (TextView)view.findViewById(R.id.supportNumber);
             holder.againstNumber = (TextView)view.findViewById(R.id.againstNumber);
+            holder.response_text = (TextView)view.findViewById(R.id.response_text);
             holder.layout =(LinearLayout)view.findViewById(R.id.layout);
                     View.OnClickListener listener = new View.OnClickListener() {
                 @Override
@@ -113,15 +109,13 @@ public class CommentAdapter extends BaseAdapter{
                                     break;
                                 case R.id.action3:
                                     AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-                                    LayoutInflater inflater = LayoutInflater.from(_context);//getLayoutInflater();
+                                    LayoutInflater inflater = LayoutInflater.from(_context);
                                     final View view = inflater.inflate(R.layout.response_dialog, null);
-                                            // builder.setTitle();
                                     builder.setView(view);
                                     builder.setPositiveButton("发送", new DialogInterface.OnClickListener() {
                                         //将评论动态的加载到LinearLayout
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
-                                            // TODO Auto-generated method stub
                                            EditText etComment = (EditText)view.findViewById(R.id.etComment );
                                                 String etContent = etComment.getText().toString();
                                                 TextView text = new TextView(_context);
@@ -135,12 +129,10 @@ public class CommentAdapter extends BaseAdapter{
                                             holder.layout.addView(line);
                                         }
                                     });
-                                   // holder.layout.setVisibility(View.VISIBLE);
                                     builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
-                                            // TODO Auto-generated method stub
 
                                         }
                                     });
@@ -170,6 +162,7 @@ public class CommentAdapter extends BaseAdapter{
         holder.textView3.setText(commentItem.get(position).getAgainst());
         holder.supportNumber.setText(String.valueOf(commentItem.get(position).getScore()));
         holder.againstNumber.setText(String.valueOf(commentItem.get(position).getReason()));
+        holder.response_text.setText(commentItem.get(position).getRefContent());
        // holder.layout.setVisibility(View.GONE);
         return view;
     }
@@ -184,6 +177,7 @@ public class CommentAdapter extends BaseAdapter{
         public TextView textView2;
         public TextView textView3;
         public  LinearLayout layout;
+        public TextView response_text;
     }
 
 }

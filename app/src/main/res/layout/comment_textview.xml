@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:padding="7dp"
    android:background="@android:color/white">
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,6 +32,7 @@
             android:background="@android:color/transparent"
             android:id="@+id/textName"
             android:layout_gravity="center"
+            android:textSize="20dp"
             android:text="匿"
             android:textColor="@android:color/white"/>
 
@@ -91,14 +92,19 @@
             android:background="@android:color/white"
             android:focusable="false" />
     </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/response_text"
+            android:textColor="@android:color/black"
+            android:maxLines="3"/>
             <LinearLayout
-             android:layout_marginLeft="30dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/layout"
-                android:background="@android:color/holo_blue_light">
+                android:id="@+id/layout">
                 </LinearLayout>
 
     <TextView

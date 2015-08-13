@@ -1,5 +1,6 @@
 package org.zreo.cnbetareader.Activitys;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
@@ -20,12 +22,14 @@ import org.zreo.cnbetareader.Database.CommentDatabase;
 import org.zreo.cnbetareader.Entitys.CommentItemEntity;
 import org.zreo.cnbetareader.Entitys.CommentListEntity;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
+import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
 import org.zreo.cnbetareader.Model.Net.HttpDateModel;
 import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 import org.zreo.cnbetareader.Views.XListView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -35,24 +39,24 @@ import java.util.TreeMap;
 
 
 public class CommentActivity extends AppCompatActivity implements XListView.IXListViewListener, View.OnClickListener {
-    //    /**listItems跟map同步*/
-    private List<NewsEntity> listItems;
-   // private List<CommentItemEntity> listItems; // = new ArrayList<CommentItemEntity>();  // ListView item项，以添加顺序排序
-    // ListView item项，以降序排序的新闻列表
-    Map<Integer, CommentItemEntity> map = new TreeMap<Integer, CommentItemEntity>(new Comparator<Integer>() {  //将获取到的评论列表排序
-        @Override
-        public int compare(Integer lhs, Integer rhs) {
-            return rhs.compareTo(lhs);   // 降序排序, 默认为升序
-        }
-    });
+
+    private  int I = 10;
     private CommentDatabase commentDatabase;  //数据库
-    private List<CommentItemEntity> cnCommentList = new ArrayList<CommentItemEntity>();
+    private List<CommentItemEntity> cnCommentList = new ArrayList <CommentItemEntity>();
+    CommentItemEntity commentItemEntity;
     CommentAdapter myAdapter;
+    private TextView loadMore;
     private NewsEntity newsEntity;
     private Toolbar mToolbar;
     SharedPreferences pref;
     private XListView myListView;
     private ImageView mQuickReturnView; // 下拉快速显示item功能
+    Map<String,CommentItemEntity> map = new TreeMap<String,CommentItemEntity>(new Comparator<String>() {  //将获取到的评论列表排序
+        @Override
+        public int compare(String lhs, String rhs) {
+            return rhs.compareTo(lhs);   // 降序排序, 默认为升序
+        }
+    });
 
     public CommentActivity() {
     }
@@ -64,11 +68,10 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         Bundle bundle= new Bundle();
         bundle=getIntent().getExtras();
         newsEntity= (NewsEntity) bundle.getSerializable("NewsItem");
-      //  commentDatabase = CommentDatabase.getInstance(CommentActivity.this);  //初始化数据库实例
-        initView();
-        //initCommentList();
-        BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
-
+        commentDatabase = CommentDatabase.getInstance(CommentActivity.this);  //初始化数据库实例
+        //initView();
+    //    BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
+        initListItem();
         //读取设置文件的值
         pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
         setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
@@ -108,7 +111,18 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                 setStatusColor(getResources().getColor(R.color.mainColor));
                 break;
         }
-
+    }
+    /** 初始化评论列表*/
+    public void initListItem(){
+       // cnCommentList = commentDatabase.loadCommentItemEntity();   //从数据库读取评论列表
+            BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
+            initView();   //初始化布局
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                map = commentDatabase.loadMapCommentItemEntity();  //从数据库读取新闻列表 map跟listItems同步
+            }
+        }).start();
     }
     /**
      * 初始化布局
@@ -121,10 +135,11 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         myListView.setAdapter(myAdapter);
         myListView.setXListViewListener(this);
         // 下拉快速显示item功能
+        loadMore = (TextView)findViewById(R.id.xlistview_footer_hint_textview);
         mQuickReturnView = (ImageView) findViewById(R.id.forum_listview_linearfooter);
+        loadMore = (TextView)findViewById(R.id.xlistview_footer_hint_textview);
         mQuickReturnView.setOnClickListener(this); // 下拉快速显示item功能
         myListView.setQuickReturnView(mQuickReturnView);
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
         mToolbar.setTitle("评论");   // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitleTextColor(Color.WHITE);  //设置ToolBar字体颜色为白色
@@ -137,29 +152,6 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
             }
         });
     }
-    /**
-     * 初始化评论列表
-     */
-    private void initCommentList() {
-
-        String sText = "支持:";
-        String aText = "反对:";;
-        //ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
-        for (int i = 0; i < 10; i++) {
-            CommentItemEntity cnComments = new CommentItemEntity();
-            cnComments.setScore(1);
-            cnComments.setReason(0);
-            cnComments.setName("fffffff");
-            cnComments.setComment("fffffffffffff");
-            cnComments.setCommentMenu(R.drawable.more_grey);
-            cnComments.setSupport(sText);
-            cnComments.setAgainst(aText);
-            //resultList.add(cnComments);
-            cnCommentList.add(cnComments);
-        }
-       //myAdapter.AddData(resultList);
-    }
-
     @Override
     public void onRefresh() {
         BaseHttpClient.getInsence().getCommentBySnAndSid(newsEntity.getSN(), newsEntity.getSid() + "", responseHandlerInterface);
@@ -170,7 +162,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 
               @Override
                protected void onSuccess(CommentListEntity result) {
-                  ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
+               final ArrayList<CommentItemEntity> cmntlist = result.getCmntlist();
                    HashMap<String, CommentItemEntity> cmntstore = result.getCmntstore();
                   for (CommentItemEntity item : cmntlist) {
                       StringBuilder sb = new StringBuilder();
@@ -203,25 +195,61 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                       }
                       item.setRefContent(sb.toString());
                   }
-                         String sText = "支持:";
-                         String aText = "反对:";
-                 for (int i = 0 ; i < cmntlist.size(); i++){
-                      //  map.put(cmntlist.get(i).getSid(), cmntlist.get(i));
-                      CommentItemEntity cnComments = new CommentItemEntity();
-                      cnComments.setImageView1(R.id.imageView1);
-                      cnComments.setFName("匿");
-                      cnComments.setScore(cmntlist.get(i).getScore());
-                      cnComments.setReason(cmntlist.get(i).getReason());
-                      cnComments.setName(cmntlist.get(i).getName());
-                      cnComments.setComment(cmntlist.get(i).getComment());
-                      cnComments.setCommentMenu(R.drawable.more_grey);
-                      cnComments.setSupport(sText);
-                      cnComments.setAgainst(aText);
-                      //cmntlist.add(cnComments);
-                     cnCommentList.add(cnComments);
+
+                  for (int i = 0 ; i < cmntlist.size(); i++){
+                      if (!map.containsKey(cmntlist.get(i).getTid()))
+                      map.put(cmntlist.get(i).getTid(), cmntlist.get(i));
                   }
+ //                cnCommentList = new ArrayList<CommentItemEntity>(map.values()); //将Map值转化为List
+//                  initView();  //初始化布局
+                  //if (cmntlist.size() < 10) {
+                      for (int i = 0; i < cmntlist.size(); i++) {
+                          String sText = "支持:";
+                          String aText = "反对:";
+                          CommentItemEntity cnComments = new CommentItemEntity();
+                          cnComments.setImageView1(R.id.imageView1);
+                          cnComments.setName(cmntlist.get(i).getName());
+                          char[] fName = cmntlist.get(i).getName().toCharArray();
+                          cnComments.setFName(String.valueOf(fName[0]));
+                          cnComments.setScore(cmntlist.get(i).getScore());
+                          cnComments.setReason(cmntlist.get(i).getReason());
+
+                          cnComments.setComment(cmntlist.get(i).getComment());
+                          cnComments.setCommentMenu(R.drawable.more_grey);
+                          cnComments.setRefContent(cmntlist.get(i).getRefContent());
+                          cnComments.setSupport(sText);
+                          cnComments.setAgainst(aText);
+                          cnCommentList.add(cnComments);
+                    }
+//                  } else {
+//                      for (int i = 0; i < 10; i++) {
+//                          String sText = "支持:";
+//                          String aText = "反对:";
+//                          CommentItemEntity cnComments = new CommentItemEntity();
+//                          cnComments.setImageView1(R.id.imageView1);
+//                          cnComments.setFName("匿");
+//                          cnComments.setScore(cmntlist.get(i).getScore());
+//                          cnComments.setReason(cmntlist.get(i).getReason());
+//                          cnComments.setName(cmntlist.get(i).getName());
+//                          cnComments.setComment(cmntlist.get(i).getComment());
+//                          cnComments.setCommentMenu(R.drawable.more_grey);
+//                          cnComments.setRefContent(cmntlist.get(i).getRefContent());
+//                          cnComments.setSupport(sText);
+//                          cnComments.setAgainst(aText);
+//                          cnCommentList.add(cnComments);
+//                      }
+//                  }
                   myAdapter.notifyDataSetChanged();
-                  //myAdapter.AddData(cmntlist);
+
+                  //开启子线程将数据保存到数据库
+                  new Thread(new Runnable() {
+                      @Override
+                      public void run() {
+                          for (int i = 0 ; i < cmntlist.size(); i++){
+                                commentDatabase.saveCommentItemEntity(cmntlist.get(i));
+                              }
+                      }
+                  }).start();
                  }
                        @Override
                protected void onError() {
@@ -233,35 +261,38 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                protected void onFailure() {
                            Toast.makeText(CommentActivity.this,"failure", Toast.LENGTH_LONG).show();
                            }
-
                     };
-
     private void loadMoreData() {
-        String[] FName = {"东"};
-        String userName = "东方用户";
-        String textComment = "200块都不给我";
-        String sText = "支持:";
-        String aText = "反对:";
-        int supportNum = 10;
-        int againstNum = 50;
-        ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
-        for (int i = 0; i < 10; i++) {
-
-            CommentItemEntity cnComments = new CommentItemEntity();
-            cnComments.setFName(FName[0]);
-            //cnComments.setResponseText("");
-            // cnComments.setLayout("");
-            cnComments.setScore(supportNum);
-            cnComments.setReason(againstNum);
-            // cnComments.setIcon(R.drawable.circle_btn);
-            cnComments.setName(i + userName);
-            cnComments.setComment(textComment);
-            cnComments.setCommentMenu(R.drawable.more_grey);
-            cnComments.setSupport(sText);
-            cnComments.setAgainst(aText);
-            resultList.add(cnComments);
-        }
-        myAdapter.AddData(resultList);
+//        Map<String, CommentItemEntity> tempMap = commentDatabase.loadMapCommentItemEntity();  //从数据库读取之前保存的数据
+//        List<CommentItemEntity> loadList;
+//        loadList = new ArrayList<CommentItemEntity>(map.values()); //将Map值转化为List
+////        if (10<loadList.size()) {
+//            for (int i= 10; i < loadList.size(); i++) {
+//               // if (!tempMap.get("tid").getTid().equals(loadList.get(i).getTid())) {
+//                    String sText = "支持:";
+//                    String aText = "反对:";
+//                    CommentItemEntity cnComments = new CommentItemEntity();
+//                    cnComments.setImageView1(R.id.imageView1);
+//                    cnComments.setFName("匿");
+//                    cnComments.setScore(loadList.get(i).getScore());
+//                    cnComments.setReason(loadList.get(i).getReason());
+//                    cnComments.setName(loadList.get(i).getName());
+//                    cnComments.setComment(loadList.get(i).getComment());
+//                    cnComments.setCommentMenu(R.drawable.more_grey);
+//                    cnComments.setRefContent(loadList.get(i).getRefContent());
+//                    cnComments.setSupport(sText);
+//                    cnComments.setAgainst(aText);
+//                    cnCommentList.add(cnComments);
+//                //}
+//            }
+//            myAdapter.notifyDataSetChanged();
+//        } else{
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMore.setText("没有更多的评论了");
+            }
+        });
     }
     @Override
     public void onLoadMore() {
@@ -287,28 +318,26 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
             case 1:
                 if (resultCode == RESULT_OK) {
                     String contentData = data.getStringExtra("content");
-                    String userName = "南方用户";
+                    String userName = "匿名用户";
                     //String textComment = "100块都不给我";
-                    String[] FName = {"南"};
+                    String[] FName = {"匿"};
                     String sText = "支持:";
                     String aText = "反对:";
-                    int supportNum = 100;
-                    int againstNum = 50;
-                    ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
+                    int supportNum = 0;
+                    int againstNum = 0;
+                   // ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
                     CommentItemEntity cnComments = new CommentItemEntity();
-                    cnComments.setHost_name(FName[0]);
-                    //cnComments.setResponseText("");
-                    //  cnComments.setLayout("");
+                    cnComments.setFName(FName[0]);
                     cnComments.setScore(supportNum);
                     cnComments.setReason(againstNum);
-                   // cnComments.setIcon(R.drawable.circle_btn);
                     cnComments.setName(userName);
                     cnComments.setComment(contentData);
                     cnComments.setCommentMenu(R.drawable.more_grey);
                     cnComments.setSupport(sText);
                     cnComments.setAgainst(aText);
-                    resultList.add(cnComments);
-                    myAdapter.AddData(resultList);
+                    cnCommentList.add(cnComments);
+                   // myAdapter.AddData(resultList);
+                    myAdapter.notifyDataSetChanged();
                     myListView.setSelection(myAdapter.getCount());// 将myListView定位到刚刚评论的一行
                 }
                 break;

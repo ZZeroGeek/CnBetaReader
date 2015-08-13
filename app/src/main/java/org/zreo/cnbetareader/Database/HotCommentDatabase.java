@@ -18,8 +18,8 @@ import java.util.TreeMap;
  */
 public class HotCommentDatabase {
 
-
-    public static final String DB_NAME = "HotComment";  //数据库名
+    public static final String DB_NAME = "NewsData.db";  //数据库名
+    public static final String TABLE = "HotCommentEntity";   //数据表
     public static final int VERSION = 1;   //数据库版本
     private static HotCommentDatabase hotCommentDatabase;
     private SQLiteDatabase db;
@@ -45,10 +45,10 @@ public class HotCommentDatabase {
             ContentValues values = new ContentValues();
             values.put("sid", hotCommentItemEntity.getSid());
             values.put("description", hotCommentItemEntity.getDescription());
-            values.put("from", hotCommentItemEntity.getFrom());
+            values.put("froms", hotCommentItemEntity.getFrom());
             values.put("newsTitle", hotCommentItemEntity.getNewstitle());
             values.put("title", hotCommentItemEntity.getTitle());
-            db.insert(DB_NAME, null, values);
+            db.insert(TABLE, null, values);
         }
     }
 
@@ -56,7 +56,7 @@ public class HotCommentDatabase {
     //从数据库读取收藏信息，返回List
     public List<HotCommentItemEntity> loadHotComment() {
         List<HotCommentItemEntity> list = new ArrayList<HotCommentItemEntity>();
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(TABLE, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 HotCommentItemEntity hotCommentItemEntity = new HotCommentItemEntity();
@@ -64,7 +64,7 @@ public class HotCommentDatabase {
                 hotCommentItemEntity.setTitle(cursor.getString(cursor.getColumnIndex("title")));
                 hotCommentItemEntity.setDescription(cursor.getString(cursor.getColumnIndex("description")));
                 hotCommentItemEntity.setNewstitle(cursor.getString(cursor.getColumnIndex("newstitle")));
-                hotCommentItemEntity.setFrom(cursor.getString(cursor.getColumnIndex("from")));
+                hotCommentItemEntity.setFrom(cursor.getString(cursor.getColumnIndex("froms")));
                 list.add(hotCommentItemEntity);
             } while (cursor.moveToNext());
         }
@@ -84,7 +84,7 @@ public class HotCommentDatabase {
             }
         });
         int sid;  //新闻id
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(TABLE, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 HotCommentItemEntity hotCommentItemEntity = new HotCommentItemEntity();
@@ -93,7 +93,7 @@ public class HotCommentDatabase {
                 hotCommentItemEntity.setTitle(cursor.getString(cursor.getColumnIndex("title")));
                 hotCommentItemEntity.setDescription(cursor.getString(cursor.getColumnIndex("description")));
                 hotCommentItemEntity.setNewstitle(cursor.getString(cursor.getColumnIndex("newstitle")));
-                hotCommentItemEntity.setFrom(cursor.getString(cursor.getColumnIndex("from")));
+                hotCommentItemEntity.setFrom(cursor.getString(cursor.getColumnIndex("froms")));
                 map.put(sid, hotCommentItemEntity);
             } while (cursor.moveToNext());
         }

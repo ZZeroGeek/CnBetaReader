@@ -2,6 +2,8 @@ package org.zreo.cnbetareader.Adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,6 @@ public class HotComment_Adapter extends BaseAdapter {
             holder.firstWord = (TextView) view.findViewById(R.id.firstWord_text);
             holder.hotCommentNewsTitle = (TextView) view.findViewById(R.id.hot_comment_news_title);
             holder.title = (TextView) view.findViewById(R.id.hot_comment_title);
-            holder.description =(TextView) view.findViewById(R.id.description);
             view.setTag(holder);
 
         }else {
@@ -67,29 +68,18 @@ public class HotComment_Adapter extends BaseAdapter {
 
         String title = HotCommentItem.get(position).getTitle();
         holder.title.setText(title);
-        if(title.charAt(0) == '['){
-            holder.firstWord.setText(String.valueOf(title.charAt(4)));
-        }else{
-            if(title.charAt(0) == '《'){
-                holder.firstWord.setText(String.valueOf(title.charAt(1)));
-            }else {
-                holder.firstWord.setText(String.valueOf(title.charAt(0)));
-            }
+        holder.firstWord.setText(String.valueOf(title.charAt(0)));
 
-        }
+        GradientDrawable grad = (GradientDrawable) holder.firstWord.getBackground();
+        setImageColor(grad, position);
 
-       // GradientDrawable grad = (GradientDrawable) holder.firstWord.getBackground();
-        //myGrad.setColor(Color.RED);
-       // setImageColor(grad, position);
-        holder.hotCommentNewsTitle.setText(HotCommentItem.get(position).getNewstitle());
-        holder.description.setText(HotCommentItem.get(position).getDescription());
-        holder.title.setText(HotCommentItem.get(position).getTitle());
+        holder.hotCommentNewsTitle.setText(HotCommentItem.get(position).getDescription() + "  " + "评论于  " +
+                                                            HotCommentItem.get(position).getNewstitle());
 
         return view;
     }
 
-  /*  public void setImageColor(GradientDrawable grad, int index){
-
+     public void setImageColor(GradientDrawable grad, int index){
         int blue = Resources.getSystem().getColor(android.R.color.holo_blue_light);
         int gray = Resources.getSystem().getColor(android.R.color.darker_gray);
         int greenDark = Resources.getSystem().getColor(android.R.color.holo_green_dark);
@@ -100,7 +90,7 @@ public class HotComment_Adapter extends BaseAdapter {
         int [] colorList = {blue, gray, purple, greenDark, orange, greenLight, mainColor};  //7种颜色
         grad.setColor(colorList[Math.abs(HotCommentItem.size() - index) % 7]);
 
-    }*/
+    }
 
 
     public class ViewHolder{
@@ -108,7 +98,6 @@ public class HotComment_Adapter extends BaseAdapter {
         public TextView firstWord;
         public TextView hotCommentNewsTitle ;
         public TextView title;
-        public TextView description;
     }
 }
 

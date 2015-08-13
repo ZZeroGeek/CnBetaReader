@@ -135,6 +135,7 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
         myListView.setAdapter(myAdapter);
         myListView.setXListViewListener(this);
         // 下拉快速显示item功能
+        loadMore = (TextView)findViewById(R.id.xlistview_footer_hint_textview);
         mQuickReturnView = (ImageView) findViewById(R.id.forum_listview_linearfooter);
         loadMore = (TextView)findViewById(R.id.xlistview_footer_hint_textview);
         mQuickReturnView.setOnClickListener(this); // 下拉快速显示item功能
@@ -207,10 +208,12 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                           String aText = "反对:";
                           CommentItemEntity cnComments = new CommentItemEntity();
                           cnComments.setImageView1(R.id.imageView1);
-                          cnComments.setFName("匿");
+                          cnComments.setName(cmntlist.get(i).getName());
+                          char[] fName = cmntlist.get(i).getName().toCharArray();
+                          cnComments.setFName(String.valueOf(fName[0]));
                           cnComments.setScore(cmntlist.get(i).getScore());
                           cnComments.setReason(cmntlist.get(i).getReason());
-                          cnComments.setName(cmntlist.get(i).getName());
+
                           cnComments.setComment(cmntlist.get(i).getComment());
                           cnComments.setCommentMenu(R.drawable.more_grey);
                           cnComments.setRefContent(cmntlist.get(i).getRefContent());
@@ -243,8 +246,6 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                       @Override
                       public void run() {
                           for (int i = 0 ; i < cmntlist.size(); i++){
-//                              if (!map.containsKey(cmntlist.get(i).getTid()))
-//                                 map.put(cmntlist.get(i).getTid(), cmntlist.get(i));  //将返回的数据添加到Map中
                                 commentDatabase.saveCommentItemEntity(cmntlist.get(i));
                               }
                       }
@@ -286,8 +287,12 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
 //            }
 //            myAdapter.notifyDataSetChanged();
 //        } else{
-           Toast.makeText(CommentActivity.this, "没有更多的评论了",Toast.LENGTH_SHORT).show();
-//        }
+        loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMore.setText("没有更多的评论了");
+            }
+        });
     }
     @Override
     public void onLoadMore() {
@@ -320,21 +325,19 @@ public class CommentActivity extends AppCompatActivity implements XListView.IXLi
                     String aText = "反对:";
                     int supportNum = 0;
                     int againstNum = 0;
-                    ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
+                   // ArrayList<CommentItemEntity> resultList = new ArrayList<CommentItemEntity>();
                     CommentItemEntity cnComments = new CommentItemEntity();
-                    cnComments.setHost_name(FName[0]);
-                    //cnComments.setResponseText("");
-                    //  cnComments.setLayout("");
+                    cnComments.setFName(FName[0]);
                     cnComments.setScore(supportNum);
                     cnComments.setReason(againstNum);
-                   // cnComments.setIcon(R.drawable.circle_btn);
                     cnComments.setName(userName);
                     cnComments.setComment(contentData);
                     cnComments.setCommentMenu(R.drawable.more_grey);
                     cnComments.setSupport(sText);
                     cnComments.setAgainst(aText);
-                    resultList.add(cnComments);
-                    myAdapter.AddData(resultList);
+                    cnCommentList.add(cnComments);
+                   // myAdapter.AddData(resultList);
+                    myAdapter.notifyDataSetChanged();
                     myListView.setSelection(myAdapter.getCount());// 将myListView定位到刚刚评论的一行
                 }
                 break;

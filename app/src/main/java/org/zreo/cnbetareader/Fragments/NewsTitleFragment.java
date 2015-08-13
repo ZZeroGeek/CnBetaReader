@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,6 +42,7 @@ import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
 import org.zreo.cnbetareader.Database.CollectionDatabase;
 import org.zreo.cnbetareader.Database.NewsTitleDatabase;
+import org.zreo.cnbetareader.Database.NewsTitleOpenHelper;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
@@ -86,7 +89,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     private NewsTitleDatabase newsTitleDatabase;  //数据库
     SharedPreferences pref;
 
-    private MyImageLoader myImageLoader;
+    private MyImageLoader myImageLoader; //自定义图片加载器
     private ImageLoader imageLoader;  //图片加载器对象
     private DisplayImageOptions options;  //显示图片的配置
 
@@ -103,7 +106,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
         customToast();  //初始化自定义Toast，用于数据更新的提示
 
-        initSwipeRefreshLayout();  //初始化下拉刷新控件
+        initSwipeRefreshLayout();  //初始化下拉刷新控
 
         initListItem(); //初始化新闻列表及布局
         return  view;
@@ -112,8 +115,8 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
     private boolean isLoad = true;   //打开软件时自动加载的新闻
     /** 初始化新闻列表*/
     public void initListItem(){
-
-        listItems = newsTitleDatabase.loadNewsEntity();   //从数据库读取新闻列表
+        map = newsTitleDatabase.loadMapNewsEntity();  //从数据库读取新闻列表 map跟listItems同步
+        listItems = new ArrayList<NewsEntity>(map.values());
         if (listItems.size() > 0) {     //数据库有数据，直接显示数据库中的数据
             initView();   //初始化布局
         } else {    //如果数据库没数据，再从网络加载最新的新闻，首次打开软件时执行
@@ -125,12 +128,6 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             BaseHttpClient.getInsence().getNewsListByPage("all", "1", refreshResponse);
         }
 
-        new Thread( new Runnable() {
-            @Override
-            public void run() {
-                map = newsTitleDatabase.loadMapNewsEntity();  //从数据库读取新闻列表 map跟listItems同步
-            }
-        }).start();
     }
 
     private ResponseHandlerInterface initResponse = new HttpDateModel<NewsListEntity>
@@ -158,14 +155,20 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
             //开启子线程将数据保存到数据库
             new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0 ; i < listItems.size(); i++){
-                    newsTitleDatabase.saveNewsEntity(listItems.get(i));  //将数据保存到数据库
-            }
+                @Override
+                public void run() {
+                    for (int i = 0 ; i < listItems.size(); i++){
+                        newsTitleDatabase.saveNewsEntity(listItems.get(i));  //将数据保存到数据库
+                    }
+                   /* Map<Integer, NewsEntity> tempMap =  newsTitleDatabase.loadMapNewsEntity();  //从数据库读取之前保存的数据
+                    for (int i = 0 ; i < listItems.size(); i++){
+                        if(!tempMap.containsKey(listItems.get(i).getSid())){
+                            newsTitleDatabase.saveNewsEntity(listItems.get(i));  //如果数据库中不存在这个键值id的话，则添加到数据库
+                        }
+                    }*/
+                }
+            }).start();
         }
-        }).start();
-    }
 
         @Override
         protected void onError() {
@@ -271,7 +274,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 BaseHttpClient.getInsence().getNewsListByPage("all", "1", refreshResponse);
             }
         }else {
-            //当前没有列表时，获取最新的网络数据后，再初始化ListView布局
+            //当前没有数据时，获取最新的网络数据后，再初始化ListView布局
             BaseHttpClient.getInsence().getNewsListByPage("all", "1", initResponse);
         }
 
@@ -286,7 +289,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
     /**刷新时更新数据*/
     private ResponseHandlerInterface refreshResponse = new HttpDateModel<NewsListEntity>
-            (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
+                                 (new TypeToken<ResponseEntity<NewsListEntity>>(){}) {
         @Override
         protected void onFailure() {
             toastTextView.setText("刷新失败，请检查网络连接");
@@ -326,7 +329,6 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                 }
                 isLoad = true;
             }
-
 
 
             //开启子线程将数据保存到数据库

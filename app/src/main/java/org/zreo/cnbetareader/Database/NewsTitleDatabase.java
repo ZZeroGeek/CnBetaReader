@@ -18,7 +18,8 @@ import java.util.TreeMap;
  */
 public class NewsTitleDatabase {
 
-    public static final String DB_NAME = "NewsEntity";  //数据库名
+    public static final String DB_NAME = "NewsData.db";  //数据库名
+    public static final String TABLE = "NewsEntity";   //数据表
     public static final int VERSION = 1;   //数据库版本
     private static NewsTitleDatabase newsTitleDatabase;
     private SQLiteDatabase db;
@@ -60,7 +61,7 @@ public class NewsTitleDatabase {
             values.put("content", newsEntity.getContent());
             values.put("summary", newsEntity.getSummary());
 
-            db.insert(DB_NAME, null, values);
+            db.insert(TABLE, null, values);
         }
     }
 
@@ -70,7 +71,7 @@ public class NewsTitleDatabase {
     public List<NewsEntity> loadNewsEntity() {
         List<NewsEntity> list = new ArrayList<NewsEntity>();
         //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(TABLE, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();
@@ -106,7 +107,7 @@ public class NewsTitleDatabase {
         });
         int sid;  //新闻id
         //Cursor cursor = db.query("NewsEntity", null, null, null, null, null, null);
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(TABLE, null, null, null, null, null, "sid desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();
@@ -130,5 +131,15 @@ public class NewsTitleDatabase {
             cursor.close();
         }
         return map;
+    }
+
+    /**删除表*/
+    public void deleteDateTable(){
+        db.execSQL("DROP TABLE NewsEntity");
+    }
+
+    /**删除表中的所有数据*/
+    public void deleteDate(){
+        db.delete(TABLE, null, null);
     }
 }

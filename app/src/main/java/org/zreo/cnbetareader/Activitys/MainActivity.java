@@ -30,7 +30,10 @@ import org.zreo.cnbetareader.R;
  * Created by guang on 2015/7/28.
  * 功能：实现右滑菜单和Toolbar与右滑菜单的关联, 以及管理不同页面的显示
  */
-public class MainActivity extends AppCompatActivity implements DrawerLayoutFragment.TabSelectionListener, SettingFragment.SetColorListener{
+public class MainActivity extends AppCompatActivity implements DrawerLayoutFragment.TabSelectionListener,
+                                SettingFragment.SetColorListener{
+
+
 
     private FragmentManager fragmentManager;    //用于对Fragment进行管理
 
@@ -259,6 +262,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     @Override
     public void setColor(int index) {
         setThemeColor(index);
+
+        /*DrawerLayoutFragment drawer = new DrawerLayoutFragment();
+        FragmentDataListener mFragmentDataListener = (FragmentDataListener) drawer;
+        mFragmentDataListener.transferMessage();*/
     }
+
+
 }
 

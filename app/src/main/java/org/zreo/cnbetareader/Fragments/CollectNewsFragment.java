@@ -2,21 +2,17 @@ package org.zreo.cnbetareader.Fragments;
 
 
 
-import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,17 +20,10 @@ import android.widget.Toast;
 import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.CollectNews_Adapter;
 import org.zreo.cnbetareader.Database.CollectionDatabase;
-import org.zreo.cnbetareader.Database.NewsTitleDatabase;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
-import org.zreo.cnbetareader.Model.CollectNews;
-import org.zreo.cnbetareader.Net.BaseHttpClient;
 import org.zreo.cnbetareader.R;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * 收藏
@@ -148,7 +137,7 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         List<NewsEntity> temp = collectionDatabase.loadCollection();
-        if(temp.size() > CollectNewsList.size()){  //如果收藏列表增加
+        if(temp.size() != CollectNewsList.size()){  //如果收藏列表改变
             CollectNewsList.clear();
             CollectNewsList.addAll(temp);
 

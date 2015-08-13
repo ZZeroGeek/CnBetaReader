@@ -27,18 +27,22 @@ public class Tab_Fragment2 extends Fragment {
     private View loadMoreView;     //加载更多布局
     private TextView loadMoreText;    //加载提示文本
     TextView newType;
+    public interface click{
+        public void buttonClick(Integer id);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_theme_mayattention, container, false); //获取布局
-        jiaData();
-        theme_mayattention_listview= (ListView) view.findViewById(R.id.theme_mayattention_listview);
-        newType= (TextView) view.findViewById(R.id.tv_type2);
-        theme_mayattention_listview.addFooterView(loadMoreView);
-        tab_fragmentAdapter=new Tab_FragmentAdapter(getActivity(),R.layout.itv_tab2,list);
-        theme_mayattention_listview.setAdapter(tab_fragmentAdapter);
-        String newtype=cnInformation_theme.getThemetype();
-        newType.setText(newtype);
+        jiaData();//初始化
+        theme_mayattention_listview= (ListView)
+                view.findViewById(R.id.theme_mayattention_listview);//找到theme_mayattention_listview控件
+        newType= (TextView) view.findViewById(R.id.tv_type2);//找到文本类型控件
+        theme_mayattention_listview.addFooterView(loadMoreView);//添加更多视图
+        tab_fragmentAdapter=new Tab_FragmentAdapter(getActivity(),R.layout.itv_tab2,list);//创建适配器
+        theme_mayattention_listview.setAdapter(tab_fragmentAdapter);//添加适配器
+        String newtype=cnInformation_theme.getThemetype();//获取主题类型
+        newType.setText(newtype);//设置主题类型
         return view;
     }
 

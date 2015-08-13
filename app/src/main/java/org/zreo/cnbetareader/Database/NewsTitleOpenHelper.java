@@ -17,13 +17,11 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "topic integer, "
             + "aid text, "
             + "user_id text, "  /*用户ID*/
-
             + "SN text, "
             + "largeImage text, "
             + "froms text, "
             + "content text, "
             + "summary text, "
-
             + "title text, "    /*标题*/
             + "hometext text, "  /*简介*/
             + "comments text, "  /*评论数*/
@@ -58,23 +56,25 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "id integer primary key autoincrement, "
             + "sid integer, "   /*帖子id*/
             + "pid integer, "
+            + "fName text, "
             + "tid integer, "
             + "icon text, "
             + "date text,"
-            + "host_name text, "  /*用户名的第一个字*/
+            + "host_name text, "
             + "name text, "    /*用户名*/
             + "score integer, "  /*支持数*/
             + "reason integer, "  /*反对数*/
             + "comment text, "   /*评论*/
             + "refContent text )";
+
     //创建热门评论表
     public static final String CREATE_HOTCOMMENT = "create table HotCommentEntity ("
             + "id integer primary key autoincrement, "
             + "sid integer, "   /*帖子id*/
             + "title text, "    /*评论内容*/
             + "description text, "  /*用户ID*/
-            + "from text, "  /*用户地址*/
-            + "newstitle text, " ;  /*新闻标题*/
+            + "froms text, "  /*用户地址*/
+            + "newstitle text )";  /*新闻标题*/
 
     public NewsTitleOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

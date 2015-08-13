@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +15,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,7 +40,6 @@ import org.zreo.cnbetareader.Activitys.NewsActivity;
 import org.zreo.cnbetareader.Adapters.NewsTitleAdapter;
 import org.zreo.cnbetareader.Database.CollectionDatabase;
 import org.zreo.cnbetareader.Database.NewsTitleDatabase;
-import org.zreo.cnbetareader.Database.NewsTitleOpenHelper;
 import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.Entitys.NewsListEntity;
 import org.zreo.cnbetareader.Entitys.ResponseEntity;
@@ -112,18 +109,6 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
         return  view;
     }
 
-    /*ProgressDialog loadDialog;
-    *//**加载进度条*//*
-    public void onLoading(){
-        loadDialog = new ProgressDialog(getActivity());  //实例化
-        loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);  //设置进度条风格，风格为圆形，旋转的
-        //loadDialog.setTitle("加载中...");   //设置ProgressDialog 标题
-        loadDialog.setIndeterminate(false);  //设置ProgressDialog 的进度条是否不明确
-        loadDialog.setCancelable(true);   //设置ProgressDialog 是否可以按退回按键取消
-        loadDialog.show();  //让ProgressDialog显示
-    }*/
-
-
     private boolean isLoad = true;   //打开软件时自动加载的新闻
     /** 初始化新闻列表*/
     public void initListItem(){
@@ -140,7 +125,7 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             BaseHttpClient.getInsence().getNewsListByPage("all", "1", refreshResponse);
         }
 
-        new Thread(new Runnable() {
+        new Thread( new Runnable() {
             @Override
             public void run() {
                 map = newsTitleDatabase.loadMapNewsEntity();  //从数据库读取新闻列表 map跟listItems同步
@@ -173,14 +158,14 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
 
             //开启子线程将数据保存到数据库
             new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0 ; i < listItems.size(); i++){
-                        newsTitleDatabase.saveNewsEntity(listItems.get(i));  //将数据保存到数据库
-                    }
-                }
-            }).start();
+            @Override
+            public void run() {
+                for (int i = 0 ; i < listItems.size(); i++){
+                    newsTitleDatabase.saveNewsEntity(listItems.get(i));  //将数据保存到数据库
+            }
         }
+        }).start();
+    }
 
         @Override
         protected void onError() {
@@ -555,7 +540,8 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
                             super.onLoadingComplete(imageUri, view, loadedImage);
 
                             offlineLoadingImage++;  //下载图片数加1
-                            if(offlineLoadingImage == addNumber){   //图片缓存完成
+                            if(offlineLoadingImage == addNumber - 2){   //图片缓存完成
+                                offlineLoadingImage = addNumber;
                                 offlineProgressDialog.setTitle("离线下载完成");
                                 toastTextView.setText("离线下载了 " + addNumber + " 条资讯");
                                 toast.show();
@@ -654,10 +640,9 @@ public class NewsTitleFragment extends Fragment implements AbsListView.OnScrollL
             @Override
             public void run() {
                 page = 0;  //清除缓存将加载的页码清0
-                getActivity().deleteDatabase("sharesdk");  //删除数据库
                 ImageLoader.getInstance().clearMemoryCache();  // 清除新闻标题图片本地缓存内存缓存
                 ImageLoader.getInstance().clearDiskCache();  // 清除新闻标题图片本地缓存
-
+                newsTitleDatabase.deleteDate();  //删除表中的所有数据
 
                 listItems.clear();  //清空新闻列表
                 map.clear();

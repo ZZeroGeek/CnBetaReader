@@ -19,7 +19,8 @@ import java.util.TreeMap;
 public class CollectionDatabase {
 
 
-    public static final String DB_NAME = "Collection";  //数据库名
+    public static final String DB_NAME = "NewsData.db";  //数据库名
+    public static final String TABLE = "Collection";   //数据表
     public static final int VERSION = 1;   //数据库版本
     private static CollectionDatabase collectionDatabase;
     private SQLiteDatabase db;
@@ -60,13 +61,13 @@ public class CollectionDatabase {
             values.put("froms", newsEntity.getFrom());
             values.put("content", newsEntity.getContent());
             values.put("summary", newsEntity.getSummary());
-            db.insert(DB_NAME, null, values);
+            db.insert(TABLE, null, values);
         }
     }
 
     //删除收藏
     public void deleteCollection(NewsEntity newsEntity) {
-        db.delete(DB_NAME, "sid = ?", new String[]{String.valueOf(newsEntity.getSid())});
+        db.delete(TABLE, "sid = ?", new String[]{String.valueOf(newsEntity.getSid())});
     }
 
 
@@ -74,7 +75,7 @@ public class CollectionDatabase {
     //从数据库读取收藏信息，返回List
     public List<NewsEntity> loadCollection() {
         List<NewsEntity> list = new ArrayList<NewsEntity>();
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(TABLE, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();
@@ -109,7 +110,7 @@ public class CollectionDatabase {
             }
         });
         int sid;  //新闻id
-        Cursor cursor = db.query(DB_NAME, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
+        Cursor cursor = db.query(TABLE, null, null, null, null, null, "id desc");   //查询结果用id排序，降序desc，升序asc
         if (cursor.moveToFirst()) {
             do {
                 NewsEntity newsEntity = new NewsEntity();

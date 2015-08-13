@@ -42,8 +42,8 @@ public class Comment_Top10Fragment extends Fragment implements SwipeRefreshLayou
         return view;
     }
     private void initCommentTop10List(){
-        String title = "I love you not for who you are, but for who I am before you ";
-        String hot = "25452";
+        String title = "没有你会不会是一次最美好的时光？还是最悲哀的岁月？爱你，真的不简单！";
+        String hot = "热度:25452";
         //String ranking ="1";
         for(int i = 1; i < 11; i++){
 
@@ -100,8 +100,8 @@ public class Comment_Top10Fragment extends Fragment implements SwipeRefreshLayou
    //     visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
    // }
     private void addData(){
-        String title = "123456I love you not for who you are, but for who I am before you ";
-        String hot = "25452";
+        String title = "囧事一摞摞，最美丽的就是追好的！";
+        String hot = "热度:25452";
        // String ranking ="i";
         for(int i = 10; i >0; i--){
 

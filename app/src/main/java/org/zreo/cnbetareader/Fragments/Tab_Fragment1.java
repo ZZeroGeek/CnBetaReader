@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.zreo.cnbetareader.Adapters.Fragment1_Adapter;
 import org.zreo.cnbetareader.Model.CnInformation_Theme;
 import org.zreo.cnbetareader.R;
 
@@ -22,7 +23,7 @@ public class Tab_Fragment1 extends Fragment {
     private View view;
     private ListView theme_listview;
     private List<CnInformation_Theme>CnInformation_ThemeList=new ArrayList <CnInformation_Theme>();
-   // Fragment1_Adapter fragment1_adapter;
+    Fragment1_Adapter fragment1_adapter;
     private CnInformation_Theme  cnInformation_theme;
     private View loadMoreView;     //加载更多布局
     private TextView loadMoreText;    //加载提示文本
@@ -44,12 +45,12 @@ public class Tab_Fragment1 extends Fragment {
         }
     private void initView(){
         loadMoreView = getActivity().getLayoutInflater().inflate(R.layout.load_more, null);
-      //  fragment1_adapter=new Fragment1_Adapter(getActivity(),R.layout.itv_tab1,CnInformation_ThemeList);
+       fragment1_adapter=new Fragment1_Adapter(getActivity(),R.layout.itv_tab1,CnInformation_ThemeList);
         loadMoreText = (TextView) loadMoreView.findViewById(R.id.load_more);
         loadMoreText.setBackgroundColor(getResources().getColor(R.color.gray));
         loadMoreText.setText("-- The End --");
         theme_listview.addFooterView(loadMoreView);
-      //  theme_listview.setAdapter(fragment1_adapter);
+       theme_listview.setAdapter(fragment1_adapter);
         hintText = (TextView) view.findViewById(R.id.hint_text);   //当没有关注时提示的文本
     }
 }

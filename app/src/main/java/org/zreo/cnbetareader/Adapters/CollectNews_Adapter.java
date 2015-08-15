@@ -60,7 +60,7 @@ public class CollectNews_Adapter extends BaseAdapter {
             view = convertView;
             holder = (ViewHolder)view.getTag();
         }
-
+        //格式化输出资讯标题
         String title = CollectNewsItem.get(position).getTitle().replace("</span>", "")
                                         .replace("<span style=\"color:#c00000;\">", "");
         holder.collectNewsTitle.setText(title);

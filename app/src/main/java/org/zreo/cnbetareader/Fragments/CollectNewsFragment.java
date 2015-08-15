@@ -107,7 +107,7 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
                 final NewsEntity entity = CollectNewsList.get(position);
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("删除收藏");
+                alert.setTitle(R.string.cancel_collection);     //取消收藏
                 alert.setCancelable(true);  //为真时可以通过返回键取消
                 alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
@@ -117,7 +117,7 @@ public class CollectNewsFragment extends Fragment implements SwipeRefreshLayout.
                         CollectNewsList.clear();
                         CollectNewsList.addAll(collectionDatabase.loadCollection());
                         cnsAdapter.notifyDataSetChanged();
-                        Toast.makeText(getActivity(), "已删除收藏", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.cancelled_collection, Toast.LENGTH_SHORT).show();  //已取消收藏
 
                         if(CollectNewsList.size() == 0) {    //当收藏列表为空时
                             hintText.setVisibility(View.VISIBLE);  //显示没有收藏新闻的提示

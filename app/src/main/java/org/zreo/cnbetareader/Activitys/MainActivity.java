@@ -3,7 +3,11 @@ package org.zreo.cnbetareader.Activitys;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.zreo.cnbetareader.Fragments.ArrayFragment;
@@ -31,12 +37,9 @@ import org.zreo.cnbetareader.R;
  * 功能：实现右滑菜单和Toolbar与右滑菜单的关联, 以及管理不同页面的显示
  */
 public class MainActivity extends AppCompatActivity implements DrawerLayoutFragment.TabSelectionListener,
-                                SettingFragment.SetColorListener{
-
-
+                                                               SettingFragment.SetColorListener{
 
     private FragmentManager fragmentManager;    //用于对Fragment进行管理
-
     private NewsTitleFragment mNewsTitleFragment;   //全部资讯界面
     private Comment_hot_Fragment mCommentHotFragment;   //精彩评论界面
     private Comment_Top10Fragment mCommentTop10Fragment;    //本月Top10界面
@@ -44,17 +47,18 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     private ArrayFragment mArrayFragment;   //资讯主题界面
     private SettingFragment mSettingFragment;   //设置界面
 
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawerLayout;   //右滑菜单布局
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     SharedPreferences pref;
 
-    private LinearLayout cnBetaBackground;
+    private LinearLayout cnBetaBackground;   //右滑菜单cnbeta文字背景
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         fragmentManager = getSupportFragmentManager();
         initView();  //初始化右滑菜单布局和Toolbar
         setTabSelection(1);  //显示默认标签页
@@ -62,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         //读取设置文件的值
         pref = getSharedPreferences("org.zreo.cnbetareader_preferences", Context.MODE_PRIVATE);
         setThemeColor(pref.getInt("theme", 0));    //设置文件里主题的值
-
 
     }
 
@@ -87,17 +90,17 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
     /**设置当前Fragment界面标题*/
     private void setToolBarTitle(int index){
         if(index == 1){
-            mToolbar.setTitle("全部资讯");
+            mToolbar.setTitle(R.string.all_information);  //全部资讯
         }else if(index == 2){
-            mToolbar.setTitle("精彩评论");
+            mToolbar.setTitle(R.string.hot_comment);    //精彩评论
         }else if(index == 3){
-            mToolbar.setTitle("本月Top10");
+            mToolbar.setTitle(R.string.month_top10);    //本月Top10
         }else if(index == 4){
-            mToolbar.setTitle("收藏");
+            mToolbar.setTitle(R.string.favorites);      //收藏
         }else if(index == 5){
-            mToolbar.setTitle("资讯主题");
+            mToolbar.setTitle(R.string.topic_theme);   //资讯主题
         }else if(index == 7){
-            mToolbar.setTitle("设置");
+            mToolbar.setTitle(R.string.setting);       //设置
         }
     }
 
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
             default:
                 break;
         }
-        transaction.commit();
+        transaction.commit();  //提交事务
     }
 
     /**将所有的Fragment都置为隐藏状态*/
@@ -197,25 +200,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         }
     }
 
-    private long exitTime = 0;
-    /**实现再按一次后退键退出应用程序*/
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
-                mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击返回键后关闭右滑菜单
-            }else if((System.currentTimeMillis() - exitTime) > 2000){
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     public void setStatusColor(int color){
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {   //判断系统是否是5.0以上
             getWindow().setStatusBarColor(color); //状态栏颜色
         }
     }
@@ -226,8 +212,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
         switch (index){
             case 0:  //蓝色（默认）
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.mainColor));  //ActionBar颜色
-                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.mainColor));
-                setStatusColor(getResources().getColor(R.color.mainColor));
+                cnBetaBackground.setBackgroundColor(getResources().getColor(R.color.mainColor));  //右滑菜单背景
+                setStatusColor(getResources().getColor(R.color.mainColor));  //状态栏颜色
                 break;
             case 1:  //棕色
                 mToolbar.setBackgroundColor(getResources().getColor(R.color.brown));
@@ -258,16 +244,73 @@ public class MainActivity extends AppCompatActivity implements DrawerLayoutFragm
 
     }
 
+    /**设置右滑菜单状态*/
+    public void setLayoutButton(int index){
+        ImageView settingImage = (ImageView) findViewById(R.id.setting_image);
+        TextView settingText = (TextView) findViewById(R.id.setting_text);
+        int themeColor;  //主题颜色值
+        switch (index){
+            case 0:
+                themeColor = R.color.mainColor;
+                break;
+            case 1:
+                themeColor = R.color.brown;
+                break;
+            case 2:
+                themeColor = R.color.orange;
+                break;
+            case 3:
+                themeColor = R.color.purple;
+                break;
+            case 4:
+                themeColor = R.color.green;
+                break;
+            default:
+                themeColor = R.color.mainColor;
+                break;
+        }
+        int color = getResources().getColor(themeColor);
+        settingImage.setImageBitmap(getAlphaBitmap(R.mipmap.drawer_setting, color));
+        settingImage.setAlpha(1f);
+        settingText.setTextColor(color);
+    }
+
+    /**提取图像Alpha位图,更改图片轮廓的颜色*/
+    public Bitmap getAlphaBitmap(int resourceImage, int color) {
+        Bitmap mBitmap = BitmapFactory.decodeResource(getResources(),
+                resourceImage);
+        Bitmap mAlphaBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas mCanvas = new Canvas(mAlphaBitmap);
+        Paint mPaint = new Paint();
+        mPaint.setColor(color);
+        Bitmap alphaBitmap = mBitmap.extractAlpha();  //从原位图中提取只包含alpha的位图
+        mCanvas.drawBitmap(alphaBitmap, 0, 0, mPaint);  //在画布上（mAlphaBitmap）绘制alpha位图
+        return mAlphaBitmap;
+    }
+
     /**通过设置界面选择更改颜色*/
     @Override
     public void setColor(int index) {
         setThemeColor(index);
-
-        /*DrawerLayoutFragment drawer = new DrawerLayoutFragment();
-        FragmentDataListener mFragmentDataListener = (FragmentDataListener) drawer;
-        mFragmentDataListener.transferMessage();*/
+        setLayoutButton(index);
     }
 
+    private long exitTime = 0;
+    /**实现再按一次后退键退出应用程序*/
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+                mDrawerLayout.closeDrawer(Gravity.LEFT);  //点击返回键后关闭右滑菜单
+            }else if((System.currentTimeMillis() - exitTime) > 2000){
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }
 

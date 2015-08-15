@@ -75,14 +75,6 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
 
     View view;
 
-   /* public static DrawerLayoutFragment newInstance(int index){
-        DrawerLayoutFragment drawer = new DrawerLayoutFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("color", index);
-        drawer.setArguments(bundle);
-        return drawer;
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -102,6 +94,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         mBtnTopic = (RelativeLayout) view.findViewById(R.id.btn_topic);
         mBtnWeb = (RelativeLayout) view.findViewById(R.id.btn_web);
         mBtnSetting = (RelativeLayout) view.findViewById(R.id.btn_setting);
+
         mBtnInformation.setOnClickListener(this);
         mBtnComment.setOnClickListener(this);
         mBtnHot.setOnClickListener(this);
@@ -109,6 +102,7 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         mBtnTopic.setOnClickListener(this);
         mBtnWeb.setOnClickListener(this);
         mBtnSetting.setOnClickListener(this);
+
         materialRipple(mBtnInformation);
         materialRipple(mBtnComment);
         materialRipple(mBtnHot);
@@ -132,9 +126,20 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
         topicText = (TextView) view.findViewById(R.id.topic_text);
         webText = (TextView) view.findViewById(R.id.web_text);
         settingText = (TextView) view.findViewById(R.id.setting_text);
+
         resetLayoutButton();
         setLayoutButton(1);
     }
+
+    /**实现点击水波纹效果*/
+    public void materialRipple(View view){
+        MaterialRippleLayout.on(view)
+                .rippleColor(Color.GRAY)
+                .rippleAlpha(0.2f)
+                        //.rippleHover(true)
+                .create();
+    }
+
 
     /**
      * 初始化右滑菜单
@@ -235,17 +240,6 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
                 informationText.setTextColor(color);
                 break;
         }
-
-
-    }
-
-    /**实现点击水波纹效果*/
-    public void materialRipple(View view){
-        MaterialRippleLayout.on(view)
-                .rippleColor(Color.GRAY)
-                .rippleAlpha(0.2f)
-                //.rippleHover(true)
-                .create();
     }
 
     /**提取图像Alpha位图,更改图片轮廓的颜色*/
@@ -273,18 +267,6 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
     }
 
 
-    /**
-     * 初始化右滑菜单当前标签页选项的背景,默认为白色
-     **/
-    /*public void resetLayout(){
-        mBtnInformation.setBackgroundColor(getResources().getColor(R.color.white));
-        mBtnComment.setBackgroundColor(getResources().getColor(R.color.white));
-        mBtnHot.setBackgroundColor(getResources().getColor(R.color.white));
-        mBtnFavorites.setBackgroundColor(getResources().getColor(R.color.white));
-        mBtnTopic.setBackgroundColor(getResources().getColor(R.color.white));
-        mBtnSetting.setBackgroundColor(getResources().getColor(R.color.white));
-    }*/
-
     @Override
     public void onClick(View v) {
         TabSelectionListener listener = (TabSelectionListener) getActivity();
@@ -293,42 +275,30 @@ public class DrawerLayoutFragment extends Fragment implements View.OnClickListen
             case R.id.btn_information:
                 listener.selection(1);  //选择全部资讯
                 setLayoutButton(1);
-                //resetLayout();  //初始化右滑菜单当前标签页选项的背景
-                //mBtnInformation.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_comment:
                 listener.selection(2);  //选择精彩评论界面
                 setLayoutButton(2);
-                //resetLayout();  //初始化右滑菜单当前标签页选项的背景
-                //mBtnComment.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_hot:
                 listener.selection(3);   //选择全本月Top10界面
                 setLayoutButton(3);
-                //resetLayout();  //初始化右滑菜单当前标签页选项的背景
-                //mBtnHot.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_favorites:
                 listener.selection(4);   //选择收藏界面
                 setLayoutButton(4);
-                //resetLayout();  //初始化右滑菜单当前标签页选项的背景
-                //mBtnFavorites.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_topic:
                 listener.selection(5);  //选择资讯主题界面
                 setLayoutButton(5);
-                //resetLayout();  //初始化右滑菜单当前标签页选项的背景
-                //mBtnTopic.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             case R.id.btn_web:
                 mBtnWebAction();
                 setLayoutButton(6);
                 break;
-            case R.id.btn_setting:
+            case R.id.btn_setting:    //选择设置界面
                 listener.selection(7);
                 setLayoutButton(7);
-                //resetLayout();  //初始化右滑菜单当前标签页选项的背景
-                //mBtnSetting.setBackgroundColor(getResources().getColor(R.color.light_gray));
                 break;
             default:
                 break;

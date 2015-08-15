@@ -91,16 +91,14 @@ public class NewsTitleAdapter extends BaseAdapter{
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();  //重新获取viewHolder
         }
+        //格式化输出资讯标题
         viewHolder.newsTitle.setText(listItem.get(position).getTitle().replace("</span>", "")
                                             .replace("<span style=\"color:#c00000;\">", ""));
-        //格式化输出新闻简介
+        //格式化输出资讯简介
         /*String homeText = listItem.get(position).getHometext().replace("<p>", "").replace("<strong>", "")
                                                             .replace("</p>", "").replace("</strong>", "")*/
         String homeText = listItem.get(position).getHometext().replace("<strong>", "").replace("</strong>", "");
         viewHolder.newsContent.setText(Html.fromHtml(homeText));
-
-        viewHolder.publishTime.setText(listItem.get(position).getInputtime());
-        //viewHolder.imageUrl = listItem.get(position).getThumb();  //获取图片地址
 
         if(NetTools.isWifiConnected()){   //判断是否在Wifi环境下，如果是就加载图片
             imageLoader.displayImage(listItem.get(position).getThumb(), viewHolder.titleImage, options);
@@ -112,6 +110,7 @@ public class NewsTitleAdapter extends BaseAdapter{
             }
         }
 
+        viewHolder.publishTime.setText(listItem.get(position).getInputtime());
         viewHolder.commentNumber.setText(String.valueOf(listItem.get(position).getComments()));
         viewHolder.readerNumber.setText(String.valueOf(listItem.get(position).getCounter()));
         return view;
@@ -123,7 +122,6 @@ public class NewsTitleAdapter extends BaseAdapter{
         private ImageView titleImage;    //显示图片
         private TextView commentNumber; //评论数
         private TextView readerNumber;  //阅读数
-        //private String imageUrl;      //图片地址
     }
 
 }

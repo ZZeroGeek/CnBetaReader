@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.zreo.cnbetareader.Model.CnCommentTop10;
+import org.zreo.cnbetareader.Entitys.NewsEntity;
 import org.zreo.cnbetareader.R;
 
 import java.util.List;
@@ -19,10 +19,10 @@ public class CommentTop10Adapter extends BaseAdapter {
 
     Context context;
     private int resourceId;
-    private List<CnCommentTop10> CommentTop10Item;
+    private List<NewsEntity> CommentTop10Item;
 
 
-    public CommentTop10Adapter(Context mContext, int textViewResourceId, List<CnCommentTop10>objects) {
+    public CommentTop10Adapter(Context mContext, int textViewResourceId, List<NewsEntity>objects) {
         super();
         context=mContext;
         resourceId = textViewResourceId;
@@ -32,7 +32,7 @@ public class CommentTop10Adapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return CommentTop10Item.size();
     }
 
     @Override
@@ -61,9 +61,10 @@ public class CommentTop10Adapter extends BaseAdapter {
             view=convertView;
             holder=(ViewHolder)view.getTag();
         }
-        holder.newsTitle.setText(CommentTop10Item.get(position).getNewsTitle());
-        holder.hot.setText(CommentTop10Item.get(position).getHot());
-        holder.ranking.setText(CommentTop10Item.get(position).getRanking());
+        holder.newsTitle.setText(CommentTop10Item.get(position).getTitle().replace("</span>", "")
+                .replace("<span style=\"color:#c00000;\">", ""));
+        holder.hot.setText(String.valueOf("热度:"+ CommentTop10Item.get(position).getCounter()));
+        holder.ranking.setText(String.valueOf(position + 1));
         return view;
     }
 

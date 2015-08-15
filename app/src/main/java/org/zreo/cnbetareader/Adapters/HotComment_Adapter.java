@@ -68,7 +68,7 @@ public class HotComment_Adapter extends BaseAdapter {
 
         String title = HotCommentItem.get(position).getTitle();
         holder.title.setText(title);
-        holder.firstWord.setText(String.valueOf(title.charAt(0)));
+        formatFirstWord(title, holder.firstWord);
 
         GradientDrawable grad = (GradientDrawable) holder.firstWord.getBackground();
         setImageColor(grad, position);
@@ -77,6 +77,18 @@ public class HotComment_Adapter extends BaseAdapter {
                                                             HotCommentItem.get(position).getNewstitle());
 
         return view;
+    }
+    /**格式化显示的第一字安符*/
+    public void formatFirstWord(String title, TextView tv){
+
+        if(title.charAt(0) == '《' | title.charAt(0) == '“'| title.charAt(0) == 'c'
+                |title.charAt(0) == '.'|title.charAt(0) =='"'){
+            tv.setText(String.valueOf(title.charAt(1)));
+
+        }else {
+            tv.setText(String.valueOf(title.charAt(0)));
+        }
+
     }
 
      public void setImageColor(GradientDrawable grad, int index){

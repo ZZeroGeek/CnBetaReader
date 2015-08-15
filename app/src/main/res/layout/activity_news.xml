@@ -18,8 +18,8 @@
     <ImageButton
         android:id="@+id/imageBtn"
         android:visibility="gone"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/ic_comment"
         android:background="#3366CC"
         android:scaleType="fitXY"

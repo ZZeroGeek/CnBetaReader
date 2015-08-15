@@ -38,15 +38,15 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class NewsActivity extends AppCompatActivity implements OnGestureListener{
     private Toolbar mToolbar;
-    ImageButton imageButton;
-    WebView webView;
-    WebSettings webSettings;
-    ButtonOnclick buttonOnclick;
-    GestureDetector gestureDetector;
-    private String[] textsize1 = new String[]{"大", "中", "小"};
-    private NewsWebDetailModel newsWebDetailModel;
-    private NewsEntity mentity;
-    private boolean isExist;
+    ImageButton imageButton;//悬浮按钮
+    WebView webView;//网页视图
+    WebSettings webSettings;//设置字体大小
+    ButtonOnclick buttonOnclick;//字体大小选择对话框的监听
+    GestureDetector gestureDetector;//手势识别器
+    private String[] textsize1 = new String[]{"大", "中", "小"};//字号
+    private NewsWebDetailModel newsWebDetailModel;//数据来源
+    private NewsEntity mentity;//获取方法的包装类
+    private boolean isExist;//判断是否收藏
     CollectionDatabase collectionDatabase;
 
 
@@ -60,9 +60,9 @@ public class NewsActivity extends AppCompatActivity implements OnGestureListener
 //        webView.onTouchEvent(ev);//这几行代码也要执行，将webview载入MotionEvent对象一下，况且用载入把，不知道用什么表述合适
 //        return super.dispatchTouchEvent(ev);
 //    }
+//以上代码去掉注释可实现右滑返回功能
 
-
-    private class ButtonOnclick implements DialogInterface.OnClickListener {
+    private class ButtonOnclick implements DialogInterface.OnClickListener {//创建字体选择单选对话框的监听类
         private int index;
 
         public ButtonOnclick(int index) {
@@ -100,12 +100,11 @@ public class NewsActivity extends AppCompatActivity implements OnGestureListener
 
 
         ShareSDK.initSDK(this);
-        gestureDetector=new GestureDetector(this);
+        //gestureDetector=new GestureDetector(this);
         buttonOnclick=new ButtonOnclick(1);
         webView = (WebView) findViewById(R.id.wv);
-        webSettings = webView.getSettings();
+        webSettings = webView.getSettings();//用来设置webview所显示的网页的字体大小
         imageButton = (ImageButton) findViewById(R.id.imageBtn);
-
 
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);   //ToolBar布局
@@ -208,8 +207,8 @@ public class NewsActivity extends AppCompatActivity implements OnGestureListener
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        mentity = (NewsEntity)getIntent().getExtras().getSerializable("NewsItem");
-        init();
+        mentity = (NewsEntity)getIntent().getExtras().getSerializable("NewsItem");//获取封装了数据的NewEntity对象
+        init();//对组件进行初始化
         newsWebDetailModel = new NewsWebDetailModel(new BaseWebHttpModel(this));
         newsWebDetailModel.setActivity(this);
         newsWebDetailModel.InitView(webView, mentity, this, imageButton);
@@ -311,11 +310,12 @@ public class NewsActivity extends AppCompatActivity implements OnGestureListener
     }
 
     @Override
+    //实现右滑返回
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if (e1.getX() - e2.getX() < -100) {
             Intent intent=new Intent(NewsActivity.this,MainActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);//设置动画
         }
         return false;
     }

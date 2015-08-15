@@ -76,6 +76,13 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
             + "froms text, "  /*用户地址*/
             + "newstitle text )";  /*新闻标题*/
 
+    //Top10数据库表建表语句
+    public static final String CREATE_TOPCOMMENT = "create table TopComment ("
+            + "id integer primary key autoincrement, "
+            + "sid integer, "   /*帖子id*/
+            + "title text, "    /*标题*/
+            + "counter text )";   /*查看数*/
+
     public NewsTitleOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -86,6 +93,7 @@ public class NewsTitleOpenHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_COLLECTION);
         db.execSQL(CREATE_COMMENT_TABLE);
         db.execSQL(CREATE_HOTCOMMENT);
+        db.execSQL(CREATE_TOPCOMMENT);
     }
 
     @Override

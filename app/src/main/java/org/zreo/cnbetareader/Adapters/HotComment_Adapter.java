@@ -82,7 +82,7 @@ public class HotComment_Adapter extends BaseAdapter {
     public void formatFirstWord(String title, TextView tv){
 
         if(title.charAt(0) == '《' | title.charAt(0) == '“'| title.charAt(0) == 'c'
-                |title.charAt(0) == '.'|title.charAt(0) =='“'){
+                |title.charAt(0) == '.'|title.charAt(0) =='"'){
             tv.setText(String.valueOf(title.charAt(1)));
 
         }else {

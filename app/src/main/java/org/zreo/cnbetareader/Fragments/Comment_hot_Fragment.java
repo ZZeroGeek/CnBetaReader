@@ -59,9 +59,9 @@ public class Comment_hot_Fragment extends Fragment implements AbsListView.OnScro
     });
     HotComment_Adapter mAdapter;
 
-    private int visibleLastIndex = 0;   //最后的可视项索引
+    private int visibleLastIndex = 0;    //最后的可视项索引
     private int visibleItemCount;       // 当前窗口可见项总数
-    private View loadMoreView;     //加载更多布局
+    private View loadMoreView;         //加载更多布局
     private TextView loadMoreText;    //加载提示文本
 
 

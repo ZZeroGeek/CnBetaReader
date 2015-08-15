@@ -72,7 +72,7 @@ public class Fragment1_Adapter extends BaseAdapter{
         int purple = Resources.getSystem().getColor(android.R.color.holo_purple);
         int orange = Resources.getSystem().getColor(android.R.color.holo_orange_light);
         int mainColor = mContext.getResources().getColor(R.color.mainColor);
-        int [] colorList = {blue, gray, purple, greenDark, orange, greenLight, mainColor};  //7÷÷—’…´
+        int [] colorList = {blue, gray, purple, greenDark, orange, greenLight, mainColor};  //7ÁßçÈ¢úËâ≤
         grad.setColor(colorList[Math.abs(CollectNewsItem.size() - index) % 7]);
     }
     public class ViewHolder{
